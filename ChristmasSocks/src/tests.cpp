@@ -5,6 +5,15 @@
 #include <poll.h>
 #include <arpa/inet.h>    // inet_ntoa
 
+class AcceptClients {
+    private:
+        int fd_count;
+
+    public:
+        AcceptClients();
+        bool wait_for_socket_data();
+};
+
 bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
     if (socket_fd_server < 0) {
         return false;
