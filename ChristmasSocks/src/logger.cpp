@@ -33,4 +33,21 @@ namespace Logger {
         std::cout << separator << std::endl;
     }
 
+    void header() {
+        render_separator();
+        std::cout << "** Project: " << NAME_PROJECT << std::endl;
+        std::cout << "** Project maintainer: " << MAINTAINER << std::endl;
+        std::cout << "** Compile date: " << COMPILE_DATE << std::endl;
+#if DEBUG_BUILD == 1
+        std::cout << "** DEBUG_BUILD enabled - will print all debug log messages!" << std::endl;
+#endif
+        render_separator();
+    }
+
+    void footer() {
+        render_separator();
+        std::cout << "Server shut down at " << get_current_datetime_string() << std::endl;
+        render_separator();
+    }
+
 }

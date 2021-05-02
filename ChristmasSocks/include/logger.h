@@ -13,6 +13,8 @@ namespace Logger {
     void warning(std::string);
     void error(std::string);
     void render_separator();
+    void header();
+    void footer();
 }
 
 #endif

@@ -76,6 +76,8 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
 }
 
 int main() {
+    Logger::header();
+
     Server server(8080, 3);
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
@@ -85,5 +87,6 @@ int main() {
     wait_for_socket_data(server.socket_fd_server, server.address);
 
     server.close_server_socket_file_descriptor();
+    Logger::footer();
     return 0;
 }
