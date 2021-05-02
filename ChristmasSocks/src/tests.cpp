@@ -8,13 +8,21 @@
 class AcceptClients {
     private:
         int fd_count;
+        int socket_fd_server;
+        struct sockaddr_in address;
 
     public:
-        AcceptClients();
+        AcceptClients(int socket_fd_server, struct sockaddr_in address);
         bool wait_for_socket_data();
 };
 
-bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
+AcceptClients::AcceptClients(int socket_fd_server, struct sockaddr_in address) {
+    this->socket_fd_server = socket_fd_server;
+    this->address = address;
+}
+
+bool AcceptClients::wait_for_socket_data() {
+
     if (socket_fd_server < 0) {
         return false;
     }
@@ -24,7 +32,7 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
     pfds[0].fd = socket_fd_server;
     pfds[0].events = POLLIN;  // tell poll to be ready to read on incoming
 
-    int fd_count = 1;
+    this->fd_count = 1;
 
     while(true) {
 
@@ -35,7 +43,7 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
             return false;
         }
 
-        for (int i = 0; i < fd_count; i++) { // loop over all the file descriptors
+        for (int i = 0; i < this->fd_count; i++) { // loop over all the file descriptors
             if (pfds[i].revents & POLLIN) {  // check if someone is ready to read
 
                 if (pfds[i].fd == socket_fd_server) { // i.e. the server fd is ready to read
@@ -50,9 +58,9 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
                         Logger::info("The kernel has allocated a new client socket file descriptor: " + std::to_string(socket_fd_client));
                         Logger::info("Accepted connection from IPv4 address " + std::string(incoming_ipv4_address));
 
-                        pfds[fd_count].fd = socket_fd_client;
-                        pfds[fd_count].events = POLLIN;
-                        fd_count++;
+                        pfds[this->fd_count].fd = socket_fd_client;
+                        pfds[this->fd_count].events = POLLIN;
+                        this->fd_count++;
                     }
                 } else {
                     char buffer[TCP_BUFFER_SIZE] = {0};
@@ -64,16 +72,13 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
                         Logger::info("Hang up");
                         close(pfds[i].fd);
                         Logger::info("The kernel has deallocated client socket file descriptor: " + std::to_string(pfds[i].fd));
-                        pfds[i] = pfds[fd_count - 1];
-                        fd_count--;
+                        pfds[i] = pfds[this->fd_count - 1];
+                        this->fd_count--;
                     } else {
                         std::string message = std::string(buffer);
                         Logger::info("Received " + message);
                         send(pfds[i].fd, message.c_str(), message.size(), 0);
                     }
-                    /*
-                     * continue somewhere here - something is fucked up
-                     */
                 }
             }
         }
@@ -92,7 +97,8 @@ int main() {
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
 
-    wait_for_socket_data(server.socket_fd_server, server.address);
+    AcceptClients client(server.socket_fd_server, server.address);
+    client.wait_for_socket_data();
 
     server.close_server_socket_file_descriptor();
     Logger::footer();
