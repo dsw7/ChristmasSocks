@@ -2,13 +2,13 @@
 
 void sigint_handler(int signal) {
     Logger::info("Interrupt signal SIGINT (" + std::to_string(signal) + ") received!");
-    information_footer();
+    Logger::footer();
     exit(signal);
 }
 
 void sigterm_handler(int signal) {
     Logger::info("Termination signal SIGTERM (" + std::to_string(signal) + ") received!");
-    information_footer();
+    Logger::footer();
     exit(signal);
 }
 

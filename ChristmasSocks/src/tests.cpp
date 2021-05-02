@@ -1,5 +1,6 @@
 #include "logger.h"
 #include "server.h"
+#include "ipc_signal_registers.h"
 
 #include <poll.h>
 #include <arpa/inet.h>    // inet_ntoa
@@ -77,6 +78,7 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
 
 int main() {
     Logger::header();
+    register_ipc_signals();
 
     Server server(8080, 3);
     server.open_server_socket_file_descriptor();
