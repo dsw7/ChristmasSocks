@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8.1)
-project (remote-control-node)
+project (ChristmasSocks)
 
 # Maybe it works on Windows... I have no idea
 if (UNIX)
@@ -15,10 +15,10 @@ string(TIMESTAMP COMPILE_DATE "%Y%m%d")
 set(CMAKE_CXX_STANDARD 17)
 
 # All header files must be placed under include/
-include_directories("prog/include" "socket-components/include")
+include_directories("include")
 
 # All source files must be placed under src/
-file(GLOB SOURCE_FILES "prog/src/*.cpp" "socket-components/src/*.cpp")
+file(GLOB SOURCE_FILES "src/*.cpp")
 
 # Set all macro definitions
 set(TCP_BUFFER_SIZE 1024)
@@ -37,4 +37,4 @@ add_compile_definitions(TCP_BUFFER_SIZE=${TCP_BUFFER_SIZE})
 add_compile_definitions(TCP_PORT=${TCP_PORT})
 add_compile_definitions(MAX_NUM_CONNECTIONS_QUEUE=${MAX_NUM_CONNECTIONS_QUEUE})
 
-add_executable(node ${SOURCE_FILES})
+add_executable(test ${SOURCE_FILES})
