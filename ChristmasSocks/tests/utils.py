@@ -1,3 +1,5 @@
+from configparser import ConfigParser
+from os import oath
 from string import (
     ascii_letters,
     digits
@@ -23,6 +25,8 @@ def generate_random_string(num_strings: int, len_strings: int) -> list:
 
 class Connection:
     def __init__(self) -> None:
+        self.ini_configs = ConfigParser()
+        self.ini_configs.read(path.join(path.dirname(__file__), 'tests.ini'))
         self.socket = socket(AF_INET, SOCK_STREAM)
 
     def connect(self) -> None:
