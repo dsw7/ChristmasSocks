@@ -5,6 +5,11 @@
 #include <poll.h>
 #include <arpa/inet.h>    // inet_ntoa
 
+// continue separating out into member functions
+// study the dynamic pollfd loading and make sure this works as intended
+// add multithreaded tests for stress testing this machinery
+// confirm that this matches Beej code
+
 class AcceptClients {
     private:
         int fd_count;
