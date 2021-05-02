@@ -1,5 +1,5 @@
 from configparser import ConfigParser
-from os import oath
+from os import path
 from string import (
     ascii_letters,
     digits
@@ -11,9 +11,6 @@ from socket import (
 )
 from random import choice
 
-BUFFER_SIZE = 1024
-SERVER_HOST = '10.0.0.98'
-SERVER_PORT = 8080
 ALPHANUMERIC = ascii_letters + digits
 
 def generate_random_string(num_strings: int, len_strings: int) -> list:
@@ -22,7 +19,6 @@ def generate_random_string(num_strings: int, len_strings: int) -> list:
         result.append(''.join(choice(ALPHANUMERIC) for _ in range(len_strings)))
     return result
 
-
 class Connection:
     def __init__(self) -> None:
         self.ini_configs = ConfigParser()
@@ -30,12 +26,15 @@ class Connection:
         self.socket = socket(AF_INET, SOCK_STREAM)
 
     def connect(self) -> None:
-        self.socket.connect((SERVER_HOST, SERVER_PORT))
+        self.socket.connect((
+            self.ini_configs['server']['ipv4_address_server'],
+            self.ini_configs['server']['tcp_port']
+        ))
 
     def disconnect(self) -> None:
         self.socket.close()
 
     def send(self, command: str) -> str:
         self.socket.sendall(command.encode())
-        bytes_recv = self.socket.recv(BUFFER_SIZE)
+        bytes_recv = self.socket.recv(self.ini_configs['server']['tcp_buffer_size'])
         return bytes_recv.decode()
