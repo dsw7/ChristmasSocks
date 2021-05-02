@@ -21,7 +21,7 @@ class TestProtocolRandomStrings(TestCase):
         socket = Connection()
         socket.connect()
 
-        for string in generate_random_string(num_strings=10, len_strings=10):
+        for string in generate_random_string(num_strings=5, len_strings=10):
             with self.subTest():
                 self.assertEqual(string, socket.send(string))
 
@@ -31,7 +31,7 @@ class TestProtocolRandomStrings(TestCase):
         socket = Connection()
         socket.connect()
 
-        for string in generate_random_string(num_strings=15, len_strings=15):
+        for string in generate_random_string(num_strings=5, len_strings=15):
             with self.subTest():
                 self.assertEqual(string, socket.send(string))
 
