@@ -7,7 +7,6 @@
 #include <netinet/in.h>
 #include "logger.h"
 
-
 class Server {
     private:
         int tcp_port;
