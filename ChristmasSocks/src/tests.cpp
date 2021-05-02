@@ -50,10 +50,10 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
                         fd_count++;
                     }
                 } else {
-                    char buffer[256] = {0};
+                    char buffer[TCP_BUFFER_SIZE] = {0};
 
                     // https://linux.die.net/man/3/read
-                    int rv = read(pfds[i].fd, buffer, 256);
+                    int rv = read(pfds[i].fd, buffer, TCP_BUFFER_SIZE);
 
                     if (rv <= 0) {
                         Logger::info("Hang up");
