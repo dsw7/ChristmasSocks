@@ -28,7 +28,6 @@ class Connection:
     def connect(self) -> None:
         self.socket.connect((
             self.ini_configs['server']['ipv4_address_server'],
-            #self.ini_configs['server']['tcp_port']
             self.ini_configs['server'].getint('tcp_port')
         ))
 
@@ -39,5 +38,4 @@ class Connection:
         self.socket.sendall(command.encode())
         buffer_size = self.ini_configs['server'].getint('tcp_buffer_size')
         bytes_recv = self.socket.recv(buffer_size)
-        #bytes_recv = self.socket.recv(self.ini_configs['server']['tcp_buffer_size'])
         return bytes_recv.decode()
