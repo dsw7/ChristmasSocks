@@ -13,7 +13,7 @@ class AcceptClients {
 
     public:
         AcceptClients(int socket_fd_server, struct sockaddr_in address);
-        bool wait_for_socket_data();
+        bool loop();
 };
 
 AcceptClients::AcceptClients(int socket_fd_server, struct sockaddr_in address) {
@@ -21,7 +21,7 @@ AcceptClients::AcceptClients(int socket_fd_server, struct sockaddr_in address) {
     this->address = address;
 }
 
-bool AcceptClients::wait_for_socket_data() {
+bool AcceptClients::loop() {
 
     if (this->socket_fd_server < 0) {
         return false;
@@ -98,7 +98,7 @@ int main() {
     server.listen_on_bound_tcp_port();
 
     AcceptClients client(server.socket_fd_server, server.address);
-    client.wait_for_socket_data();
+    client.loop();
 
     server.close_server_socket_file_descriptor();
     Logger::footer();
