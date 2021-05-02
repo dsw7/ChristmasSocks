@@ -24,6 +24,7 @@ file(GLOB SOURCE_FILES "src/*.cpp")
 set(TCP_BUFFER_SIZE 1024)
 set(TCP_PORT 8080)
 set(MAX_NUM_CONNECTIONS_QUEUE 5)
+set(POLL_TIMEOUT_MSEC 1000) # can set to -1 for no timeout
 
 message(STATUS "This node will listen on TCP port ${TCP_PORT}!")
 message(STATUS "The TCP buffer size is ${TCP_BUFFER_SIZE} bytes!")
@@ -36,5 +37,6 @@ add_compile_definitions(COMPILE_DATE=${COMPILE_DATE})
 add_compile_definitions(TCP_BUFFER_SIZE=${TCP_BUFFER_SIZE})
 add_compile_definitions(TCP_PORT=${TCP_PORT})
 add_compile_definitions(MAX_NUM_CONNECTIONS_QUEUE=${MAX_NUM_CONNECTIONS_QUEUE})
+add_compile_definitions(POLL_TIMEOUT_MSEC=${POLL_TIMEOUT_MSEC})
 
 add_executable(test ${SOURCE_FILES})

@@ -17,13 +17,9 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
 
     int fd_count = 1;
 
-    int timeout_msec = 1000; // set to -1 to never time out
-
-    int k = 0;
-
     while(true) {
 
-        int poll_response = poll(pfds, sizeof(pfds)/sizeof(struct pollfd), timeout_msec);
+        int poll_response = poll(pfds, sizeof(pfds)/sizeof(struct pollfd), POLL_TIMEOUT_MSEC);
 
         if (poll_response < 0) {
             Logger::error("Something is wrong...");
@@ -58,6 +54,7 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
                     if (rv <= 0) {
                         Logger::info("Hang up");
                         close(pfds[i].fd);
+                        Logger::info("The kernel has deallocated client socket file descriptor: " + std::to_string(pfds[i].fd));
                         pfds[i] = pfds[fd_count - 1];
                         fd_count--;
                     } else {
