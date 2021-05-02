@@ -80,7 +80,7 @@ int main() {
     Logger::header();
     register_ipc_signals();
 
-    Server server(8080, 3);
+    Server server(TCP_PORT, 3);
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
     server.bind_socket_file_descriptor_to_port();
