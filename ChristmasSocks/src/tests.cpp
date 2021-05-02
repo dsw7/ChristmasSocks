@@ -20,9 +20,8 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
 
     int k = 0;
 
-    while(k < 25) {
-        k++;
-        Logger::info("loop counter " + std::to_string(k));
+    while(true) {
+
         int poll_response = poll(pfds, sizeof(pfds)/sizeof(struct pollfd), timeout_msec);
 
         if (poll_response < 0) {
