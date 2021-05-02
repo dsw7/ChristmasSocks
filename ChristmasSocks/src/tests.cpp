@@ -77,17 +77,14 @@ bool wait_for_socket_data(int socket_fd_server, struct sockaddr_in address) {
 }
 
 int main() {
-    Server s(8080, 3);
-    s.open_server_socket_file_descriptor();
-    s.attach_socket_file_descriptor_to_port();
-    s.bind_socket_file_descriptor_to_port();
-    s.listen_on_bound_tcp_port();
+    Server server(8080, 3);
+    server.open_server_socket_file_descriptor();
+    server.attach_socket_file_descriptor_to_port();
+    server.bind_socket_file_descriptor_to_port();
+    server.listen_on_bound_tcp_port();
 
-    wait_for_socket_data(s.socket_fd_server, s.address);
-    // pass the s.socket_fd_server to poll() thing here
-    // see https://beej.us/guide/bgnet/html/#slightly-advanced-techniques
-    // for next steps
+    wait_for_socket_data(server.socket_fd_server, server.address);
 
-    s.close_server_socket_file_descriptor();
+    server.close_server_socket_file_descriptor();
     return 0;
 }
