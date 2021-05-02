@@ -30,7 +30,7 @@ message(STATUS "The TCP buffer size is ${TCP_BUFFER_SIZE} bytes!")
 message(STATUS "The maximum number of connections to put in queue is ${MAX_NUM_CONNECTIONS_QUEUE}")
 
 add_compile_definitions(DEBUG_BUILD=1)
-add_compile_definitions(NAME_PROJECT="REMOTE-CONTROL-NODE")
+add_compile_definitions(NAME_PROJECT="ChristmasSocks")
 add_compile_definitions(MAINTAINER="David Weber")
 add_compile_definitions(COMPILE_DATE=${COMPILE_DATE})
 add_compile_definitions(TCP_BUFFER_SIZE=${TCP_BUFFER_SIZE})

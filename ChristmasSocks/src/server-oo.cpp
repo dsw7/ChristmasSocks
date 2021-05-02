@@ -5,16 +5,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
+#include "logger.h"
 
-namespace Logger {
-    void info(std::string msg) {
-        std::cout << msg << std::endl;
-    }
-
-    void error(std::string msg) {
-        std::cout << msg << std::endl;
-    }
-};
 
 class Server {
     private:
