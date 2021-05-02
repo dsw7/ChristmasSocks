@@ -13,7 +13,11 @@ void sigterm_handler(int signal) {
 }
 
 void register_ipc_signals() {
-    Logger::info("Registering IPC signals to process");
+    std::string pid = std::to_string(getpid());
+
+    Logger::info("Registering IPC signal SIGINT to process " + pid);
     std::signal(SIGINT, sigint_handler);
+
+    Logger::info("Registering IPC signal SIGTERM to process " + pid);
     std::signal(SIGTERM, sigterm_handler);
 };

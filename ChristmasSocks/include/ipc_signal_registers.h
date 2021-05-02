@@ -3,6 +3,7 @@
 
 #include "logger.h"
 #include <csignal>
+#include <unistd.h>
 
 void sigint_handler(int signal);
 void sigterm_handler(int signal);
