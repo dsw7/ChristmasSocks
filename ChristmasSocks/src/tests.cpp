@@ -47,6 +47,12 @@ bool AcceptClients::accept_incoming_connection() {
         return true;
     }
 
+    if (errno == EBADF) {
+        Logger::error("Not a valid file descriptor. Possibly already closed?");
+    } else {
+        Logger::error(strerror(errno));
+    }
+
     Logger::error("Cannot accept incoming connection on TCP port");
     return false;
 }
