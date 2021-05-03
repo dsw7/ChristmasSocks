@@ -12,7 +12,6 @@
 class AcceptClients {
     private:
         int fd_count;
-        int socket_fd_server;
         struct sockaddr_in address;
         struct pollfd pfds[5];
 
@@ -23,21 +22,19 @@ class AcceptClients {
 };
 
 AcceptClients::AcceptClients(int socket_fd_server, struct sockaddr_in address) {
-    this->socket_fd_server = socket_fd_server;
-    this->address = address;
-
-    this->pfds[0].fd = this->socket_fd_server;
+    this->pfds[0].fd = socket_fd_server;
     this->pfds[0].events = POLLIN;  // tell poll to be ready to read on incoming
-
     this->fd_count = 1;
-
+    this->address = address;
 }
 
 bool AcceptClients::accept_incoming_connection() {
     int address_length = sizeof(this->address);
 
     // https://linux.die.net/man/3/accept
-    int socket_fd_client = accept(this->socket_fd_server, (struct sockaddr *)&this->address, (socklen_t*)&address_length);
+    int socket_fd_client = accept(
+        this->pfds[0].fd, (struct sockaddr *)&this->address, (socklen_t*)&address_length
+    );
 
     if (socket_fd_client > -1) {
         char *incoming_ipv4_address = inet_ntoa(this->address.sin_addr);
@@ -47,9 +44,10 @@ bool AcceptClients::accept_incoming_connection() {
         this->pfds[this->fd_count].fd = socket_fd_client;
         this->pfds[this->fd_count].events = POLLIN;
         this->fd_count++;
-
         return true;
     }
+
+    Logger::error("Cannot accept incoming connection on TCP port");
     return false;
 }
 
@@ -66,7 +64,7 @@ bool AcceptClients::loop() {
         for (int i = 0; i < this->fd_count; i++) { // loop over all the file descriptors
             if (this->pfds[i].revents & POLLIN) {  // check if someone is ready to read
 
-                if (this->pfds[i].fd == this->socket_fd_server) { // i.e. the server fd is ready to read
+                if (this->pfds[i].fd == this->pfds[0].fd) { // i.e. the server fd is ready to read
                     this->accept_incoming_connection();
                 } else {
                     char buffer[TCP_BUFFER_SIZE] = {0};
@@ -75,7 +73,6 @@ bool AcceptClients::loop() {
                     int rv = read(this->pfds[i].fd, buffer, TCP_BUFFER_SIZE);
 
                     if (rv <= 0) {
-                        Logger::info("Hang up");
                         close(this->pfds[i].fd);
                         Logger::info("The kernel has deallocated client socket file descriptor: " + std::to_string(this->pfds[i].fd));
                         this->pfds[i] = this->pfds[this->fd_count - 1];
