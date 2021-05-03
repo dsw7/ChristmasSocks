@@ -8,6 +8,7 @@
 // continue separating out into member functions
 // study the dynamic pollfd loading and make sure this works as intended
 // confirm that this matches Beej code
+// I'm doing something wrong here!!! poll() is not blocking but immediately returning!!!
 
 class AcceptClients {
     private:
@@ -37,25 +38,25 @@ bool AcceptClients::accept_incoming_connection() {
         this->pfds[0].fd, (struct sockaddr *)&this->address, (socklen_t*)&address_length
     );
 
-    if (socket_fd_client > -1) {
-        char *incoming_ipv4_address = inet_ntoa(this->address.sin_addr);
-        Logger::info("The kernel has allocated a new client socket file descriptor: " + std::to_string(socket_fd_client));
-        Logger::info("Accepted connection from IPv4 address " + std::string(incoming_ipv4_address));
-
-        this->pfds[this->fd_count].fd = socket_fd_client;
-        this->pfds[this->fd_count].events = POLLIN;
-        this->fd_count++;
-        return true;
+    if (socket_fd_client == -1) {
+        if (errno == EBADF) {
+            Logger::error("Not a valid file descriptor. Possibly already closed?");
+        } else {
+            Logger::error(strerror(errno));
+        }
+        return false;
     }
 
-    if (errno == EBADF) {
-        Logger::error("Not a valid file descriptor. Possibly already closed?");
-    } else {
-        Logger::error(strerror(errno));
-    }
+    char *incoming_ipv4_address = inet_ntoa(this->address.sin_addr);
 
-    Logger::error("Cannot accept incoming connection on TCP port");
-    return false;
+    Logger::info("The kernel has allocated a new client socket file descriptor: " + std::to_string(socket_fd_client));
+    Logger::info("Accepted connection from IPv4 address " + std::string(incoming_ipv4_address));
+
+    this->pfds[this->fd_count].fd = socket_fd_client;
+    this->pfds[this->fd_count].events = POLLIN;
+    this->fd_count++;
+
+    return true;
 }
 
 bool AcceptClients::poll_file_descriptors() {
@@ -63,6 +64,7 @@ bool AcceptClients::poll_file_descriptors() {
     int rv = poll(this->pfds, sizeof(this->pfds) / sizeof(struct pollfd), POLL_TIMEOUT_MSEC);
 
     if (rv > 0) {
+        Logger::info("This should wait for time out!");
         return true;
     } else if (rv == 0) {
         Logger::error("System call timed out before any descriptors were read");
@@ -85,7 +87,9 @@ bool AcceptClients::loop() {
             if (this->pfds[i].revents & POLLIN) {  // check if someone is ready to read
 
                 if (this->pfds[i].fd == this->pfds[0].fd) { // i.e. the server fd is ready to read
-                    this->accept_incoming_connection();
+                    if (!this->accept_incoming_connection()) {
+                        continue;
+                    }
                 } else {
                     char buffer[TCP_BUFFER_SIZE] = {0};
 
