@@ -7,7 +7,6 @@
 
 // continue separating out into member functions
 // study the dynamic pollfd loading and make sure this works as intended
-// add multithreaded tests for stress testing this machinery
 // confirm that this matches Beej code
 
 class AcceptClients {
@@ -26,6 +25,12 @@ class AcceptClients {
 AcceptClients::AcceptClients(int socket_fd_server, struct sockaddr_in address) {
     this->socket_fd_server = socket_fd_server;
     this->address = address;
+
+    this->pfds[0].fd = this->socket_fd_server;
+    this->pfds[0].events = POLLIN;  // tell poll to be ready to read on incoming
+
+    this->fd_count = 1;
+
 }
 
 bool AcceptClients::accept_incoming_connection() {
@@ -49,12 +54,8 @@ bool AcceptClients::accept_incoming_connection() {
 }
 
 bool AcceptClients::loop() {
-    this->pfds[0].fd = this->socket_fd_server;
-    this->pfds[0].events = POLLIN;  // tell poll to be ready to read on incoming
-
-    this->fd_count = 1;
-
     while(true) {
+
         int poll_response = poll(this->pfds, sizeof(this->pfds) / sizeof(struct pollfd), POLL_TIMEOUT_MSEC);
 
         if (poll_response < 0) {
