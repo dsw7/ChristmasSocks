@@ -20,19 +20,26 @@ class TestMultipleConnections(TestCase):
         self.socket_b.disconnect()
         self.socket_c.disconnect()
 
+    @staticmethod
+    def wrap_send(test_string: str, socket: Connection) -> dict:
+        return {
+            'outgoing_message': test_string,
+            'returning_message': socket.send(test_string)
+        }
+
     def test_echo_3_connections(self) -> None:
         strings = generate_random_string(num_strings=3, len_strings=5)
 
         workers, results = [], []
         with futures.ThreadPoolExecutor() as executor:
-            workers.append(executor.submit(self.socket_a.send, strings[0]))
-            workers.append(executor.submit(self.socket_b.send, strings[1]))
-            workers.append(executor.submit(self.socket_c.send, strings[2]))
+            workers.append(executor.submit(self.wrap_send, strings[0], self.socket_a))
+            workers.append(executor.submit(self.wrap_send, strings[1], self.socket_b))
+            workers.append(executor.submit(self.wrap_send, strings[2], self.socket_c))
 
             if futures.wait(workers, return_when=futures.FIRST_COMPLETED):
                 for worker in workers:
                     results.append(worker.result())
 
-        self.assertEqual(strings[0], results[0])
-        self.assertEqual(strings[1], results[1])
-        self.assertEqual(strings[2], results[2])
+        for result in results:
+            with self.subTest():
+                self.assertEqual(result['outgoing_message'], result['returning_message'])
