@@ -18,6 +18,7 @@ class AcceptClients {
     public:
         AcceptClients(int socket_fd_server, struct sockaddr_in address);
         bool accept_incoming_connection();
+        bool poll_file_descriptors();
         bool loop();
 };
 
@@ -57,13 +58,26 @@ bool AcceptClients::accept_incoming_connection() {
     return false;
 }
 
+bool AcceptClients::poll_file_descriptors() {
+    // https://man7.org/linux/man-pages/man2/poll.2.html
+    int rv = poll(this->pfds, sizeof(this->pfds) / sizeof(struct pollfd), POLL_TIMEOUT_MSEC);
+
+    if (rv > 0) {
+        return true;
+    } else if (rv == 0) {
+        Logger::error("System call timed out before any descriptors were read");
+        return false;
+    } else {
+        Logger::error("Failed to poll file descriptors!");
+        Logger::error(strerror(errno));
+        return false;
+    }
+}
+
 bool AcceptClients::loop() {
     while(true) {
 
-        int poll_response = poll(this->pfds, sizeof(this->pfds) / sizeof(struct pollfd), POLL_TIMEOUT_MSEC);
-
-        if (poll_response < 0) {
-            Logger::error("Something is wrong...");
+        if (!this->poll_file_descriptors()) {
             return false;
         }
 
