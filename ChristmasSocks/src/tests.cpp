@@ -34,7 +34,6 @@ bool close_client_socket_file_descriptor(int &socket_fd_client) {
         Logger::error(strerror(errno));
         return false;
     }
-
     return true;
 }
 
@@ -60,15 +59,16 @@ bool read_data(std::string &message, int &socket_fd_client) {
 }
 
 bool write_data(std::string &message, int &socket_fd_client) {
-    // https://linux.die.net/man/3/write
+    // https://linux.die.net/man/3/send
     int rv = send(socket_fd_client, message.c_str(), message.size(), 0);
 
-    if (rv > -1) {
-        Logger::info("Wrote out message '" + message + "' to descriptor " + std::to_string(socket_fd_client));
-        return true;
+    if (rv == -1) {
+        Logger::error(strerror(errno));
+        return false;
     }
 
-    return false;
+    Logger::info("Wrote out message '" + message + "' to descriptor " + std::to_string(socket_fd_client));
+    return true;
 }
 
 int main() {
@@ -85,15 +85,17 @@ int main() {
     server.listen_on_bound_tcp_port();
 
     epollfd = epoll_create1(0);
+
     if (epollfd == -1) {
-        perror("epoll_create1");
+        Logger::error(strerror(errno));
         exit(EXIT_FAILURE);
     }
 
     ev.events = EPOLLIN;
     ev.data.fd = server.socket_fd_server;
+
     if (epoll_ctl(epollfd, EPOLL_CTL_ADD, server.socket_fd_server, &ev) == -1) {
-        perror("epoll_ctl: server.socket_fd_server");
+        Logger::error(strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -101,7 +103,7 @@ int main() {
 
         nfds = epoll_wait(epollfd, events, MAX_EVENTS, -1);
         if (nfds == -1) {
-            perror("epoll_wait");
+            Logger::error(strerror(errno));
             exit(EXIT_FAILURE);
         }
 
@@ -116,7 +118,7 @@ int main() {
                 ev.data.fd = socket_fd_client;
 
                 if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_client, &ev) == -1) {
-                    perror("epoll_ctl: socket_fd_client");
+                    Logger::error(strerror(errno));
                     exit(EXIT_FAILURE);
                 }
 
