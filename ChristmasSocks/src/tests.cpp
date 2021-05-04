@@ -114,9 +114,55 @@ bool AcceptClients::loop() {
     return true;
 }
 
-
 #define MAX_EVENTS 10
 #include <sys/epoll.h>
+
+bool close_client_socket_file_descriptor(int &socket_fd_client) {
+    Logger::info("Closing client socket file descriptor: " + std::to_string(socket_fd_client));
+
+    // https://linux.die.net/man/3/close
+    if (close(socket_fd_client) == -1) {
+        switch (errno) {
+            case EBADF:
+                Logger::error("Not a valid file descriptor. Possibly already closed?"); break;
+            case EINTR:
+                Logger::error("Close was interrupted by an IPC signal"); break;
+        }
+    }
+}
+
+bool read_data(std::string &message, int &socket_fd_client) {
+    char buffer[1024] = {0};
+
+    // https://linux.die.net/man/3/read
+    int rv = read(socket_fd_client, buffer, 1024);
+    message = std::string(buffer);
+
+    if (rv < 0) {
+        Logger::error("Socket read() returned error code " + std::to_string(rv));
+        return false;
+    } else if (rv == 0) {
+        Logger::info("Socket read() received EOF - client hang up detected");
+        close_client_socket_file_descriptor(socket_fd_client);
+        return false;
+    } else {
+        Logger::info("Read in message '" + message + "' from descriptor " + std::to_string(socket_fd_client));
+    }
+
+    return true;
+}
+
+bool write_data(std::string &message, int &socket_fd_client) {
+    // https://linux.die.net/man/3/write
+    int rv = send(socket_fd_client, message.c_str(), message.size(), 0);
+
+    if (rv > -1) {
+        Logger::info("Wrote out message '" + message + "' to descriptor " + std::to_string(socket_fd_client));
+        return true;
+    }
+
+    return false;
+}
 
 int main() {
     Logger::header();
@@ -151,6 +197,8 @@ int main() {
             exit(EXIT_FAILURE);
         }
 
+        Logger::info("An event has been detected");
+
         for (int n = 0; n < nfds; ++n) {
             if (events[n].data.fd == server.socket_fd_server) {
                 int addrlen = sizeof(server.address);
@@ -168,14 +216,17 @@ int main() {
                     perror("epoll_ctl: conn_sock");
                     exit(EXIT_FAILURE);
                 }
+
             } else {
-                //do_use_fd(events[n].data.fd);
-                Logger::info("ready to use fd");
+                std::string message;
+                int fd = events[n].data.fd;
+
+                if (read_data(message, fd)) {
+                    write_data(message, fd);
+                }
             }
         }
     }
-
-    //AcceptClients client(server.socket_fd_server, server.address);
 
     server.close_server_socket_file_descriptor();
     Logger::footer();
