@@ -7,42 +7,35 @@
 #define MAX_EVENTS 10
 
 bool accept_incoming_connection(int &socket_fd_server, struct sockaddr_in &address, int &socket_fd_client) {
-    int address_length = sizeof(address);
+    int addrlen = sizeof(address);
 
     // https://linux.die.net/man/3/accept
     socket_fd_client = accept(
-        socket_fd_server, (struct sockaddr *)&address, (socklen_t*)&address_length
+        socket_fd_server, (struct sockaddr *)&address, (socklen_t*)&addrlen
     );
 
     if (socket_fd_client == -1) {
-        if (errno == EBADF) {
-            Logger::error("Not a valid file descriptor. Possibly already closed?");
-        } else {
-            Logger::error(strerror(errno));
-        }
+        Logger::error(strerror(errno));
         return false;
     }
 
     char *incoming_ipv4_address = inet_ntoa(address.sin_addr);
-
     Logger::info("The kernel has allocated a new client socket file descriptor: " + std::to_string(socket_fd_client));
     Logger::info("Accepted connection from IPv4 address " + std::string(incoming_ipv4_address));
 
     return true;
 }
 
-void close_client_socket_file_descriptor(int &socket_fd_client) {
+bool close_client_socket_file_descriptor(int &socket_fd_client) {
     Logger::info("Closing client socket file descriptor: " + std::to_string(socket_fd_client));
 
     // https://linux.die.net/man/3/close
     if (close(socket_fd_client) == -1) {
-        switch (errno) {
-            case EBADF:
-                Logger::error("Not a valid file descriptor. Possibly already closed?"); break;
-            case EINTR:
-                Logger::error("Close was interrupted by an IPC signal"); break;
-        }
+        Logger::error(strerror(errno));
+        return false;
     }
+
+    return true;
 }
 
 bool read_data(std::string &message, int &socket_fd_client) {
