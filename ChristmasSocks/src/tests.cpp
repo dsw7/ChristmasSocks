@@ -114,9 +114,16 @@ bool AcceptClients::loop() {
     return true;
 }
 
+
+#define MAX_EVENTS 10
+#include <sys/epoll.h>
+
 int main() {
     Logger::header();
     register_ipc_signals();
+
+    struct epoll_event ev, events[MAX_EVENTS];
+    int conn_sock, nfds, epollfd;
 
     Server server(TCP_PORT, MAX_NUM_CONNECTIONS_QUEUE);
     server.open_server_socket_file_descriptor();
@@ -124,8 +131,51 @@ int main() {
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
 
-    AcceptClients client(server.socket_fd_server, server.address);
-    client.loop();
+    epollfd = epoll_create1(0);
+    if (epollfd == -1) {
+        perror("epoll_create1");
+        exit(EXIT_FAILURE);
+    }
+
+    ev.events = EPOLLIN;
+    ev.data.fd = server.socket_fd_server;
+    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, server.socket_fd_server, &ev) == -1) {
+        perror("epoll_ctl: server.socket_fd_server");
+        exit(EXIT_FAILURE);
+    }
+
+    for (;;) {
+        nfds = epoll_wait(epollfd, events, MAX_EVENTS, -1);
+        if (nfds == -1) {
+            perror("epoll_wait");
+            exit(EXIT_FAILURE);
+        }
+
+        for (int n = 0; n < nfds; ++n) {
+            if (events[n].data.fd == server.socket_fd_server) {
+                int addrlen = sizeof(server.address);
+
+                conn_sock = accept(server.socket_fd_server, (struct sockaddr *) &server.address, (socklen_t*)&addrlen);
+                if (conn_sock == -1) {
+                    perror("accept");
+                    exit(EXIT_FAILURE);
+                }
+
+                //setnonblocking(conn_sock);
+                ev.events = EPOLLIN | EPOLLET;
+                ev.data.fd = conn_sock;
+                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev) == -1) {
+                    perror("epoll_ctl: conn_sock");
+                    exit(EXIT_FAILURE);
+                }
+            } else {
+                //do_use_fd(events[n].data.fd);
+                Logger::info("ready to use fd");
+            }
+        }
+    }
+
+    //AcceptClients client(server.socket_fd_server, server.address);
 
     server.close_server_socket_file_descriptor();
     Logger::footer();
