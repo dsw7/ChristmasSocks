@@ -45,7 +45,7 @@ bool read_data(std::string &message, int &socket_fd_client) {
     message = std::string(buffer);
 
     if (rv < 0) {
-        Logger::error("Socket read() returned error code " + std::to_string(rv));
+        Logger::error(strerror(errno));
         return false;
     } else if (rv == 0) {
         Logger::info("Socket read() received EOF - client hang up detected");
