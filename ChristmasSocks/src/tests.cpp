@@ -4,13 +4,11 @@
 #include "clients.h"
 #include <sys/epoll.h>
 
-#define MAX_EVENTS 10
-
 int main() {
     Logger::header();
     register_ipc_signals();
 
-    struct epoll_event ev, events[MAX_EVENTS];
+    struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int socket_fd_client, nfds, epollfd;
 
     Server server(TCP_PORT, MAX_NUM_CONNECTIONS_QUEUE);
@@ -36,7 +34,7 @@ int main() {
 
     while (true) {
 
-        nfds = epoll_wait(epollfd, events, MAX_EVENTS, -1);
+        nfds = epoll_wait(epollfd, events, MAX_EPOLL_EVENTS, -1);
         if (nfds == -1) {
             Logger::error(strerror(errno));
             exit(EXIT_FAILURE);

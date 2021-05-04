@@ -32,10 +32,10 @@ bool close_client_socket_file_descriptor(int &socket_fd_client) {
 }
 
 bool read_data(std::string &message, int &socket_fd_client) {
-    char buffer[1024] = {0};
+    char buffer[TCP_BUFFER_SIZE] = {0};
 
     // https://linux.die.net/man/3/read
-    int rv = read(socket_fd_client, buffer, 1024);
+    int rv = read(socket_fd_client, buffer, TCP_BUFFER_SIZE);
     message = std::string(buffer);
 
     if (rv < 0) {
