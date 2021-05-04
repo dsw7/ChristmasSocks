@@ -76,7 +76,7 @@ int main() {
     register_ipc_signals();
 
     struct epoll_event ev, events[MAX_EVENTS];
-    int conn_sock, nfds, epollfd;
+    int socket_fd_client, nfds, epollfd;
 
     Server server(TCP_PORT, MAX_NUM_CONNECTIONS_QUEUE);
     server.open_server_socket_file_descriptor();
@@ -97,7 +97,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    for (;;) {
+    while (true) {
+
         nfds = epoll_wait(epollfd, events, MAX_EVENTS, -1);
         if (nfds == -1) {
             perror("epoll_wait");
@@ -108,14 +109,14 @@ int main() {
 
         for (int n = 0; n < nfds; ++n) {
             if (events[n].data.fd == server.socket_fd_server) {
+                accept_incoming_connection(server.socket_fd_server, server.address, socket_fd_client);
 
-                accept_incoming_connection(server.socket_fd_server, server.address, conn_sock);
-
-                //setnonblocking(conn_sock);
+                //setnonblocking(socket_fd_client);
                 ev.events = EPOLLIN | EPOLLET;
-                ev.data.fd = conn_sock;
-                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev) == -1) {
-                    perror("epoll_ctl: conn_sock");
+                ev.data.fd = socket_fd_client;
+
+                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_client, &ev) == -1) {
+                    perror("epoll_ctl: socket_fd_client");
                     exit(EXIT_FAILURE);
                 }
 
