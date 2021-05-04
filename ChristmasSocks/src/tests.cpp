@@ -1,41 +1,17 @@
 #include "logger.h"
 #include "server.h"
 #include "ipc_signal_registers.h"
-
-#include <poll.h>
 #include <arpa/inet.h>    // inet_ntoa
+#include <sys/epoll.h>
 
-// continue separating out into member functions
-// study the dynamic pollfd loading and make sure this works as intended
-// confirm that this matches Beej code
-// I'm doing something wrong here!!! poll() is not blocking but immediately returning!!!
+#define MAX_EVENTS 10
 
-class AcceptClients {
-    private:
-        int fd_count;
-        struct sockaddr_in address;
-        struct pollfd pfds[5];
-
-    public:
-        AcceptClients(int socket_fd_server, struct sockaddr_in address);
-        bool accept_incoming_connection();
-        bool poll_file_descriptors();
-        bool loop();
-};
-
-AcceptClients::AcceptClients(int socket_fd_server, struct sockaddr_in address) {
-    this->pfds[0].fd = socket_fd_server;
-    this->pfds[0].events = POLLIN;  // tell poll to be ready to read on incoming
-    this->fd_count = 1;
-    this->address = address;
-}
-
-bool AcceptClients::accept_incoming_connection() {
-    int address_length = sizeof(this->address);
+bool accept_incoming_connection(int &socket_fd_server, struct sockaddr_in &address, int &socket_fd_client) {
+    int address_length = sizeof(address);
 
     // https://linux.die.net/man/3/accept
-    int socket_fd_client = accept(
-        this->pfds[0].fd, (struct sockaddr *)&this->address, (socklen_t*)&address_length
+    socket_fd_client = accept(
+        socket_fd_server, (struct sockaddr *)&address, (socklen_t*)&address_length
     );
 
     if (socket_fd_client == -1) {
@@ -47,77 +23,15 @@ bool AcceptClients::accept_incoming_connection() {
         return false;
     }
 
-    char *incoming_ipv4_address = inet_ntoa(this->address.sin_addr);
+    char *incoming_ipv4_address = inet_ntoa(address.sin_addr);
 
     Logger::info("The kernel has allocated a new client socket file descriptor: " + std::to_string(socket_fd_client));
     Logger::info("Accepted connection from IPv4 address " + std::string(incoming_ipv4_address));
 
-    this->pfds[this->fd_count].fd = socket_fd_client;
-    this->pfds[this->fd_count].events = POLLIN;
-    this->fd_count++;
-
     return true;
 }
 
-bool AcceptClients::poll_file_descriptors() {
-    // https://man7.org/linux/man-pages/man2/poll.2.html
-    int rv = poll(this->pfds, sizeof(this->pfds) / sizeof(struct pollfd), POLL_TIMEOUT_MSEC);
-
-    if (rv > 0) {
-        Logger::info("This should wait for time out!");
-        return true;
-    } else if (rv == 0) {
-        Logger::error("System call timed out before any descriptors were read");
-        return false;
-    } else {
-        Logger::error("Failed to poll file descriptors!");
-        Logger::error(strerror(errno));
-        return false;
-    }
-}
-
-bool AcceptClients::loop() {
-    while(true) {
-
-        if (!this->poll_file_descriptors()) {
-            return false;
-        }
-
-        for (int i = 0; i < this->fd_count; i++) { // loop over all the file descriptors
-            if (this->pfds[i].revents & POLLIN) {  // check if someone is ready to read
-
-                if (this->pfds[i].fd == this->pfds[0].fd) { // i.e. the server fd is ready to read
-                    if (!this->accept_incoming_connection()) {
-                        continue;
-                    }
-                } else {
-                    char buffer[TCP_BUFFER_SIZE] = {0};
-
-                    // https://linux.die.net/man/3/read
-                    int rv = read(this->pfds[i].fd, buffer, TCP_BUFFER_SIZE);
-
-                    if (rv <= 0) {
-                        close(this->pfds[i].fd);
-                        Logger::info("The kernel has deallocated client socket file descriptor: " + std::to_string(this->pfds[i].fd));
-                        this->pfds[i] = this->pfds[this->fd_count - 1];
-                        this->fd_count--;
-                    } else {
-                        std::string message = std::string(buffer);
-                        Logger::info("Received " + message);
-                        send(this->pfds[i].fd, message.c_str(), message.size(), 0);
-                    }
-                }
-            }
-        }
-    }
-
-    return true;
-}
-
-#define MAX_EVENTS 10
-#include <sys/epoll.h>
-
-bool close_client_socket_file_descriptor(int &socket_fd_client) {
+void close_client_socket_file_descriptor(int &socket_fd_client) {
     Logger::info("Closing client socket file descriptor: " + std::to_string(socket_fd_client));
 
     // https://linux.die.net/man/3/close
