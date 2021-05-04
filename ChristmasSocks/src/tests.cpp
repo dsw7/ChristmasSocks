@@ -108,13 +108,8 @@ int main() {
 
         for (int n = 0; n < nfds; ++n) {
             if (events[n].data.fd == server.socket_fd_server) {
-                int addrlen = sizeof(server.address);
 
-                conn_sock = accept(server.socket_fd_server, (struct sockaddr *) &server.address, (socklen_t*)&addrlen);
-                if (conn_sock == -1) {
-                    perror("accept");
-                    exit(EXIT_FAILURE);
-                }
+                accept_incoming_connection(server.socket_fd_server, server.address, conn_sock);
 
                 //setnonblocking(conn_sock);
                 ev.events = EPOLLIN | EPOLLET;
