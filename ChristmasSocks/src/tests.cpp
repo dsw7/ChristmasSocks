@@ -9,7 +9,7 @@ int main() {
     register_ipc_signals();
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
-    int socket_fd_client, nfds, epollfd;
+    int nfds;
 
     Server server(TCP_PORT, MAX_NUM_CONNECTIONS_QUEUE);
     server.open_server_socket_file_descriptor();
@@ -17,8 +17,7 @@ int main() {
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
 
-    epollfd = epoll_create1(0);
-
+    int epollfd = epoll_create1(0);
     if (epollfd == -1) {
         Logger::error(strerror(errno));
         exit(EXIT_FAILURE);
@@ -32,6 +31,9 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
+    int socket_fd_client_to_struct, socket_fd_client_from_struct;
+    std::string message;
+
     while (true) {
 
         nfds = epoll_wait(epollfd, events, MAX_EPOLL_EVENTS, -1);
@@ -44,23 +46,23 @@ int main() {
 
         for (int n = 0; n < nfds; ++n) {
             if (events[n].data.fd == server.socket_fd_server) {
-                accept_incoming_connection(server.socket_fd_server, server.address, socket_fd_client);
+                accept_incoming_connection(server.socket_fd_server, server.address, socket_fd_client_to_struct);
 
-                //setnonblocking(socket_fd_client);
+                //setnonblocking(socket_fd_client_to_struct);
                 ev.events = EPOLLIN | EPOLLET;
-                ev.data.fd = socket_fd_client;
+                ev.data.fd = socket_fd_client_to_struct;
 
-                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_client, &ev) == -1) {
+                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_client_to_struct, &ev) == -1) {
                     Logger::error(strerror(errno));
                     exit(EXIT_FAILURE);
                 }
 
             } else {
-                std::string message;
-                int fd = events[n].data.fd;
+                message.clear();
+                int socket_fd_client_from_struct = events[n].data.fd;
 
-                if (read_data(message, fd)) {
-                    write_data(message, fd);
+                if (read_data(message, socket_fd_client_from_struct)) {
+                    write_data(message, socket_fd_client_from_struct);
                 }
             }
         }
