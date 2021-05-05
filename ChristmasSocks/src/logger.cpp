@@ -54,25 +54,25 @@ namespace Logger {
 
 namespace ClientLogger {
 
-    void debug(std::string message) {
+    void debug(std::string message, int &fd) {
 #if DEBUG_BUILD == 1
-        std::string line = get_current_datetime_string() + " D " + message;
+        std::string line = get_current_datetime_string() + " D CL [" + std::to_string(fd) + "] " + message;
         std::cout << line << std::endl;
 #endif
     }
 
-    void info(std::string message) {
-        std::string line = get_current_datetime_string() + " I " + message;
+    void info(std::string message, int &fd) {
+        std::string line = get_current_datetime_string() + " I CL [" + std::to_string(fd) + "] " + message;
         std::cout << line << std::endl;
     }
 
-    void warning(std::string message) {
-        std::string line = get_current_datetime_string() + " W " + message;
+    void warning(std::string message, int &fd) {
+        std::string line = get_current_datetime_string() + " W CL [" + std::to_string(fd) + "] " + message;
         std::cout << line << std::endl;
     }
 
-    void error(std::string message) {
-        std::string line = get_current_datetime_string() + " E " + message;
+    void error(std::string message, int &fd) {
+        std::string line = get_current_datetime_string() + " E CL [" + std::to_string(fd) + "] " + message;
         std::cout << line << std::endl;
     }
 
