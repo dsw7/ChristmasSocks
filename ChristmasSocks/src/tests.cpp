@@ -5,7 +5,7 @@
 #include <sys/epoll.h>
 
 int main() {
-    Logger::header();
+    RootLogger::header();
     register_ipc_signals();
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
@@ -19,7 +19,7 @@ int main() {
 
     int epollfd = epoll_create1(0);
     if (epollfd == -1) {
-        Logger::error(strerror(errno));
+        RootLogger::error(strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -27,7 +27,7 @@ int main() {
     ev.data.fd = server.socket_fd_server;
 
     if (epoll_ctl(epollfd, EPOLL_CTL_ADD, server.socket_fd_server, &ev) == -1) {
-        Logger::error(strerror(errno));
+        RootLogger::error(strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -38,11 +38,11 @@ int main() {
 
         nfds = epoll_wait(epollfd, events, MAX_EPOLL_EVENTS, -1);
         if (nfds == -1) {
-            Logger::error(strerror(errno));
+            RootLogger::error(strerror(errno));
             exit(EXIT_FAILURE);
         }
 
-        Logger::info("An event has been detected");
+        RootLogger::info("An event has been detected");
 
         for (int n = 0; n < nfds; ++n) {
             if (events[n].data.fd == server.socket_fd_server) {
@@ -56,7 +56,7 @@ int main() {
                 ev.data.fd = socket_fd_client_to_struct;
 
                 if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_client_to_struct, &ev) == -1) {
-                    Logger::error(strerror(errno));
+                    RootLogger::error(strerror(errno));
                     exit(EXIT_FAILURE);
                 }
 
@@ -72,6 +72,6 @@ int main() {
     }
 
     server.close_server_socket_file_descriptor();
-    Logger::footer();
+    RootLogger::footer();
     return 0;
 }
