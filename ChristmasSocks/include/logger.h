@@ -17,4 +17,11 @@ namespace Logger {
     void footer();
 }
 
+namespace ClientLogger {
+    void debug(std::string);
+    void info(std::string);
+    void warning(std::string);
+    void error(std::string);
+}
+
 #endif
