@@ -18,10 +18,10 @@ namespace Logger {
 }
 
 namespace ClientLogger {
-    void debug(std::string);
-    void info(std::string);
-    void warning(std::string);
-    void error(std::string);
+    void debug(std::string, int &fd);
+    void info(std::string, int &fd);
+    void warning(std::string, int &fd);
+    void error(std::string, int &fd);
 }
 
 #endif
