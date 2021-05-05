@@ -38,6 +38,9 @@ namespace Logger {
         std::cout << "** Project: " << NAME_PROJECT << std::endl;
         std::cout << "** Project maintainer: " << MAINTAINER << std::endl;
         std::cout << "** Compile date: " << COMPILE_DATE << std::endl;
+        std::cout << "** Legend: " << std::endl;
+        std::cout << "   - CL: Lines stemming from incoming client connections" << std::endl;
+        std::cout << "   - SL: Lines stemming from a master server connection" << std::endl;
 #if DEBUG_BUILD == 1
         std::cout << "** DEBUG_BUILD enabled - will print all debug log messages!" << std::endl;
 #endif
