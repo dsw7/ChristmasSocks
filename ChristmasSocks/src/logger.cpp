@@ -1,6 +1,6 @@
 #include "logger.h"
 
-namespace Logger {
+namespace RootLogger {
 
     void debug(std::string message) {
 #if DEBUG_BUILD == 1

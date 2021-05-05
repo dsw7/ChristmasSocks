@@ -7,7 +7,7 @@
 #include <unistd.h>     // For STDOUT_FILENO
 #include "utilities.h"
 
-namespace Logger {
+namespace RootLogger {
     void debug(std::string);
     void info(std::string);
     void warning(std::string);
