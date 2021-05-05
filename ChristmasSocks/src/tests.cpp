@@ -46,7 +46,10 @@ int main() {
 
         for (int n = 0; n < nfds; ++n) {
             if (events[n].data.fd == server.socket_fd_server) {
-                accept_incoming_connection(server.socket_fd_server, server.address, socket_fd_client_to_struct);
+
+                ClientHandler::accept_incoming_connection(
+                    server.socket_fd_server, server.address, socket_fd_client_to_struct
+                );
 
                 //setnonblocking(socket_fd_client_to_struct);
                 ev.events = EPOLLIN | EPOLLET;
@@ -59,10 +62,10 @@ int main() {
 
             } else {
                 message.clear();
-                int socket_fd_client_from_struct = events[n].data.fd;
+                socket_fd_client_from_struct = events[n].data.fd;
 
-                if (read_data(message, socket_fd_client_from_struct)) {
-                    write_data(message, socket_fd_client_from_struct);
+                if (ClientHandler::read_data(message, socket_fd_client_from_struct)) {
+                    ClientHandler::write_data(message, socket_fd_client_from_struct);
                 }
             }
         }
