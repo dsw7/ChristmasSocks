@@ -6,8 +6,8 @@ Server::Server(int tcp_port, int max_connections_queue) {
     this->socket_fd_server = -1;
 }
 
+/* https://linux.die.net/man/3/socket */
 bool Server::open_server_socket_file_descriptor() {
-    // https://linux.die.net/man/3/socket
     this->socket_fd_server = socket(AF_INET, SOCK_STREAM, 0);
 
     if (this->socket_fd_server > -1) {
@@ -21,10 +21,10 @@ bool Server::open_server_socket_file_descriptor() {
     return false;
 }
 
+/* https://linux.die.net/man/3/close */
 bool Server::close_server_socket_file_descriptor() {
     ServerLogger::info("Closing server socket file descriptor", this->socket_fd_server);
 
-    // https://linux.die.net/man/3/close
     if (close(this->socket_fd_server) == 0) {
         return true;
     }
@@ -35,6 +35,7 @@ bool Server::close_server_socket_file_descriptor() {
     return false;
 }
 
+/* https://linux.die.net/man/3/setsockopt */
 bool Server::attach_socket_file_descriptor_to_port() {
     ServerLogger::info("Attaching socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
 
@@ -54,6 +55,7 @@ bool Server::attach_socket_file_descriptor_to_port() {
     return false;
 }
 
+/* https://linux.die.net/man/3/bind */
 bool Server::bind_socket_file_descriptor_to_port() {
 
     if (this->tcp_port <= 1024) {
@@ -70,7 +72,6 @@ bool Server::bind_socket_file_descriptor_to_port() {
     this->address.sin_addr.s_addr = INADDR_ANY;
     this->address.sin_port = htons(this->tcp_port);
 
-    // https://linux.die.net/man/3/bind
     int rv = bind(this->socket_fd_server, (struct sockaddr *)&this->address, sizeof(this->address));
 
     if (rv == 0) {
@@ -83,8 +84,8 @@ bool Server::bind_socket_file_descriptor_to_port() {
     return false;
 }
 
+/* https://linux.die.net/man/3/listen */
 bool Server::listen_on_bound_tcp_port() {
-    // https://linux.die.net/man/3/listen
     int rv = listen(this->socket_fd_server, this->max_connections_queue);
 
     if (rv == 0) {
