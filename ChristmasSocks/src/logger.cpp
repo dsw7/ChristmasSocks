@@ -80,3 +80,29 @@ namespace ClientLogger {
     }
 
 }
+
+namespace ServerLogger {
+
+    void debug(std::string message, int &fd) {
+#if DEBUG_BUILD == 1
+        std::string line = get_current_datetime_string() + " D SL [" + std::to_string(fd) + "] " + message;
+        std::cout << line << std::endl;
+#endif
+    }
+
+    void info(std::string message, int &fd) {
+        std::string line = get_current_datetime_string() + " I SL [" + std::to_string(fd) + "] " + message;
+        std::cout << line << std::endl;
+    }
+
+    void warning(std::string message, int &fd) {
+        std::string line = get_current_datetime_string() + " W SL [" + std::to_string(fd) + "] " + message;
+        std::cout << line << std::endl;
+    }
+
+    void error(std::string message, int &fd) {
+        std::string line = get_current_datetime_string() + " E SL [" + std::to_string(fd) + "] " + message;
+        std::cout << line << std::endl;
+    }
+
+}

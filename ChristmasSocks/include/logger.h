@@ -24,4 +24,11 @@ namespace ClientLogger {
     void error(std::string, int &fd);
 }
 
+namespace ServerLogger {
+    void debug(std::string, int &fd);
+    void info(std::string, int &fd);
+    void warning(std::string, int &fd);
+    void error(std::string, int &fd);
+}
+
 #endif
