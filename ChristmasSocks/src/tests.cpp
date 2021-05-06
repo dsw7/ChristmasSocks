@@ -14,13 +14,13 @@ int main() {
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
 
-    Server server;  // need to pass a struct of system configs to this constructor
+    Server server;  // need to pass a configs_t struct of system configs to this constructor
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
 
-    Client client;  // need to pass struct of configs to this constructor
+    Client client;  // need to pass configs_t struct of configs to this constructor
 
     int epollfd = epoll_create1(0);
     if (epollfd == -1) {
