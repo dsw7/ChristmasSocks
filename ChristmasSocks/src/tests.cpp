@@ -2,10 +2,13 @@
 #include "server.h"
 #include "ipc_signal_registers.h"
 #include "clients.h"
+#include "config_file.h"
 #include <sys/epoll.h>
 
 int main() {
     RootLogger::header();
+
+    read_config_file();
     register_ipc_signals();
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];

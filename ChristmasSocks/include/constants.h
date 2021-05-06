@@ -3,7 +3,7 @@
 
 #include <string>
 
-extern std::string FILEPATH_SYSCONFIG;
+extern std::string CONFIG_FILEPATH;
 extern bool ENABLE_DEBUG_LOGGING;
 extern unsigned int TCP_PORT;
 extern unsigned int MAX_NUM_CONNECTIONS_QUEUE;
