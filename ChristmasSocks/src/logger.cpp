@@ -35,18 +35,15 @@ namespace RootLogger {
 
     void header() {
         render_separator();
-        std::cout << "** Project: " << NAME_PROJECT << std::endl;
-        std::cout << "** Project maintainer: " << MAINTAINER << std::endl;
-        std::cout << "** Compile date: " << COMPILE_DATE << std::endl;
-
-        if (ENABLE_DEBUG_LOGGING) {
-            std::cout << "** DEBUG_BUILD enabled - will print all debug log messages!" << std::endl;
-        }
-
-        std::cout << "** Legend: " << std::endl;
-        std::cout << "   - CL: Lines stemming from incoming client connections" << std::endl;
-        std::cout << "   - SL: Lines stemming from a master server connection" << std::endl;
-        std::cout << "   - RT: Lines logged from all other parts of the program" << std::endl;
+        std::cout << "** Project: " << NAME_PROJECT << "\n";
+        std::cout << "** Project maintainer: " << MAINTAINER << "\n";
+        std::cout << "** Compile date: " << COMPILE_DATE << "\n";
+        std::cout << "** Debug logging is disabled by default\n";
+        std::cout << "** Legend:\n";
+        std::cout << "   - CL: Lines stemming from incoming client connections\n";
+        std::cout << "   - SL: Lines stemming from a master server connection\n";
+        std::cout << "   - RT: Lines logged from all other parts of the program\n";
+        std::cout << std::endl;
         render_separator();
     }
 
