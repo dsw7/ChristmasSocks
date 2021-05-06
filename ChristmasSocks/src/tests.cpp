@@ -42,8 +42,6 @@ int main() {
             exit(EXIT_FAILURE);
         }
 
-        RootLogger::info("An event has been detected");
-
         for (int n = 0; n < nfds; ++n) {
             if (events[n].data.fd == server.socket_fd_server) {
 
