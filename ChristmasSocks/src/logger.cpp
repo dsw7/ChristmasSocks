@@ -38,9 +38,11 @@ namespace RootLogger {
         std::cout << "** Project: " << NAME_PROJECT << std::endl;
         std::cout << "** Project maintainer: " << MAINTAINER << std::endl;
         std::cout << "** Compile date: " << COMPILE_DATE << std::endl;
-#if DEBUG_BUILD == 1
-        std::cout << "** DEBUG_BUILD enabled - will print all debug log messages!" << std::endl;
-#endif
+
+        if (ENABLE_DEBUG_LOGGING) {
+            std::cout << "** DEBUG_BUILD enabled - will print all debug log messages!" << std::endl;
+        }
+
         std::cout << "** Legend: " << std::endl;
         std::cout << "   - CL: Lines stemming from incoming client connections" << std::endl;
         std::cout << "   - SL: Lines stemming from a master server connection" << std::endl;
@@ -59,10 +61,10 @@ namespace RootLogger {
 namespace ClientLogger {
 
     void debug(std::string message, int &fd) {
-#if DEBUG_BUILD == 1
-        std::string line = get_current_datetime_string() + " D CL [" + std::to_string(fd) + "] " + message;
-        std::cout << line << std::endl;
-#endif
+        if (ENABLE_DEBUG_LOGGING) {
+            std::string line = get_current_datetime_string() + " D CL [" + std::to_string(fd) + "] " + message;
+            std::cout << line << std::endl;
+        }
     }
 
     void info(std::string message, int &fd) {
@@ -85,10 +87,10 @@ namespace ClientLogger {
 namespace ServerLogger {
 
     void debug(std::string message, int &fd) {
-#if DEBUG_BUILD == 1
-        std::string line = get_current_datetime_string() + " D SL [" + std::to_string(fd) + "] " + message;
-        std::cout << line << std::endl;
-#endif
+        if (ENABLE_DEBUG_LOGGING) {
+            std::string line = get_current_datetime_string() + " D SL [" + std::to_string(fd) + "] " + message;
+            std::cout << line << std::endl;
+        }
     }
 
     void info(std::string message, int &fd) {
