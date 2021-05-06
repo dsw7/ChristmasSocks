@@ -11,7 +11,7 @@ int main() {
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
 
-    Server server(TCP_PORT, MAX_NUM_CONNECTIONS_QUEUE);
+    Server server(MAX_NUM_CONNECTIONS_QUEUE);
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
     server.bind_socket_file_descriptor_to_port();

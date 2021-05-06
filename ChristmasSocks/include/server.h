@@ -16,7 +16,7 @@ class Server {
         int max_connections_queue;
 
     public:
-        Server(int tcp_port, int max_connections_queue);
+        Server(int max_connections_queue);
 
         bool open_server_socket_file_descriptor();
         bool close_server_socket_file_descriptor();
