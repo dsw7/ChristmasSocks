@@ -1,9 +1,9 @@
 #include "server.h"
 #include "constants.h"
 
-Server::Server(int max_connections_queue) {
+Server::Server() {
     this->tcp_port = TCP_PORT;
-    this->max_connections_queue = max_connections_queue;
+    this->max_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
     this->socket_fd_server = -1;
 }
 

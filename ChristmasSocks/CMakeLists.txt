@@ -22,18 +22,15 @@ file(GLOB SOURCE_FILES "src/*.cpp")
 
 # Set all macro definitions
 set(TCP_BUFFER_SIZE 1024)
-set(MAX_NUM_CONNECTIONS_QUEUE 5)
 set(MAX_EPOLL_EVENTS 10)
 
 message(STATUS "The TCP buffer size is ${TCP_BUFFER_SIZE} bytes!")
-message(STATUS "The maximum number of connections to put in queue is ${MAX_NUM_CONNECTIONS_QUEUE}")
 
 add_compile_definitions(DEBUG_BUILD=1)
 add_compile_definitions(NAME_PROJECT="ChristmasSocks")
 add_compile_definitions(MAINTAINER="David Weber")
 add_compile_definitions(COMPILE_DATE=${COMPILE_DATE})
 add_compile_definitions(TCP_BUFFER_SIZE=${TCP_BUFFER_SIZE})
-add_compile_definitions(MAX_NUM_CONNECTIONS_QUEUE=${MAX_NUM_CONNECTIONS_QUEUE})
 add_compile_definitions(MAX_EPOLL_EVENTS=${MAX_EPOLL_EVENTS})
 
 add_executable(test ${SOURCE_FILES})
