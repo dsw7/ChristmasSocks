@@ -6,5 +6,12 @@ void read_config_file() {
         return;
     }
 
-    // need to put the global var override code here
+    /*
+     * The solution will be:
+     * 1. Read in variables from config file if the file exists
+     * 2. Load a struct with the configs
+     * 3. If the particular configuration doesn't exist then default to using the extern from constants
+     * 4. Pass the struct to class constructors
+     */
+
 }
