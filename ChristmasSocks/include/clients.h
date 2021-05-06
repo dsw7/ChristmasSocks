@@ -1,10 +1,11 @@
 #ifndef CLIENTS_H
 #define CLIENTS_H
 
-#include "logger.h"
 #include <arpa/inet.h> // inet_ntoa
 #include <string.h>
 #include <errno.h>
+#include "logger.h"
+#include "constants.h"
 
 namespace ClientHandler {
     bool accept_incoming_connection(int &socket_fd_server, struct sockaddr_in &address, int &socket_fd_client);

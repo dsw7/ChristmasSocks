@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include "logger.h"
+#include "constants.h"
 
 class Server {
     private:
