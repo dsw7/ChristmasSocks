@@ -14,11 +14,13 @@ int main() {
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
 
-    Server server;
+    Server server;  // need to pass a struct of system configs to this constructor
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
+
+    Client client;  // need to pass struct of configs to this constructor
 
     int epollfd = epoll_create1(0);
     if (epollfd == -1) {
@@ -48,7 +50,7 @@ int main() {
         for (int n = 0; n < nfds; ++n) {
             if (events[n].data.fd == server.socket_fd_server) {
 
-                ClientHandler::accept_incoming_connection(
+                client.accept_incoming_connection(
                     server.socket_fd_server, server.address, socket_fd_client_to_struct
                 );
 
@@ -65,8 +67,8 @@ int main() {
                 message.clear();
                 socket_fd_client_from_struct = events[n].data.fd;
 
-                if (ClientHandler::read_data(message, socket_fd_client_from_struct)) {
-                    ClientHandler::write_data(message, socket_fd_client_from_struct);
+                if (client.read_data(message, socket_fd_client_from_struct)) {
+                    client.write_data(message, socket_fd_client_from_struct);
                 }
             }
         }
