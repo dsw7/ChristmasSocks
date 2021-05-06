@@ -6,6 +6,7 @@
 #include <sys/ioctl.h>  // For ioctl() and TIOCGWINSZ
 #include <unistd.h>     // For STDOUT_FILENO
 #include "utilities.h"
+#include "constants.h"
 
 namespace RootLogger {
     void debug(std::string);

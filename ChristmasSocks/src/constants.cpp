@@ -1,5 +1,8 @@
 #include "constants.h"
 
+// Tell logger to print debug log lines
+bool ENABLE_DEBUG_LOGGING = false;
+
 // Specify TCP port here
 unsigned int TCP_PORT = 8080;
 

@@ -3,10 +3,10 @@
 namespace RootLogger {
 
     void debug(std::string message) {
-#if DEBUG_BUILD == 1
-        std::string line = get_current_datetime_string() + " D RT " + message;
-        std::cout << line << std::endl;
-#endif
+        if (ENABLE_DEBUG_LOGGING) {
+            std::string line = get_current_datetime_string() + " D RT " + message;
+            std::cout << line << std::endl;
+        }
     }
 
     void info(std::string message) {
