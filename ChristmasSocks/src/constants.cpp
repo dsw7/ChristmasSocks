@@ -1,5 +1,9 @@
 #include "constants.h"
 
+// Specify path to system configuration file
+// This file can be used to override all the following downstream global variables
+std::string SYSCONFIG_FILEPATH = "/etc/socks.conf";
+
 // Tell logger to print debug log lines
 bool ENABLE_DEBUG_LOGGING = false;
 

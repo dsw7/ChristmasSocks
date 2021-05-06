@@ -9,3 +9,12 @@ std::string get_current_datetime_string() {
     strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%dT%X", &time_struct);
     return time_buffer;
 }
+
+bool file_exists(std::string &pathname) {
+    struct stat info;
+
+    if (stat(pathname.c_str(), &info) != 0) {
+        return false;
+    }
+    return true;
+}
