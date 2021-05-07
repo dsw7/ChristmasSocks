@@ -18,7 +18,7 @@ void read_config_file() {
 
 // pass this struct into server and client classes
 void set_global_configs(configs_t &global_configs) {
-    global_configs.enable_debug_logging = ENABLE_DEBUG_LOGGING;
+    global_configs.enable_debug_logging = ENABLE_DEBUG_LOGGING;  // this might need to go elsewhere
     global_configs.tcp_port = TCP_PORT;
     global_configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
     global_configs.tcp_buffer_size = TCP_BUFFER_SIZE;
