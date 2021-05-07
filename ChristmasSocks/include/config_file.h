@@ -13,7 +13,14 @@ struct configs_t {
     unsigned int tcp_buffer_size;
 };
 
-void get_global_configs(std::map<std::string, std::string> &configs);
-void set_global_configs(configs_t &configs);
+class ConfigParser {
+    private:
+        std::map<std::string, std::string> raw_configs;
+
+    public:
+        ConfigParser();
+        void get_global_configs(std::map<std::string, std::string> &configs);
+        void set_global_configs(configs_t &configs);
+}
 
 #endif
