@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <map>
 
 std::string get_current_datetime_string();

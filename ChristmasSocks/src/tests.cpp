@@ -12,6 +12,7 @@ int main() {
     get_global_configs(raw_configs);
 
     std::cout << raw_configs["udp_port"] << std::endl;
+    // now pass map to set_global_configs!
 
     configs_t global_configs;
 
