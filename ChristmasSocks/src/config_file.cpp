@@ -1,11 +1,14 @@
 #include "config_file.h"
 
-void read_config_file() {
-    if (!file_exists(CONFIG_FILEPATH)) {
+void get_global_configs(std::map<std::string, std::string> &configs) {
+    std::string file_contents;
+
+    if (!read_file(CONFIG_FILEPATH, file_contents)) {
         RootLogger::info("Could not find " + CONFIG_FILEPATH + ". Using default configurations");
         return;
     }
 
+    parse_configs(file_contents, configs);
     /*
      * The solution will be:
      * 1. Read in variables from config file if the file exists
@@ -13,7 +16,6 @@ void read_config_file() {
      * 3. If the particular configuration doesn't exist then default to using the extern from constants
      * 4. Pass the struct to class constructors
      */
-
 }
 
 // pass this struct into server and client classes

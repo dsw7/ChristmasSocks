@@ -8,6 +8,11 @@
 int main() {
     RootLogger::header();
 
+    std::map<std::string, std::string> raw_configs;
+    get_global_configs(raw_configs);
+
+    std::cout << raw_configs["udp_port"] << std::endl;
+
     configs_t global_configs;
 
     set_global_configs(global_configs);

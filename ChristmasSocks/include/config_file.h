@@ -1,6 +1,7 @@
 #ifndef CONFIG_FILE_H
 #define CONFIG_FILE_H
 
+#include <map>
 #include "utilities.h"
 #include "constants.h"
 #include "logger.h"
@@ -12,7 +13,7 @@ struct configs_t {
     unsigned int tcp_buffer_size;
 };
 
-void read_config_file();
+void get_global_configs(std::map<std::string, std::string> &configs);
 void set_global_configs(configs_t &configs);
 
 #endif
