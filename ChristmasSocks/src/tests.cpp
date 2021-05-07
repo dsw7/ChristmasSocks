@@ -8,7 +8,9 @@
 int main() {
     RootLogger::header();
 
-    read_config_file();
+    configs_t global_configs;
+
+    set_global_configs(global_configs);
     register_ipc_signals();
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];

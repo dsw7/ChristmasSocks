@@ -13,5 +13,6 @@ struct configs_t {
 };
 
 void read_config_file();
+void set_global_configs(configs_t &configs);
 
 #endif
