@@ -8,15 +8,8 @@
 int main() {
     RootLogger::header();
 
-    std::map<std::string, std::string> raw_configs;
-    get_global_configs(raw_configs);
+    configs_t global_configs = ConfigParser(CONFIG_FILEPATH).load_configs();
 
-    std::cout << raw_configs["udp_port"] << std::endl;
-    // now pass map to set_global_configs!
-
-    configs_t global_configs;
-
-    set_global_configs(global_configs);
     register_ipc_signals();
 
     Server server(global_configs);

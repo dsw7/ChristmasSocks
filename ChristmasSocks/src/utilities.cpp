@@ -34,21 +34,3 @@ bool read_file(std::string &filepath, std::string &file_contents) {
     filestream.close();
     return true;
 }
-
-void parse_configs(std::string &file_contents, std::map<std::string, std::string> &configs) {
-    std::istringstream is_file(file_contents);
-    std::string line;
-
-    while (std::getline(is_file, line)) {
-        std::istringstream is_line(line);
-        std::string key;
-
-        if (std::getline(is_line, key, '=')) {
-            std::string value;
-
-            if (std::getline(is_line, value)) {
-                configs[key] = value;
-            }
-        }
-    }
-}
