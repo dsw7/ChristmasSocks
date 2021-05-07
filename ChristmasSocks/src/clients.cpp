@@ -1,7 +1,7 @@
 #include "clients.h"
 
-Client::Client() {
-    this->buffer_size = TCP_BUFFER_SIZE;
+Client::Client(configs_t &configs) {
+    this->buffer_size = configs.tcp_buffer_size;
 }
 
 /* https://linux.die.net/man/3/accept */

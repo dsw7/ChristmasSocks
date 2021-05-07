@@ -10,6 +10,7 @@
 #include <netinet/in.h>
 #include "logger.h"
 #include "constants.h"
+#include "config_file.h"
 
 class Server {
     private:
@@ -17,7 +18,7 @@ class Server {
         int max_connections_queue;
 
     public:
-        Server();
+        Server(configs_t &configs);
 
         bool open_server_socket_file_descriptor();
         bool close_server_socket_file_descriptor();
