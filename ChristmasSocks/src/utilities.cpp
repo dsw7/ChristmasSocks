@@ -10,11 +10,27 @@ std::string get_current_datetime_string() {
     return time_buffer;
 }
 
-bool file_exists(std::string &pathname) {
+bool file_exists(std::string &filepath) {
     struct stat info;
 
-    if (stat(pathname.c_str(), &info) != 0) {
+    if (stat(filepath.c_str(), &info) != 0) {
         return false;
     }
+    return true;
+}
+
+bool read_file(std::string &filepath, std::string &file_contents) {
+    std::ifstream filestream(filepath);
+
+    if (filestream.fail()) {
+        return false;
+    }
+
+    std::string line;
+    while (getline (filestream, line)) {
+        file_contents = line;
+    }
+
+    filestream.close();
     return true;
 }

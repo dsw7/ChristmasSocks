@@ -2,7 +2,7 @@
 
 // Specify path to system configuration file
 // This file can be used to override all the following downstream global variables
-std::string CONFIG_FILEPATH = "/etc/socks.conf";
+std::string CONFIG_FILEPATH = "/etc/socks.ini";
 
 // Tell logger to print debug log lines
 bool ENABLE_DEBUG_LOGGING = false;
