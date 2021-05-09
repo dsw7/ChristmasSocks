@@ -59,23 +59,23 @@ namespace ClientLogger {
 
     void debug(std::string message, int &fd) {
         if (ENABLE_DEBUG_LOGGING) {
-            std::string line = get_current_datetime_string() + " D CL [" + std::to_string(fd) + "] " + message;
+            std::string line = get_current_datetime_string() + " D CL " + std::to_string(fd) + " " + message;
             std::cout << line << std::endl;
         }
     }
 
     void info(std::string message, int &fd) {
-        std::string line = get_current_datetime_string() + " I CL [" + std::to_string(fd) + "] " + message;
+        std::string line = get_current_datetime_string() + " I CL " + std::to_string(fd) + " " + message;
         std::cout << line << std::endl;
     }
 
     void warning(std::string message, int &fd) {
-        std::string line = get_current_datetime_string() + " W CL [" + std::to_string(fd) + "] " + message;
+        std::string line = get_current_datetime_string() + " W CL " + std::to_string(fd) + " " + message;
         std::cout << line << std::endl;
     }
 
     void error(std::string message, int &fd) {
-        std::string line = get_current_datetime_string() + " E CL [" + std::to_string(fd) + "] " + message;
+        std::string line = get_current_datetime_string() + " E CL " + std::to_string(fd) + " " + message;
         std::cout << line << std::endl;
     }
 
@@ -85,23 +85,23 @@ namespace ServerLogger {
 
     void debug(std::string message, int &fd) {
         if (ENABLE_DEBUG_LOGGING) {
-            std::string line = get_current_datetime_string() + " D SL [" + std::to_string(fd) + "] " + message;
+            std::string line = get_current_datetime_string() + " D SL " + std::to_string(fd) + " " + message;
             std::cout << line << std::endl;
         }
     }
 
     void info(std::string message, int &fd) {
-        std::string line = get_current_datetime_string() + " I SL [" + std::to_string(fd) + "] " + message;
+        std::string line = get_current_datetime_string() + " I SL " + std::to_string(fd) + " " + message;
         std::cout << line << std::endl;
     }
 
     void warning(std::string message, int &fd) {
-        std::string line = get_current_datetime_string() + " W SL [" + std::to_string(fd) + "] " + message;
+        std::string line = get_current_datetime_string() + " W SL " + std::to_string(fd) + " " + message;
         std::cout << line << std::endl;
     }
 
     void error(std::string message, int &fd) {
-        std::string line = get_current_datetime_string() + " E SL [" + std::to_string(fd) + "] " + message;
+        std::string line = get_current_datetime_string() + " E SL " + std::to_string(fd) + " " + message;
         std::cout << line << std::endl;
     }
 
