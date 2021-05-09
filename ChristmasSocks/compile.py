@@ -14,7 +14,7 @@ class CompileSocks:
         self.path_this = path.dirname(__file__)
 
     def generate_makefiles(self) -> int:
-        command = 'cmake -S {} -B {}/bin'.format(self.path_this)
+        command = 'cmake -S {} -B {}/bin'.format(self.path_this, self.path_this)
         return call(command.split())
 
     def compile_binary_from_makefiles(self) -> int:
@@ -23,11 +23,14 @@ class CompileSocks:
 
     def execute_main(self) -> None:
         print(self.hbar)
-        print('Compiling project ChristmasSocks')
+        print('-- Compiling project: ChristmasSocks')
+        print('-- Project maintainer: David Weber')
 
+        print(self.hbar)
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
+        print(self.hbar)
         if self.compile_binary_from_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
