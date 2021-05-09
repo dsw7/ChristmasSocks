@@ -41,11 +41,12 @@ void ConfigParser::extern_constants_to_global_configs() {
 }
 
 configs_t ConfigParser::load_configs() {
-    if (!read_file(this->path_config_file, this->file_contents)) {
+    if (!file_exists(this->path_config_file)) {
         RootLogger::info("Could not find " + this->path_config_file + ". Using default configurations");
         this->extern_constants_to_global_configs();
     } else {
         RootLogger::info("Reading configurations from file " + this->path_config_file);
+        read_file(this->path_config_file, this->file_contents);
         this->file_contents_to_raw_configs();
         this->raw_configs_to_global_configs();
     }

@@ -19,12 +19,8 @@ bool file_exists(std::string &filepath) {
     return true;
 }
 
-bool read_file(std::string &filepath, std::string &file_contents) {
+void read_file(std::string &filepath, std::string &file_contents) {
     std::ifstream filestream(filepath);
-
-    if (!file_exists(filepath)) {
-        return false;
-    }
 
     std::string line;
     while (getline (filestream, line)) {
@@ -32,5 +28,4 @@ bool read_file(std::string &filepath, std::string &file_contents) {
     }
 
     filestream.close();
-    return true;
 }
