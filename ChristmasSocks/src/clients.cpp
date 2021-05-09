@@ -19,8 +19,7 @@ bool Client::accept_incoming_connection(int &socket_fd_server, struct sockaddr_i
 
     char *incoming_ipv4_address = inet_ntoa(address.sin_addr);
     ClientLogger::info("The kernel has allocated a new client socket file descriptor", socket_fd_client);
-    ClientLogger::info("Accepted connection from IPv4 address", socket_fd_client);
-
+    ClientLogger::info("Accepted connection from IPv4 address " + std::string(incoming_ipv4_address), socket_fd_client);
     return true;
 }
 
