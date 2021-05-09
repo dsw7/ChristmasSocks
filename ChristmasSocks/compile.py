@@ -3,6 +3,7 @@
 import sys
 from os import get_terminal_size, path
 from subprocess import call
+from time import time
 
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
@@ -12,6 +13,7 @@ class CompileSocks:
     def __init__(self) -> None:
         self.hbar = '=' * get_terminal_size().columns
         self.path_this = path.dirname(__file__)
+        self.start_time = time()
 
     def generate_makefiles(self) -> int:
         command = 'cmake -S {} -B {}/bin'.format(self.path_this, self.path_this)
@@ -35,6 +37,10 @@ class CompileSocks:
             return EXIT_FAILURE
 
         print(self.hbar)
+        print('-- Success!')
+        print('-- Total compile time: {} s'.format(round(time() - self.start_time, 3)))
+        print(self.hbar)
+
         return EXIT_SUCCESS
 
 
