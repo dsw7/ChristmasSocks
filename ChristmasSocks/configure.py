@@ -24,6 +24,7 @@ class ConfigBase(ABC):
 
     @staticmethod
     def render_message(msg: str) -> None:
+        # TODO: center these messages
         secho('** {}'.format(msg), fg='cyan')
 
     @abstractmethod
@@ -61,6 +62,7 @@ class Compile(ConfigBase):
 class StaticAnalysis(ConfigBase):
     def run_cppcheck(self) -> int:
         self.render_separator()
+        # TODO: add `--template` option here
         command = 'cppcheck {}/src/ --enable=all'.format(self.path_this)
         return call(command.split())
 
