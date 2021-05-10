@@ -61,8 +61,7 @@ class Compile(ConfigBase):
 class StaticAnalysis(ConfigBase):
     def run_cppcheck(self) -> int:
         self.render_separator()
-        # TODO: add `--template` option here
-        command = 'cppcheck {}/src/ --enable=all'.format(self.path_this)
+        command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
         return call(command.split())
 
     def execute_main(self) -> None:
