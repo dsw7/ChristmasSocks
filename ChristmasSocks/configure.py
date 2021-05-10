@@ -24,8 +24,7 @@ class ConfigBase(ABC):
 
     @staticmethod
     def render_message(msg: str) -> None:
-        # TODO: center these messages
-        secho('** {}'.format(msg), fg='cyan')
+        secho('> {}'.format(msg), fg='cyan')
 
     @abstractmethod
     def execute_main(self) -> int:
