@@ -6,8 +6,7 @@ from subprocess import call
 from time import time
 from click import (
     secho,
-    group,
-    option
+    group
 )
 
 EXIT_SUCCESS = 0
@@ -32,7 +31,7 @@ class ConfigBase(ABC):
         pass
 
 
-class CompileSocks(ConfigBase):
+class Compile(ConfigBase):
     def generate_makefiles(self) -> int:
         self.render_separator()
         command = 'cmake -S {} -B {}/bin'.format(self.path_this, self.path_this)
@@ -59,7 +58,7 @@ class CompileSocks(ConfigBase):
         return EXIT_SUCCESS
 
 
-class Cppcheck(ConfigBase):
+class StaticAnalysis(ConfigBase):
     def run_cppcheck(self) -> int:
         self.render_separator()
         command = 'cppcheck {}/src/ --enable=all'.format(self.path_this)
@@ -84,11 +83,11 @@ def main():
 
 @main.command(help='Compile binary')
 def compile():
-    sys.exit(CompileSocks().execute_main())
+    sys.exit(Compile().execute_main())
 
 @main.command(help='Run static analysis on project')
 def static_analysis():
-    sys.exit(Cppcheck().execute_main())
+    sys.exit(StaticAnalysis().execute_main())
 
 if __name__ == '__main__':
     main()
