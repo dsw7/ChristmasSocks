@@ -45,8 +45,7 @@ class CompileSocks(ConfigBase):
 
     def execute_main(self) -> None:
         self.render_separator()
-        self.render_message('Compiling project: ChristmasSocks')
-        self.render_message('Project maintainer: David Weber')
+        self.render_message('Compiling project...')
 
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
@@ -60,6 +59,25 @@ class CompileSocks(ConfigBase):
         return EXIT_SUCCESS
 
 
+class Cppcheck(ConfigBase):
+    def run_cppcheck(self) -> int:
+        self.render_separator()
+        command = 'cppcheck {}/src/ --enable=all'.format(self.path_this)
+        return call(command.split())
+
+    def execute_main(self) -> None:
+        self.render_separator()
+        self.render_message('Running static analysis tool cppcheck on project...')
+
+        if self.run_cppcheck() != EXIT_SUCCESS:
+            return EXIT_FAILURE
+
+        self.render_separator()
+        self.render_message('Success!')
+        self.render_message('Total processing time: {} s'.format(round(time() - self.start_time, 3)))
+        return EXIT_SUCCESS
+
+
 @group()
 def main():
     pass
@@ -67,6 +85,10 @@ def main():
 @main.command(help='Compile binary')
 def compile():
     sys.exit(CompileSocks().execute_main())
+
+@main.command(help='Run static analysis on project')
+def static_analysis():
+    sys.exit(Cppcheck().execute_main())
 
 if __name__ == '__main__':
     main()
