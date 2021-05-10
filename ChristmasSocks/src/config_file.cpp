@@ -2,6 +2,7 @@
 
 ConfigParser::ConfigParser(std::string &path_config_file) {
     this->path_config_file = path_config_file;
+    // this->global_configs should be set to something here... cppcheck is complaining (and rightly so)
 }
 
 void ConfigParser::file_contents_to_raw_configs() {
