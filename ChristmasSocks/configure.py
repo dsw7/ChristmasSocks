@@ -34,12 +34,14 @@ class ConfigBase(ABC):
 class Compile(ConfigBase):
     def generate_makefiles(self) -> int:
         self.render_separator()
-        command = 'cmake -S {} -B {}/bin'.format(self.path_this, self.path_this)
+        command = 'cmake -S {p} -B {p}/bin'.format(p=self.path_this)
+        self.render_message('Running command: "{}"'.format(command))
         return call(command.split())
 
     def compile_binary_from_makefiles(self) -> int:
         self.render_separator()
         command = 'make --jobs=12 -C {}/bin'.format(self.path_this)
+        self.render_message('Running command: {}'.format(command))
         return call(command.split())
 
     def execute_main(self) -> None:
@@ -62,6 +64,7 @@ class StaticAnalysis(ConfigBase):
     def run_cppcheck(self) -> int:
         self.render_separator()
         command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
+        self.render_message('Running command: "{}"'.format(command))
         return call(command.split())
 
     def execute_main(self) -> None:
