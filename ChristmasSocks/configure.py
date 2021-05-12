@@ -56,7 +56,7 @@ class Compile(ConfigBase):
         command = 'make --jobs=12 -C {}/bin'.format(self.path_this)
         return self.run_shell_command(command)
 
-    def execute_main(self) -> None:
+    def execute_main(self) -> int:
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
@@ -75,7 +75,7 @@ class StaticAnalysis(ConfigBase):
         command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
         return self.run_shell_command(command)
 
-    def execute_main(self) -> None:
+    def execute_main(self) -> int:
         if self.run_cppcheck() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
