@@ -11,20 +11,29 @@ from click import (
 
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
+SEPARATOR = '=' * get_terminal_size().columns
 
 
 class ConfigBase(ABC):
     def __init__(self) -> None:
         self.path_this = path.dirname(__file__)
         self.start_time = time()
-        self.separator = '=' * get_terminal_size().columns
 
-    def render_separator(self) -> None:
-        secho(self.separator, fg='cyan')
+    def __del__(self) -> None:
+        self.echo_separator()
+        self.echo_message('Total processing time: {} s'.format(round(time() - self.start_time, 3)))
 
     @staticmethod
-    def render_message(msg: str) -> None:
-        secho('> {}'.format(msg), fg='cyan')
+    def echo_separator() -> None:
+        secho(SEPARATOR, fg='yellow')
+
+    @staticmethod
+    def echo_message(msg: str) -> None:
+        secho('{}'.format(msg), fg='yellow')
+
+    def run_shell_command(self, command: str) -> int:
+        self.echo_message('Running command: "{}"'.format(command))
+        return call(command.split())
 
     @abstractmethod
     def execute_main(self) -> int:
@@ -33,20 +42,17 @@ class ConfigBase(ABC):
 
 class Compile(ConfigBase):
     def generate_makefiles(self) -> int:
-        self.render_separator()
+        self.echo_separator()
         command = 'cmake -S {p} -B {p}/bin'.format(p=self.path_this)
-        self.render_message('Running command: "{}"'.format(command))
-        return call(command.split())
+        return self.run_shell_command(command)
 
     def compile_binary_from_makefiles(self) -> int:
-        self.render_separator()
+        self.echo_separator()
         command = 'make --jobs=12 -C {}/bin'.format(self.path_this)
-        self.render_message('Running command: {}'.format(command))
-        return call(command.split())
+        return self.run_shell_command(command)
 
     def execute_main(self) -> None:
-        self.render_separator()
-        self.render_message('Compiling project...')
+        self.echo_separator()
 
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
@@ -54,29 +60,21 @@ class Compile(ConfigBase):
         if self.compile_binary_from_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
-        self.render_separator()
-        self.render_message('Success!')
-        self.render_message('Total compile time: {} s'.format(round(time() - self.start_time, 3)))
         return EXIT_SUCCESS
 
 
 class StaticAnalysis(ConfigBase):
     def run_cppcheck(self) -> int:
-        self.render_separator()
+        self.echo_separator()
         command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
-        self.render_message('Running command: "{}"'.format(command))
-        return call(command.split())
+        return self.run_shell_command(command)
 
     def execute_main(self) -> None:
-        self.render_separator()
-        self.render_message('Running static analysis tool cppcheck on project...')
+        self.echo_separator()
 
         if self.run_cppcheck() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
-        self.render_separator()
-        self.render_message('Success!')
-        self.render_message('Total processing time: {} s'.format(round(time() - self.start_time, 3)))
         return EXIT_SUCCESS
 
 
