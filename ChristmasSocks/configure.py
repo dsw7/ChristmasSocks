@@ -4,6 +4,10 @@ from os import get_terminal_size, path
 from abc import ABC, abstractmethod
 from subprocess import call
 from time import time
+from unittest import (
+    TestLoader,
+    TextTestRunner
+)
 from click import (
     secho,
     group
@@ -12,6 +16,7 @@ from click import (
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 SEPARATOR = '-' * get_terminal_size().columns
+TEST_FILENAMES_PATTERN = 'test_*'
 
 
 class ConfigBase(ABC):
@@ -82,6 +87,31 @@ class StaticAnalysis(ConfigBase):
         return EXIT_SUCCESS
 
 
+class RunTests(ConfigBase):
+
+    def run_unittest(self) -> bool:
+        self.echo_separator()
+
+        test_directory = path.join(self.path_this, 'tests')
+        realpath = path.realpath(test_directory)
+
+        self.echo_message('Running tests in directory: {}'.format(realpath))
+
+        suite = TestLoader().discover(
+            test_directory, pattern=TEST_FILENAMES_PATTERN
+        )
+        runner = TextTestRunner(verbosity=2)
+        test_run = runner.run(suite)
+
+        return test_run.wasSuccessful()
+
+    def execute_main(self) -> int:
+        if self.run_unittest():
+            return EXIT_SUCCESS
+
+        return EXIT_FAILURE
+
+
 @group()
 def main():
     pass
@@ -91,8 +121,12 @@ def compile():
     sys.exit(Compile().execute_main())
 
 @main.command(help='Run static analysis on project')
-def static_analysis():
+def lint():
     sys.exit(StaticAnalysis().execute_main())
+
+@main.command(help='Run unit tests on project')
+def test():
+    sys.exit(RunTests().execute_main())
 
 if __name__ == '__main__':
     main()
