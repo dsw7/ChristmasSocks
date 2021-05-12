@@ -41,7 +41,7 @@ class ConfigBase(ABC):
         return call(command.split())
 
     @abstractmethod
-    def execute_main(self) -> int:
+    def main(self) -> int:
         pass
 
 
@@ -61,7 +61,7 @@ class Compile(ConfigBase):
         command = 'make --jobs=12 -C {}/bin'.format(self.path_this)
         return self.run_shell_command(command)
 
-    def execute_main(self) -> int:
+    def main(self) -> int:
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
@@ -80,7 +80,7 @@ class StaticAnalysis(ConfigBase):
         command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
         return self.run_shell_command(command)
 
-    def execute_main(self) -> int:
+    def main(self) -> int:
         if self.run_cppcheck() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
@@ -94,7 +94,6 @@ class RunTests(ConfigBase):
 
         test_directory = path.join(self.path_this, 'tests')
         realpath = path.realpath(test_directory)
-
         self.echo_message('Running tests in directory: {}'.format(realpath))
 
         suite = TestLoader().discover(
@@ -105,7 +104,7 @@ class RunTests(ConfigBase):
 
         return test_run.wasSuccessful()
 
-    def execute_main(self) -> int:
+    def main(self) -> int:
         if self.run_unittest():
             return EXIT_SUCCESS
 
@@ -118,15 +117,15 @@ def main():
 
 @main.command(help='Compile binary')
 def compile():
-    sys.exit(Compile().execute_main())
+    sys.exit(Compile().main())
 
 @main.command(help='Run static analysis on project')
 def lint():
-    sys.exit(StaticAnalysis().execute_main())
+    sys.exit(StaticAnalysis().main())
 
 @main.command(help='Run unit tests on project')
 def test():
-    sys.exit(RunTests().execute_main())
+    sys.exit(RunTests().main())
 
 if __name__ == '__main__':
     main()
