@@ -41,6 +41,7 @@ class ConfigBase(ABC):
 
 
 class Compile(ConfigBase):
+
     def generate_makefiles(self) -> int:
         self.echo_separator()
         self.echo_message('Generating Makefiles for project')
@@ -66,6 +67,7 @@ class Compile(ConfigBase):
 
 
 class StaticAnalysis(ConfigBase):
+
     def run_cppcheck(self) -> int:
         self.echo_separator()
         self.echo_message('Linting project using cppcheck static analysis tool')
