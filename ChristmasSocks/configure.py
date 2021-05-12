@@ -11,7 +11,7 @@ from click import (
 
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
-SEPARATOR = '=' * get_terminal_size().columns
+SEPARATOR = '-' * get_terminal_size().columns
 
 
 class ConfigBase(ABC):
@@ -32,7 +32,7 @@ class ConfigBase(ABC):
         secho('{}'.format(msg), fg='yellow')
 
     def run_shell_command(self, command: str) -> int:
-        self.echo_message('Running command: "{}"'.format(command))
+        self.echo_message('Running command: {}'.format(command))
         return call(command.split())
 
     @abstractmethod
@@ -43,17 +43,19 @@ class ConfigBase(ABC):
 class Compile(ConfigBase):
     def generate_makefiles(self) -> int:
         self.echo_separator()
+        self.echo_message('Generating Makefiles for project')
+
         command = 'cmake -S {p} -B {p}/bin'.format(p=self.path_this)
         return self.run_shell_command(command)
 
     def compile_binary_from_makefiles(self) -> int:
         self.echo_separator()
+        self.echo_message('Compiling project using Makefiles')
+
         command = 'make --jobs=12 -C {}/bin'.format(self.path_this)
         return self.run_shell_command(command)
 
     def execute_main(self) -> None:
-        self.echo_separator()
-
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
@@ -66,12 +68,12 @@ class Compile(ConfigBase):
 class StaticAnalysis(ConfigBase):
     def run_cppcheck(self) -> int:
         self.echo_separator()
+        self.echo_message('Linting project using cppcheck static analysis tool')
+
         command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
         return self.run_shell_command(command)
 
     def execute_main(self) -> None:
-        self.echo_separator()
-
         if self.run_cppcheck() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
