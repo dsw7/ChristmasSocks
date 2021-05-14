@@ -19,6 +19,7 @@ def generate_random_string(num_strings: int, len_strings: int) -> list:
         result.append(''.join(choice(ALPHANUMERIC) for _ in range(len_strings)))
     return result
 
+
 class Connection:
     def __init__(self) -> None:
         self.ini_configs = ConfigParser()

@@ -21,6 +21,7 @@ SEPARATOR = '-' * get_terminal_size().columns
 TEST_FILENAMES_PATTERN = 'test_*'
 TEMPLATE_CPPCHECK = '{severity}-{id}-{file}-{line}-{message}'
 LIST_TEMPLATE_CPPCHECK = ['Severity', 'Id', 'File', 'Line', 'Message']
+IS_BLIND_TEST = True
 
 
 class ConfigBase(ABC):
@@ -115,9 +116,11 @@ class RunTests(ConfigBase):
         suite = TestLoader().discover(
             test_directory, pattern=TEST_FILENAMES_PATTERN
         )
-        runner = TextTestRunner(verbosity=2)
-        test_run = runner.run(suite)
+        runner = TextTestRunner(
+            verbosity=2, failfast=IS_BLIND_TEST
+        )
 
+        test_run = runner.run(suite)
         return test_run.wasSuccessful()
 
     def main(self) -> int:
