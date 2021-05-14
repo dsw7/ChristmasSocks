@@ -2,7 +2,9 @@
 import sys
 from os import get_terminal_size, path
 from abc import ABC, abstractmethod
-from subprocess import call
+from typing import Tuple
+from subprocess import Popen, PIPE
+from json import dumps
 from time import time
 from unittest import (
     TestLoader,
@@ -17,6 +19,8 @@ EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 SEPARATOR = '-' * get_terminal_size().columns
 TEST_FILENAMES_PATTERN = 'test_*'
+TEMPLATE_CPPCHECK = '{severity}-{id}-{file}-{line}-{message}'
+LIST_TEMPLATE_CPPCHECK = ['Severity', 'Id', 'File', 'Line', 'Message']
 
 
 class ConfigBase(ABC):
@@ -36,9 +40,14 @@ class ConfigBase(ABC):
     def echo_message(msg: str) -> None:
         secho('{}'.format(msg), fg='yellow')
 
-    def run_shell_command(self, command: str) -> int:
+    def run_shell_command(self, command: str, capture_output=False) -> Tuple[int, str, str]:
         self.echo_message('Running command: {}'.format(command))
-        return call(command.split())
+        if capture_output:
+            process = Popen(command.split(), stdout=PIPE, stderr=PIPE)
+        else:
+            process = Popen(command.split())
+        stdout, stderr = process.communicate()
+        return process.returncode, stdout.decode(), stderr.decode()
 
     @abstractmethod
     def main(self) -> int:
@@ -52,14 +61,14 @@ class Compile(ConfigBase):
         self.echo_message('Generating Makefiles for project')
 
         command = 'cmake -S {p} -B {p}/bin'.format(p=self.path_this)
-        return self.run_shell_command(command)
+        return self.run_shell_command(command)[0]
 
     def compile_binary_from_makefiles(self) -> int:
         self.echo_separator()
         self.echo_message('Compiling project using Makefiles')
 
         command = 'make --jobs=12 -C {}/bin'.format(self.path_this)
-        return self.run_shell_command(command)
+        return self.run_shell_command(command)[0]
 
     def main(self) -> int:
         if self.generate_makefiles() != EXIT_SUCCESS:
@@ -77,8 +86,15 @@ class StaticAnalysis(ConfigBase):
         self.echo_separator()
         self.echo_message('Linting project using cppcheck static analysis tool')
 
-        command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
-        return self.run_shell_command(command)
+        command = 'cppcheck {p}/src/ -I {p}/include/ --template={t} --enable=all'.format(p=self.path_this, t=TEMPLATE_CPPCHECK)
+        exit_code, _, stderr = self.run_shell_command(command, capture_output=True)
+
+        report = {}
+        for u, line in enumerate(stderr.split('\n')):
+            report[u] = dict(zip(LIST_TEMPLATE_CPPCHECK, line.split('-')))
+
+        secho(dumps(report, indent=4))
+        return exit_code
 
     def main(self) -> int:
         if self.run_cppcheck() != EXIT_SUCCESS:
