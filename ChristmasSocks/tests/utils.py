@@ -24,6 +24,7 @@ class Connection:
         self.ini_configs = ConfigParser()
         self.ini_configs.read(path.join(path.dirname(__file__), 'tests.ini'))
         self.socket = socket(AF_INET, SOCK_STREAM)
+        self.socket.settimeout(0.5)
 
     def connect(self) -> None:
         self.socket.connect((
