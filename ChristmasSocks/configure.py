@@ -124,20 +124,22 @@ class StaticAnalysis(ConfigBase):
 
 class RunTests(ConfigBase):
 
-    def start_server(self) -> None:
+    def start_server(self) -> Popen:
         self.echo_message('Starting up server on localhost')
         chdir(path.dirname(__file__))
-        command = 'bin/test'
-        self.process = Popen(command, stdout=DEVNULL)
-        sleep(0.125)
 
-    def stop_server(self) -> None:
+        command = './bin/test'
+        return Popen(command, stdout=DEVNULL)
+
+    def stop_server(self, process: Popen) -> None:
         self.echo_message('Stopping server on localhost')
-        self.process.send_signal(SIGINT)
+        process.send_signal(SIGINT)
 
     def run_unittest(self) -> bool:
         self.echo_separator()
-        self.start_server()
+
+        process = self.start_server()
+        sleep(0.1)
 
         test_directory = path.join(self.path_this, 'tests')
         realpath = path.realpath(test_directory)
@@ -146,12 +148,14 @@ class RunTests(ConfigBase):
         suite = TestLoader().discover(
             test_directory, pattern=TEST_FILENAMES_PATTERN
         )
+
         runner = TextTestRunner(
             verbosity=2, failfast=IS_BLIND_TEST
         )
 
         test_run = runner.run(suite)
-        self.stop_server()
+        self.stop_server(process)
+
         return test_run.wasSuccessful()
 
     def main(self) -> int:
