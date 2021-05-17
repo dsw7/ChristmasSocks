@@ -1,3 +1,5 @@
+# pylint: disable=C0103  # Disable snake case warning
+
 from unittest import TestCase
 from utils import (
     Client,
@@ -7,6 +9,7 @@ from utils import (
 
 
 class TestProtocolRandomStrings(TestCase):
+
     def setupClass(self) -> None:
         self.server = Server()
         self.server.start_server()

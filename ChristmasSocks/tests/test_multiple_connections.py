@@ -1,3 +1,5 @@
+# pylint: disable=C0103  # Disable snake case warning
+
 from unittest import TestCase
 from concurrent import futures
 from utils import (
@@ -8,10 +10,15 @@ from utils import (
 
 
 class TestMultipleConnections(TestCase):
-    def setUp(self) -> None:
+
+    def setupClass(self) -> None:
         self.server = Server()
         self.server.start_server()
 
+    def teardownClass(self) -> None:
+        self.server.stop_server()
+
+    def setUp(self) -> None:
         self.client_a = Client()
         self.client_b = Client()
         self.client_c = Client()
@@ -23,7 +30,6 @@ class TestMultipleConnections(TestCase):
         self.client_a.disconnect()
         self.client_b.disconnect()
         self.client_c.disconnect()
-        self.server.stop_server()
 
     @staticmethod
     def wrap_send(test_string: str, client: Client) -> dict:
