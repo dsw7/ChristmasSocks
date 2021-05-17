@@ -1,5 +1,7 @@
 from configparser import ConfigParser
-from os import path
+from os import path, chdir
+from subprocess import Popen
+from signal import SIGINT
 from string import (
     ascii_letters,
     digits
@@ -27,6 +29,15 @@ class Connection:
 
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(self.ini_configs['server'].getfloat('sock_timeout'))
+        self.process = None
+
+    def start_server(self) -> None:
+        chdir(path.dirname(__file__))
+        command = '../bin/test'
+        self.process = Popen(command)
+
+    def stop_server(self) -> None:
+        self.process.send_signal(SIGINT)
 
     def connect(self) -> None:
         self.socket.connect((
