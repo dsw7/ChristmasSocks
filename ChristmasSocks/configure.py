@@ -48,7 +48,18 @@ class ConfigBase(ABC):
         else:
             process = Popen(command.split())
         stdout, stderr = process.communicate()
-        return process.returncode, stdout.decode(), stderr.decode()
+
+        if stdout:
+            stdout = stdout.decode()
+        else:
+            stdout = ''
+
+        if stderr:
+            stderr = stderr.decode()
+        else:
+            stderr = ''
+
+        return process.returncode, stdout, stderr
 
     @abstractmethod
     def main(self) -> int:
