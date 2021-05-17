@@ -8,10 +8,12 @@ from utils import (
 class TestProtocolRandomStrings(TestCase):
     def setUp(self) -> None:
         self.socket = Connection()
+        self.socket.start_server()
         self.socket.connect()
 
     def tearDown(self) -> None:
         self.socket.disconnect()
+        self.socket.stop_server()
 
     def test_echo_5_byte_string(self) -> None:
         for string in generate_random_string(num_strings=5, len_strings=5):
