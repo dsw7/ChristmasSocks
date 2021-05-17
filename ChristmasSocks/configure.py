@@ -23,8 +23,6 @@ EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 SEPARATOR = '-' * get_terminal_size().columns
 TEST_FILENAMES_PATTERN = 'test_*'
-TEMPLATE_CPPCHECK = '{severity}-{id}-{file}-{line}-{message}'
-LIST_TEMPLATE_CPPCHECK = ['Severity', 'Id', 'File', 'Line', 'Message']
 IS_BLIND_TEST = True
 DEVNULL = open(devnull, 'wb')
 
