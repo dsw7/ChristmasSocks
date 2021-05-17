@@ -125,14 +125,15 @@ class StaticAnalysis(ConfigBase):
 class RunTests(ConfigBase):
 
     def start_server(self) -> None:
+        self.echo_message('Starting up server on localhost')
         chdir(path.dirname(__file__))
         command = 'bin/test'
         self.process = Popen(command, stdout=DEVNULL)
         sleep(0.125)
 
     def stop_server(self) -> None:
+        self.echo_message('Stopping server on localhost')
         self.process.send_signal(SIGINT)
-        sleep(0.125)
 
     def run_unittest(self) -> bool:
         self.echo_separator()
