@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 import sys
-from os import get_terminal_size, path
+from os import get_terminal_size, path, chdir, devnull
+from signal import SIGINT
 from abc import ABC, abstractmethod
 from typing import Tuple
 from subprocess import Popen, PIPE
 from json import dumps
-from time import time
+from time import time, sleep
 from unittest import (
     TestLoader,
     TextTestRunner
@@ -22,12 +23,14 @@ TEST_FILENAMES_PATTERN = 'test_*'
 TEMPLATE_CPPCHECK = '{severity}-{id}-{file}-{line}-{message}'
 LIST_TEMPLATE_CPPCHECK = ['Severity', 'Id', 'File', 'Line', 'Message']
 IS_BLIND_TEST = True
+DEVNULL = open(devnull, 'wb')
 
 
 class ConfigBase(ABC):
     def __init__(self) -> None:
         self.path_this = path.dirname(__file__)
         self.start_time = time()
+        self.process = None
 
     def __del__(self) -> None:
         self.echo_separator()
@@ -117,8 +120,19 @@ class StaticAnalysis(ConfigBase):
 
 class RunTests(ConfigBase):
 
+    def start_server(self) -> None:
+        chdir(path.dirname(__file__))
+        command = 'bin/test'
+        self.process = Popen(command, stdout=DEVNULL)
+        sleep(0.125)
+
+    def stop_server(self) -> None:
+        self.process.send_signal(SIGINT)
+        sleep(0.125)
+
     def run_unittest(self) -> bool:
         self.echo_separator()
+        self.start_server()
 
         test_directory = path.join(self.path_this, 'tests')
         realpath = path.realpath(test_directory)
@@ -132,6 +146,7 @@ class RunTests(ConfigBase):
         )
 
         test_run = runner.run(suite)
+        self.stop_server()
         return test_run.wasSuccessful()
 
     def main(self) -> int:

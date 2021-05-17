@@ -1,6 +1,7 @@
 from configparser import ConfigParser
-from os import path, chdir
+from os import path, chdir, devnull
 from subprocess import Popen
+from time import sleep
 from signal import SIGINT
 from string import (
     ascii_letters,
@@ -14,6 +15,7 @@ from socket import (
 from random import choice
 
 ALPHANUMERIC = ascii_letters + digits
+DEVNULL = open(devnull, 'wb')
 
 def generate_random_string(num_strings: int, len_strings: int) -> list:
     result = []
@@ -53,7 +55,9 @@ class Server:
     def start_server(self) -> None:
         chdir(path.dirname(__file__))
         command = '../bin/test'
-        self.process = Popen(command)
+        self.process = Popen(command) #, stdout=DEVNULL)
+        sleep(0.125)
 
     def stop_server(self) -> None:
         self.process.send_signal(SIGINT)
+        sleep(0.125)

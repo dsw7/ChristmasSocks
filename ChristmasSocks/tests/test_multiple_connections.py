@@ -11,12 +11,14 @@ from utils import (
 
 class TestMultipleConnections(TestCase):
 
-    def setupClass(self) -> None:
-        self.server = Server()
-        self.server.start_server()
-
-    def teardownClass(self) -> None:
-        self.server.stop_server()
+#    @classmethod
+#    def setUpClass(self) -> None:
+#        self.server = Server()
+#        self.server.start_server()
+#
+#    @classmethod
+#    def tearDownClass(self) -> None:
+#        self.server.stop_server()
 
     def setUp(self) -> None:
         self.client_a = Client()
