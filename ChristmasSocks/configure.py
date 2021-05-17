@@ -9,7 +9,6 @@ from signal import SIGINT
 from abc import ABC, abstractmethod
 from typing import Tuple
 from subprocess import Popen, PIPE
-from json import dumps
 from time import time, sleep
 from unittest import (
     TestLoader,
@@ -104,14 +103,8 @@ class StaticAnalysis(ConfigBase):
         self.echo_separator()
         self.echo_message('Linting project using cppcheck static analysis tool')
 
-        command = 'cppcheck {p}/src/ -I {p}/include/ --template={t} --enable=all'.format(p=self.path_this, t=TEMPLATE_CPPCHECK)
-        exit_code, _, stderr = self.run_shell_command(command, capture_output=True)
-
-        report = {}
-        for u, line in enumerate(stderr.split('\n')):
-            report[u] = dict(zip(LIST_TEMPLATE_CPPCHECK, line.split('-')))
-
-        secho(dumps(report, indent=4))
+        command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
+        exit_code, _, _ = self.run_shell_command(command)
         return exit_code
 
     def main(self) -> int:
@@ -124,6 +117,7 @@ class StaticAnalysis(ConfigBase):
 class RunTests(ConfigBase):
 
     def start_server(self) -> Popen:
+        # pass command line arguments to binary here
         command = '{}/bin/test'.format(self.path_this)
         self.echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command, stdout=DEVNULL)
