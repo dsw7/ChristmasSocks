@@ -3,21 +3,11 @@
 from unittest import TestCase
 from utils import (
     Client,
-    Server,
     generate_random_string
 )
 
 
 class TestProtocolRandomStrings(TestCase):
-
-#    @classmethod
-#    def setUpClass(self) -> None:
-#        self.server = Server()
-#        self.server.start_server()
-#
-#    @classmethod
-#    def tearDownClass(self) -> None:
-#        self.server.stop_server()
 
     def setUp(self) -> None:
         self.client = Client()

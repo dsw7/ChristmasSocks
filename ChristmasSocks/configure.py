@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 import sys
-from os import get_terminal_size, path, chdir, devnull
+from os import (
+    get_terminal_size,
+    path,
+    chdir,
+    devnull
+)
 from signal import SIGINT
 from abc import ABC, abstractmethod
 from typing import Tuple
@@ -30,7 +35,6 @@ class ConfigBase(ABC):
     def __init__(self) -> None:
         self.path_this = path.dirname(__file__)
         self.start_time = time()
-        self.process = None
 
     def __del__(self) -> None:
         self.echo_separator()

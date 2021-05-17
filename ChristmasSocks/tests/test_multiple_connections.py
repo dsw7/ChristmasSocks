@@ -4,21 +4,11 @@ from unittest import TestCase
 from concurrent import futures
 from utils import (
     Client,
-    Server,
     generate_random_string
 )
 
 
 class TestMultipleConnections(TestCase):
-
-#    @classmethod
-#    def setUpClass(self) -> None:
-#        self.server = Server()
-#        self.server.start_server()
-#
-#    @classmethod
-#    def tearDownClass(self) -> None:
-#        self.server.stop_server()
 
     def setUp(self) -> None:
         self.client_a = Client()

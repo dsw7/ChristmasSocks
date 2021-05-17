@@ -1,8 +1,5 @@
 from configparser import ConfigParser
-from os import path, chdir, devnull
-from subprocess import Popen
-from time import sleep
-from signal import SIGINT
+from os import path
 from string import (
     ascii_letters,
     digits
@@ -15,7 +12,6 @@ from socket import (
 from random import choice
 
 ALPHANUMERIC = ascii_letters + digits
-DEVNULL = open(devnull, 'wb')
 
 def generate_random_string(num_strings: int, len_strings: int) -> list:
     result = []
@@ -46,18 +42,3 @@ class Client:
         buffer_size = self.ini_configs['server'].getint('tcp_buffer_size')
         bytes_recv = self.socket.recv(buffer_size)
         return bytes_recv.decode()
-
-
-class Server:
-    def __init__(self) -> None:
-        self.process = None
-
-    def start_server(self) -> None:
-        chdir(path.dirname(__file__))
-        command = '../bin/test'
-        self.process = Popen(command) #, stdout=DEVNULL)
-        sleep(0.125)
-
-    def stop_server(self) -> None:
-        self.process.send_signal(SIGINT)
-        sleep(0.125)
