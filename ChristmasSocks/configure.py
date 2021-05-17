@@ -3,7 +3,6 @@ import sys
 from os import (
     get_terminal_size,
     path,
-    chdir,
     devnull
 )
 from signal import SIGINT
@@ -125,10 +124,8 @@ class StaticAnalysis(ConfigBase):
 class RunTests(ConfigBase):
 
     def start_server(self) -> Popen:
-        self.echo_message('Starting up server on localhost')
-        chdir(path.dirname(__file__))
-
-        command = './bin/test'
+        command = '{}/bin/test'.format(self.path_this)
+        self.echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command, stdout=DEVNULL)
 
     def stop_server(self, process: Popen) -> None:

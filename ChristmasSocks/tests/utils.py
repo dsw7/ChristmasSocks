@@ -23,7 +23,7 @@ def generate_random_string(num_strings: int, len_strings: int) -> list:
 class Client:
     def __init__(self) -> None:
         self.ini_configs = ConfigParser()
-        self.ini_configs.read(path.join(path.dirname(__file__), 'tests.ini'))
+        self.ini_configs.read(path.join(path.dirname(__file__), 'client.ini'))
 
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(self.ini_configs['server'].getfloat('sock_timeout'))
