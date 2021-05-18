@@ -42,7 +42,7 @@ void ConfigParser::overwrite_default_configs_with_config_file_configs()
 
     std::map<std::string, std::string>::iterator it;
 
-    for (it = raw_configs.begin(); it != raw_configs.end(); it++) {
+    for (it = this->raw_configs.begin(); it != this->raw_configs.end(); it++) {
         if (it->first.compare("tcp_port") == 0) {
             global_configs.tcp_port = std::stoi(it->second);
         }
