@@ -154,7 +154,7 @@ class RunTests(ConfigBase):
 
         runner = TextTestRunner(
             verbosity=self.configs['run-tests'].getint('test-verbosity'),
-            failfast=self.configs['run-tests'].getbool('blind-run')
+            failfast=self.configs['run-tests'].getboolean('blind-run')
         )
 
         test_run = runner.run(suite)
