@@ -10,6 +10,8 @@ ConfigParser::ConfigParser(std::string &path_config_file): path_config_file(path
 
 void ConfigParser::file_contents_to_raw_configs()
 {
+    // this parser seems to fail reading the first line...
+
     std::istringstream is_file(this->file_contents);
     std::string line;
 
@@ -38,7 +40,15 @@ void ConfigParser::overwrite_default_configs_with_config_file_configs()
     read_file(this->path_config_file, this->file_contents);
     this->file_contents_to_raw_configs();
 
-    // overwrite the config file stuff here
+    std::map<std::string, std::string>::iterator it;
+
+    for (it = raw_configs.begin(); it != raw_configs.end(); it++) {
+        if (it->first.compare("tcp_port") == 0) {
+            global_configs.tcp_port = std::stoi(it->second);
+        }
+        // continue this trend...
+    }
+
 }
 
 void ConfigParser::overwrite_configs_from_file_with_cli_options()

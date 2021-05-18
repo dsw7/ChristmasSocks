@@ -1,13 +1,15 @@
 #include "server.h"
 
-Server::Server(configs_t &configs) {
+Server::Server(configs_t &configs)
+{
     this->tcp_port = configs.tcp_port;
     this->max_connections_queue = configs.max_num_connections_queue;
     this->socket_fd_server = -1;
 }
 
 /* https://linux.die.net/man/3/socket */
-bool Server::open_server_socket_file_descriptor() {
+bool Server::open_server_socket_file_descriptor()
+{
     this->socket_fd_server = socket(AF_INET, SOCK_STREAM, 0);
 
     if (this->socket_fd_server > -1) {
@@ -22,7 +24,8 @@ bool Server::open_server_socket_file_descriptor() {
 }
 
 /* https://linux.die.net/man/3/close */
-bool Server::close_server_socket_file_descriptor() {
+bool Server::close_server_socket_file_descriptor()
+{
     ServerLogger::info("Closing server socket file descriptor", this->socket_fd_server);
 
     if (close(this->socket_fd_server) == 0) {
@@ -36,7 +39,8 @@ bool Server::close_server_socket_file_descriptor() {
 }
 
 /* https://linux.die.net/man/3/setsockopt */
-bool Server::attach_socket_file_descriptor_to_port() {
+bool Server::attach_socket_file_descriptor_to_port()
+{
     ServerLogger::info("Attaching socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
 
     int optval = 1;
@@ -56,8 +60,8 @@ bool Server::attach_socket_file_descriptor_to_port() {
 }
 
 /* https://linux.die.net/man/3/bind */
-bool Server::bind_socket_file_descriptor_to_port() {
-
+bool Server::bind_socket_file_descriptor_to_port()
+{
     if (this->tcp_port <= 1024) {
         ServerLogger::error("All TCP ports below 1024 are reserved!", this->socket_fd_server);
         return false;
@@ -85,7 +89,8 @@ bool Server::bind_socket_file_descriptor_to_port() {
 }
 
 /* https://linux.die.net/man/3/listen */
-bool Server::listen_on_bound_tcp_port() {
+bool Server::listen_on_bound_tcp_port()
+{
     int rv = listen(this->socket_fd_server, this->max_connections_queue);
 
     if (rv == 0) {
