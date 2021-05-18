@@ -8,7 +8,8 @@
 #include "utilities.h"
 #include "constants.h"
 
-namespace RootLogger {
+namespace RootLogger
+{
     void debug(std::string);
     void info(std::string);
     void warning(std::string);
@@ -18,14 +19,16 @@ namespace RootLogger {
     void footer();
 }
 
-namespace ClientLogger {
+namespace ClientLogger
+{
     void debug(std::string, int &fd);
     void info(std::string, int &fd);
     void warning(std::string, int &fd);
     void error(std::string, int &fd);
 }
 
-namespace ServerLogger {
+namespace ServerLogger
+{
     void debug(std::string, int &fd);
     void info(std::string, int &fd);
     void warning(std::string, int &fd);

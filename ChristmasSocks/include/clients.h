@@ -8,7 +8,8 @@
 #include "constants.h"
 #include "config_file.h"
 
-class Client {
+class Client
+{
     private:
         int buffer_size;
 

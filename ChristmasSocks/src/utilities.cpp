@@ -15,7 +15,8 @@ bool file_exists(std::string &filepath)
 {
     struct stat info;
 
-    if (stat(filepath.c_str(), &info) != 0) {
+    if (stat(filepath.c_str(), &info) != 0)
+    {
         return false;
     }
     return true;
@@ -26,7 +27,8 @@ void read_file(std::string &filepath, std::string &file_contents)
     std::ifstream filestream(filepath);
 
     std::string line;
-    while (getline (filestream, line)) {
+    while (getline (filestream, line))
+    {
         file_contents += line + "\n";
     }
 

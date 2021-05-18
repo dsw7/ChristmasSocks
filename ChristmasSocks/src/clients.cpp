@@ -14,7 +14,8 @@ bool Client::accept_incoming_connection(int &socket_fd_server, struct sockaddr_i
         socket_fd_server, (struct sockaddr *)&address, (socklen_t*)&addrlen
     );
 
-    if (socket_fd_client == -1) {
+    if (socket_fd_client == -1)
+    {
         ClientLogger::error(strerror(errno), socket_fd_client);
         return false;
     }
@@ -30,7 +31,8 @@ bool Client::close_client_socket_file_descriptor(int &socket_fd_client)
 {
     ClientLogger::info("Closing client socket file descriptor", socket_fd_client);
 
-    if (close(socket_fd_client) == -1) {
+    if (close(socket_fd_client) == -1)
+    {
         ClientLogger::error(strerror(errno), socket_fd_client);
         return false;
     }
@@ -45,14 +47,19 @@ bool Client::read_data(std::string &message, int &socket_fd_client)
     int rv = read(socket_fd_client, buffer, this->buffer_size);
     message = std::string(buffer);
 
-    if (rv < 0) {
+    if (rv < 0)
+    {
         ClientLogger::error(strerror(errno), socket_fd_client);
         return false;
-    } else if (rv == 0) {
+    }
+    else if (rv == 0)
+    {
         ClientLogger::info("Socket read() received EOF - client hang up detected", socket_fd_client);
         close_client_socket_file_descriptor(socket_fd_client);
         return false;
-    } else {
+    }
+    else
+    {
         ClientLogger::info("Read in message '" + message + "'", socket_fd_client);
     }
 
@@ -64,7 +71,8 @@ bool Client::write_data(std::string &message, int &socket_fd_client)
 {
     int rv = send(socket_fd_client, message.c_str(), message.size(), 0);
 
-    if (rv == -1) {
+    if (rv == -1)
+    {
         ClientLogger::error(strerror(errno), socket_fd_client);
         return false;
     }

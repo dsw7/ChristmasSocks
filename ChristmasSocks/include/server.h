@@ -12,7 +12,8 @@
 #include "constants.h"
 #include "config_file.h"
 
-class Server {
+class Server
+{
     private:
         int tcp_port;
         int max_connections_queue;

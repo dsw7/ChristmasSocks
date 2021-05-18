@@ -24,7 +24,8 @@ int main() {
     int nfds;
 
     int epollfd = epoll_create1(0);
-    if (epollfd == -1) {
+    if (epollfd == -1)
+    {
         RootLogger::error(strerror(errno));
         exit(EXIT_FAILURE);
     }
@@ -32,7 +33,8 @@ int main() {
     ev.events = EPOLLIN;
     ev.data.fd = server.socket_fd_server;
 
-    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, server.socket_fd_server, &ev) == -1) {
+    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, server.socket_fd_server, &ev) == -1)
+    {
         RootLogger::error(strerror(errno));
         exit(EXIT_FAILURE);
     }
@@ -40,16 +42,20 @@ int main() {
     int socket_fd_client_to_struct, socket_fd_client_from_struct;
     std::string message;
 
-    while (true) {
+    while (true)
+    {
 
         nfds = epoll_wait(epollfd, events, MAX_EPOLL_EVENTS, -1);
-        if (nfds == -1) {
+        if (nfds == -1)
+        {
             RootLogger::error(strerror(errno));
             exit(EXIT_FAILURE);
         }
 
-        for (int n = 0; n < nfds; ++n) {
-            if (events[n].data.fd == server.socket_fd_server) {
+        for (int n = 0; n < nfds; ++n)
+        {
+            if (events[n].data.fd == server.socket_fd_server)
+            {
 
                 client.accept_incoming_connection(
                     server.socket_fd_server, server.address, socket_fd_client_to_struct
@@ -59,16 +65,20 @@ int main() {
                 ev.events = EPOLLIN | EPOLLET;
                 ev.data.fd = socket_fd_client_to_struct;
 
-                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_client_to_struct, &ev) == -1) {
+                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_client_to_struct, &ev) == -1)
+                {
                     RootLogger::error(strerror(errno));
                     exit(EXIT_FAILURE);
                 }
 
-            } else {
+            }
+            else
+            {
                 message.clear();
                 socket_fd_client_from_struct = events[n].data.fd;
 
-                if (client.read_data(message, socket_fd_client_from_struct)) {
+                if (client.read_data(message, socket_fd_client_from_struct))
+                {
                     client.write_data(message, socket_fd_client_from_struct);
                 }
             }
