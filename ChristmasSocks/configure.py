@@ -24,7 +24,6 @@ EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 SEPARATOR = '-' * get_terminal_size().columns
 TEST_FILENAMES_PATTERN = 'test_*'
-IS_BLIND_TEST = True
 DEVNULL = open(devnull, 'wb')
 
 
@@ -88,7 +87,7 @@ class Compile(ConfigBase):
         self.echo_separator()
         self.echo_message('Generating Makefiles for project')
 
-        command = 'cmake -S {p} -B {p}/bin'.format(p=self.path_this)
+        command = 'cmake -S {root} -B {root}/bin'.format(root=self.path_this)
         return self.run_shell_command(command)[0]
 
     def compile_binary_from_makefiles(self) -> int:
@@ -143,7 +142,7 @@ class RunTests(ConfigBase):
         self.echo_separator()
 
         process = self.start_server()
-        sleep(0.1)
+        sleep(self.configs['run-tests'].getfloat('startup-delay'))
 
         test_directory = path.join(self.path_this, 'tests')
         realpath = path.realpath(test_directory)
@@ -154,7 +153,8 @@ class RunTests(ConfigBase):
         )
 
         runner = TextTestRunner(
-            verbosity=2, failfast=IS_BLIND_TEST
+            verbosity=self.configs['run-tests'].getint('test-verbosity'),
+            failfast=self.configs['run-tests'].getbool('blind-run')
         )
 
         test_run = runner.run(suite)
