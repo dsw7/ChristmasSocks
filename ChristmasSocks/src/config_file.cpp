@@ -10,19 +10,28 @@ ConfigParser::ConfigParser(std::string &path_config_file): path_config_file(path
 
 void ConfigParser::file_contents_to_raw_configs()
 {
-    // this parser seems to fail reading the first line...
-
     std::istringstream is_file(this->file_contents);
     std::string line;
 
-    while (std::getline(is_file, line)) {
+    while (std::getline(is_file, line))
+    {
         std::istringstream is_line(line);
+
+        std::size_t comment = line.find("#");
+        if (comment != std::string::npos)
+        {
+            // std::string::npos returned if string does not contain #
+            continue;
+        }
+
         std::string key;
 
-        if (std::getline(is_line, key, '=')) {
+        if (std::getline(is_line, key, '='))
+        {
             std::string value;
 
-            if (std::getline(is_line, value)) {
+            if (std::getline(is_line, value))
+            {
                 this->raw_configs[key] = value;
             }
         }
@@ -31,7 +40,8 @@ void ConfigParser::file_contents_to_raw_configs()
 
 void ConfigParser::overwrite_default_configs_with_config_file_configs()
 {
-    if (!file_exists(this->path_config_file)) {
+    if (!file_exists(this->path_config_file))
+    {
         RootLogger::info("Could not find " + this->path_config_file);
         return;
     }
@@ -42,13 +52,25 @@ void ConfigParser::overwrite_default_configs_with_config_file_configs()
 
     std::map<std::string, std::string>::iterator it;
 
-    for (it = this->raw_configs.begin(); it != this->raw_configs.end(); it++) {
-        if (it->first.compare("tcp_port") == 0) {
+    for (it = this->raw_configs.begin(); it != this->raw_configs.end(); it++)
+    {
+        if (it->first.compare("tcp_port") == 0)
+        {
             global_configs.tcp_port = std::stoi(it->second);
         }
-        // continue this trend...
+        else if (it->first.compare("tcp_buffer_size") == 0)
+        {
+            global_configs.tcp_buffer_size = std::stoi(it->second);
+        }
+        else if (it->first.compare("max_num_connections_queue") == 0)
+        {
+            global_configs.max_num_connections_queue = std::stoi(it->second);
+        }
+        else
+        {
+            continue;
+        }
     }
-
 }
 
 void ConfigParser::overwrite_configs_from_file_with_cli_options()
