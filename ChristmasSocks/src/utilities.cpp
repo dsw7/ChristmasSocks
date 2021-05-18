@@ -1,6 +1,7 @@
 #include "utilities.h"
 
-std::string get_current_datetime_string() {
+std::string get_current_datetime_string()
+{
     time_t time_now = time(0);
     struct tm time_struct;
     char   time_buffer[80];
@@ -10,7 +11,8 @@ std::string get_current_datetime_string() {
     return time_buffer;
 }
 
-bool file_exists(std::string &filepath) {
+bool file_exists(std::string &filepath)
+{
     struct stat info;
 
     if (stat(filepath.c_str(), &info) != 0) {
@@ -19,12 +21,13 @@ bool file_exists(std::string &filepath) {
     return true;
 }
 
-void read_file(std::string &filepath, std::string &file_contents) {
+void read_file(std::string &filepath, std::string &file_contents)
+{
     std::ifstream filestream(filepath);
 
     std::string line;
     while (getline (filestream, line)) {
-        file_contents = line;
+        file_contents += line + "\n";
     }
 
     filestream.close();
