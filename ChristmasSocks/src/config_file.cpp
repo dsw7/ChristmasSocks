@@ -1,5 +1,6 @@
 #include "config_file.h"
 
+// This syntax is called an initializer list
 ConfigParser::ConfigParser(std::string &path_config_file): path_config_file(path_config_file)
 {
     this->global_configs.tcp_port = TCP_PORT;
@@ -26,35 +27,28 @@ void ConfigParser::file_contents_to_raw_configs()
     }
 }
 
-void ConfigParser::raw_configs_to_global_configs()
+void ConfigParser::overwrite_default_configs_with_config_file_configs()
 {
-    /*
-     * now map raw_configs to global_configs struct here
-     */
+    if (!file_exists(this->path_config_file)) {
+        RootLogger::info("Could not find " + this->path_config_file);
+        return;
+    }
 
-    this->global_configs.tcp_port = TCP_PORT;
-    this->global_configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
-    this->global_configs.tcp_buffer_size = TCP_BUFFER_SIZE;
+    RootLogger::info("Reading configurations from file " + this->path_config_file);
+    read_file(this->path_config_file, this->file_contents);
+    this->file_contents_to_raw_configs();
+
+    // overwrite the config file stuff here
 }
 
-void ConfigParser::extern_constants_to_global_configs()
+void ConfigParser::overwrite_configs_from_file_with_cli_options()
 {
-    this->global_configs.tcp_port = TCP_PORT;
-    this->global_configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
-    this->global_configs.tcp_buffer_size = TCP_BUFFER_SIZE;
+    // continue here
 }
 
 configs_t ConfigParser::load_configs()
 {
-    if (!file_exists(this->path_config_file)) {
-        RootLogger::info("Could not find " + this->path_config_file + ". Using default configurations");
-        this->extern_constants_to_global_configs();
-    } else {
-        RootLogger::info("Reading configurations from file " + this->path_config_file);
-        read_file(this->path_config_file, this->file_contents);
-        this->file_contents_to_raw_configs();
-        this->raw_configs_to_global_configs();
-    }
-
+    this->overwrite_default_configs_with_config_file_configs();
+    this->overwrite_configs_from_file_with_cli_options();
     return this->global_configs;
 }

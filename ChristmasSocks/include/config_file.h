@@ -7,14 +7,16 @@
 #include "constants.h"
 #include "logger.h"
 
-struct configs_t {
+struct configs_t
+{
     bool enable_debug_logging;
     unsigned int tcp_port;
     unsigned int max_num_connections_queue;
     unsigned int tcp_buffer_size;
 };
 
-class ConfigParser {
+class ConfigParser
+{
     private:
         std::string path_config_file;
         std::map<std::string, std::string> raw_configs;
@@ -24,8 +26,8 @@ class ConfigParser {
     public:
         ConfigParser(std::string &path_config_file);
         void file_contents_to_raw_configs();
-        void extern_constants_to_global_configs();
-        void raw_configs_to_global_configs();
+        void overwrite_default_configs_with_config_file_configs();
+        void overwrite_configs_from_file_with_cli_options();
         configs_t load_configs();
 };
 
