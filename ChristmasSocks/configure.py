@@ -6,6 +6,7 @@ from os import (
     devnull
 )
 from signal import SIGINT
+from configparser import ConfigParser
 from abc import ABC, abstractmethod
 from typing import Tuple
 from subprocess import Popen, PIPE
@@ -31,6 +32,14 @@ class ConfigBase(ABC):
     def __init__(self) -> None:
         self.path_this = path.dirname(__file__)
         self.start_time = time()
+        path_ini_file = path.join(self.path_this, 'configure.ini')
+
+        if not path.exists(path_ini_file):
+            self.echo_error('Could not access {}'.format(path_ini_file))
+            sys.exit(EXIT_FAILURE)
+
+        self.configs = ConfigParser()
+        self.configs.read(path_ini_file)
 
     def __del__(self) -> None:
         self.echo_separator()
@@ -43,6 +52,10 @@ class ConfigBase(ABC):
     @staticmethod
     def echo_message(msg: str) -> None:
         secho('{}'.format(msg), fg='yellow')
+
+    @staticmethod
+    def echo_error(msg: str) -> None:
+        secho('{}'.format(msg), fg='red')
 
     def run_shell_command(self, command: str, capture_output=False) -> Tuple[int, str, str]:
         self.echo_message('Running command: {}'.format(command))
@@ -82,7 +95,7 @@ class Compile(ConfigBase):
         self.echo_separator()
         self.echo_message('Compiling project using Makefiles')
 
-        command = 'make --jobs=12 -C {}/bin'.format(self.path_this)
+        command = 'make --jobs={} -C {}/bin'.format(self.configs['compile']['num-make-jobs'], self.path_this)
         return self.run_shell_command(command)[0]
 
     def main(self) -> int:
@@ -101,7 +114,9 @@ class StaticAnalysis(ConfigBase):
         self.echo_separator()
         self.echo_message('Linting project using cppcheck static analysis tool')
 
-        command = 'cppcheck {p}/src/ -I {p}/include/ --template=gcc --enable=all'.format(p=self.path_this)
+        command = 'cppcheck {root}/src/ -I {root}/include/ --template={template} --enable=all'.format(
+            root=self.path_this, template=self.configs['static-analysis']['cppcheck-template']
+        )
         exit_code, _, _ = self.run_shell_command(command)
         return exit_code
 
