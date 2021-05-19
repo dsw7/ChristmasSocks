@@ -5,12 +5,10 @@
 #include "config_file.h"
 #include <sys/epoll.h>
 
-int main() {
-    RootLogger::header();
+void server()
+{
 
     configs_t global_configs = ConfigParser(CONFIG_FILEPATH).load_configs();
-
-    register_ipc_signals();
 
     Server server(global_configs);
     server.open_server_socket_file_descriptor();
@@ -86,6 +84,13 @@ int main() {
     }
 
     server.close_server_socket_file_descriptor();
+}
+
+int main()
+{
+    RootLogger::header();
+    register_ipc_signals();
+    server();
     RootLogger::footer();
     return 0;
 }
