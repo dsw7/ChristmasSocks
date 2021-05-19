@@ -1,11 +1,6 @@
-#include "logger.h"
-#include "server.h"
-#include "ipc_signal_registers.h"
-#include "clients.h"
-#include "config_file.h"
-#include <sys/epoll.h>
+#include "main.h"
 
-void server()
+void server_impl_main()
 {
 
     configs_t global_configs = ConfigParser(CONFIG_FILEPATH).load_configs();
@@ -90,7 +85,7 @@ int main()
 {
     RootLogger::header();
     register_ipc_signals();
-    server();
+    server_impl_main();
     RootLogger::footer();
     return 0;
 }
