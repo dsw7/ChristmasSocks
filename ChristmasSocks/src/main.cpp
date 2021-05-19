@@ -84,7 +84,8 @@ int main()
     register_ipc_signals();
 
     configs_t global_configs;
-    global_configs = ConfigParser(CONFIG_FILEPATH).load_configs();
+    //global_configs = ConfigParser(CONFIG_FILEPATH).load_configs();
+    set_root_configs(global_configs);
 
     server_impl_main(global_configs);
     RootLogger::footer();
