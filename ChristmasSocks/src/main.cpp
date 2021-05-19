@@ -78,8 +78,67 @@ void server_impl_main(configs_t &configs)
     server.close_server_socket_file_descriptor();
 }
 
-int main()
+void help_message(char *file)
 {
+    std::cerr << "Usage:\n\n";
+    std::cerr << "  $ " << file;
+    std::cerr << " [-h]";
+    std::cerr << " [-p <tcp-port>]";
+    std::cerr << " [-b <buffer-size>]\n\n";         // add --path-config-file here?
+    std::cerr << "Options:\n\n";
+    std::cerr << "  -h, --help                      Print help information and exit\n";
+    std::cerr << "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n";
+    std::cerr << "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n";
+    std::cerr << std::endl;
+}
+
+int main(int argc, char **argv)
+{
+    int c;
+
+    int tcp_port = 8080;
+    int tcp_buffer_size = 1024;
+
+    while (1)
+    {
+        static struct option long_options[] =
+        {
+            {"help",        no_argument,       0, 'h'},
+            {"port",        required_argument, 0, 'p'},
+            {"buffer_size", required_argument, 0, 'b'}
+        };
+
+        // What's the point of this?
+        int option_index = 0;
+
+        c = getopt_long(
+            argc, argv, "hp:b:", long_options, &option_index
+        );
+
+        // End of options
+        if (c == -1)
+        {
+            break;
+        }
+
+        switch (c)
+        {
+            case 'h':
+                help_message(argv[0]);
+                exit(EXIT_SUCCESS);
+                break;
+            case 'p':
+                tcp_port = atoi(optarg);
+                break;
+            case 'b':
+                tcp_buffer_size = atoi(optarg);
+                break;
+            default:
+                help_message(argv[0]);
+                exit(EXIT_FAILURE);
+        }
+    };
+
     RootLogger::header();
     register_ipc_signals();
 
@@ -87,10 +146,10 @@ int main()
     set_root_configs(global_configs);
     overwrite_default_configs_with_config_file_configs(global_configs, CONFIG_FILEPATH);
 
-    // now add CLI here
-    // then override global_configs with CLI contents
+    // find some clever way to override global_configs with stuff from getopt
 
     server_impl_main(global_configs);
+
     RootLogger::footer();
     return 0;
 }
