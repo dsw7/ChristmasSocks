@@ -87,6 +87,9 @@ int main()
     set_root_configs(global_configs);
     overwrite_default_configs_with_config_file_configs(global_configs, CONFIG_FILEPATH);
 
+    // now add CLI here
+    // then override global_configs with CLI contents
+
     server_impl_main(global_configs);
     RootLogger::footer();
     return 0;
