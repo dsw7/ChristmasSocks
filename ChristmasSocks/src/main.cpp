@@ -1,17 +1,14 @@
 #include "main.h"
 
-void server_impl_main()
+void server_impl_main(configs_t &configs)
 {
-
-    configs_t global_configs = ConfigParser(CONFIG_FILEPATH).load_configs();
-
-    Server server(global_configs);
+    Server server(configs);
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
 
-    Client client(global_configs);
+    Client client(configs);
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
@@ -85,7 +82,11 @@ int main()
 {
     RootLogger::header();
     register_ipc_signals();
-    server_impl_main();
+
+    configs_t global_configs;
+    global_configs = ConfigParser(CONFIG_FILEPATH).load_configs();
+
+    server_impl_main(global_configs);
     RootLogger::footer();
     return 0;
 }

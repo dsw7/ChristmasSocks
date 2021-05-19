@@ -8,6 +8,6 @@
 #include "clients.h"
 #include "config_file.h"
 
-void server_impl_main();
+void server_impl_main(configs_t &configs);
 
 #endif
