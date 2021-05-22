@@ -96,7 +96,9 @@ class Compile(ConfigBase):
         self.echo_separator()
         self.echo_message('Compiling project using Makefiles')
 
-        command = 'make --jobs={} -C {}/bin'.format(self.configs['compile']['num-make-jobs'], self.path_this)
+        command = 'make --jobs={} -C {}/{}'.format(
+            self.configs['compile']['num-make-jobs'], self.path_this, self.configs['compile']['output-dir']
+        )
         return self.run_shell_command(command)[0]
 
     def main(self) -> int:
@@ -132,7 +134,12 @@ class RunTests(ConfigBase):
 
     def start_server(self) -> Popen:
         # pass command line arguments to binary here
-        command = '{}/bin/{}'.format(self.path_this, self.configs['run-tests']['output-name'])
+        command = '{}/{}/{}'.format(
+            self.path_this,
+            self.configs['compile']['output-dir'],
+            self.configs['run-tests']['output-name']
+        )
+
         self.echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command, stdout=DEVNULL)
 
