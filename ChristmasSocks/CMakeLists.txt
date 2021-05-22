@@ -34,4 +34,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 # Set binary name
 set(OUTPUT_NAME socks)
 
+# Set full path to binary
+set(FULL_PATH_BINARY "${CMAKE_BINARY_DIR}/${OUTPUT_NAME}")
+message(STATUS "Compiled binary is located in: ${FULL_PATH_BINARY}")
+
 add_executable(${OUTPUT_NAME} ${SOURCE_FILES})
