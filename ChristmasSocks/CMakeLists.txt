@@ -28,6 +28,6 @@ add_compile_definitions(MAINTAINER="David Weber")
 add_compile_definitions(COMPILE_DATE=${COMPILE_DATE})
 add_compile_definitions(MAX_EPOLL_EVENTS=${MAX_EPOLL_EVENTS})
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "/usr/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_PROJECT_DIR}/bin")
 
 add_executable(socks ${SOURCE_FILES})
