@@ -87,7 +87,9 @@ class Compile(ConfigBase):
         self.echo_separator()
         self.echo_message('Generating Makefiles for project')
 
-        command = 'cmake -S {root} -B {root}/bin'.format(root=self.path_this)
+        command = 'cmake -S {root} -B {root}/{output_dir}'.format(
+            root=self.path_this, output_dir=self.configs['compile']['output-dir']
+        )
         return self.run_shell_command(command)[0]
 
     def compile_binary_from_makefiles(self) -> int:
