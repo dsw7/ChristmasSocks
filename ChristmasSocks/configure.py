@@ -130,7 +130,7 @@ class RunTests(ConfigBase):
 
     def start_server(self) -> Popen:
         # pass command line arguments to binary here
-        command = '{}/bin/test'.format(self.path_this)
+        command = '{}/bin/{}'.format(self.path_this, self.configs['run-tests']['output-name'])
         self.echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command, stdout=DEVNULL)
 
