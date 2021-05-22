@@ -29,7 +29,7 @@ $ ./ChristmasSocks/configure.py test
 ```
 
 ## Testing with Docker
-I am testing this project with Docker. To run tests with Docker, first make sure that Docker is installed. Then run:
+To run tests with Docker, first make sure that Docker is installed. Then run:
 ```bash
 $ cd /path/to/ChristmasSocks
 $ docker build -t socks .
@@ -38,3 +38,7 @@ This will generate a Debian based local Docker image. To actually test the produ
 ```bash
 $ docker run -it --rm socks
 ```
+The Dockerfile will simply run the steps:
+- [Compiling a test binary](#compiling-a-test-binary)
+- [Testing locally](#testing-locally)
+But within the container itself.
