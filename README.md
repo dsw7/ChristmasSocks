@@ -47,6 +47,6 @@ But within the container itself.
 ## Testing hardware
 I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
 <p align="center">
-  <img src="./other/layout_small.png" width="550">
+  <img src="./other/layout_small.png" width="650">
 </p>
 Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
