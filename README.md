@@ -21,6 +21,13 @@ $ ./ChristmasSocks/configure.py lint
 ```
 As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
 
+## Testing locally
+To test a binary that was compiled following the instructions under [Compiling a test binary](#compiling-a-test-binary), run:
+```bash
+$ cd /path/to/ChristmasSocks
+$ ./ChristmasSocks/configure.py test
+```
+
 ## Testing with Docker
 I am testing this project with Docker. To run tests with Docker, first make sure that Docker is installed. Then run:
 ```bash
