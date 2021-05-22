@@ -41,4 +41,5 @@ $ docker run -it --rm socks
 The Dockerfile will simply run the steps:
 - [Compiling a test binary](#compiling-a-test-binary)
 - [Testing locally](#testing-locally)
+
 But within the container itself.
