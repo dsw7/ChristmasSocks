@@ -46,6 +46,8 @@ But within the container itself.
 
 ## Testing hardware
 I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
+To make these mounts, I simply print out the `.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
+and cut out the shape according to the template. The circles are nothing than drill hole markers.
 <p align="center">
   <img src="./other/layout_small.png" width="450">
 </p>
