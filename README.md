@@ -8,6 +8,18 @@ $ cd /path/to/ChristmasSocks
 $ chmod +x ChristmasSocks/configure.py
 $ ./ChristmasSocks/configure.py compile
 ```
+This will compile a binary under:
+```
+/path/to/ChristmasSocks/ChristmasSocks/bin/socks
+```
+
+## Static analysis
+To lint the C++ source, run:
+```bash
+$ cd /path/to/ChristmasSocks
+$ ./ChristmasSocks/configure.py lint
+```
+As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
 
 ## Testing with Docker
 I am testing this project with Docker. To run tests with Docker, first make sure that Docker is installed. Then run:
