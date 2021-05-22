@@ -43,3 +43,10 @@ The Dockerfile will simply run the steps:
 - [Testing locally](#testing-locally)
 
 But within the container itself.
+
+## Testing hardware
+I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
+<p align="center">
+  <img src="./other/layout.png">
+</p>
+Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
