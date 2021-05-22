@@ -28,6 +28,10 @@ add_compile_definitions(MAINTAINER="David Weber")
 add_compile_definitions(COMPILE_DATE=${COMPILE_DATE})
 add_compile_definitions(MAX_EPOLL_EVENTS=${MAX_EPOLL_EVENTS})
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_PROJECT_DIR}/bin")
+# This is technically the default - can set to something else
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
+# Set binary name
+set(OUTPUT_NAME socks)
 
 add_executable(socks ${SOURCE_FILES})
