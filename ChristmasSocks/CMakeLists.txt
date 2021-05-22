@@ -34,4 +34,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 # Set binary name
 set(OUTPUT_NAME socks)
 
-add_executable(socks ${SOURCE_FILES})
+add_executable(${OUTPUT_NAME} ${SOURCE_FILES})
