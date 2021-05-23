@@ -78,43 +78,6 @@ void server_impl_main(configs_t &configs)
     server.close_server_socket_file_descriptor();
 }
 
-void help_message(char *file)
-{
-    std::cerr << "Usage:\n\n";
-    std::cerr << "  $ " << file;
-    std::cerr << " [-h]";
-    std::cerr << " [-p <tcp-port>]";
-    std::cerr << " [-b <buffer-size>]\n\n";         // add --path-config-file here?
-    std::cerr << "Options:\n\n";
-    std::cerr << "  -h, --help                      Print help information and exit\n";
-    std::cerr << "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n";
-    std::cerr << "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n";
-    std::cerr << std::endl;
-}
-
-bool lazy_run_help_messages(int argc, char **argv)
-{
-    if (argc < 2)
-    {
-        return false;
-    }
-
-    std::string first_arg = argv[1];
-
-    if (first_arg.compare("-h") == 0)
-    {
-        help_message(argv[0]);
-        return true;
-    }
-    else if (first_arg.compare("--help") == 0)
-    {
-        help_message(argv[0]);
-        return true;
-    }
-
-    return false;
-}
-
 int main(int argc, char **argv)
 {
 

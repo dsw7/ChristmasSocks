@@ -12,6 +12,7 @@
 #include "ipc_signal_registers.h"
 #include "clients.h"
 #include "config_file.h"
+#include "command_line_interface.h"
 
 void server_impl_main(configs_t &configs);
 void help_message(char *file);
