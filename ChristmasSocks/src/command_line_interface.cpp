@@ -14,7 +14,7 @@ void help_message(char *file)
     std::cout << std::endl;
 }
 
-bool lazy_run_help_messages(int argc, char **argv)
+bool help_message_lazy_runner(int argc, char **argv)
 {
     if (argc < 2)
     {

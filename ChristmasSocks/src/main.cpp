@@ -81,7 +81,7 @@ void server_impl_main(configs_t &configs)
 int main(int argc, char **argv)
 {
 
-    if (lazy_run_help_messages(argc, argv))
+    if (help_message_lazy_runner(argc, argv))
     {
         std::cout << "Exiting..." << std::endl;
         exit(EXIT_SUCCESS);
