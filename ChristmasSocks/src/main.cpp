@@ -96,7 +96,6 @@ int main(int argc, char **argv)
     {
         static struct option long_options[] =
         {
-            {"help",        no_argument,       0, 'h'},
             {"port",        required_argument, 0, 'p'},
             {"buffer_size", required_argument, 0, 'b'}
         };
@@ -105,7 +104,7 @@ int main(int argc, char **argv)
         int option_index = 0;
 
         c = getopt_long(
-            argc, argv, "hp:b:", long_options, &option_index
+            argc, argv, "p:b:", long_options, &option_index
         );
 
         // End of options
@@ -116,10 +115,6 @@ int main(int argc, char **argv)
 
         switch (c)
         {
-            case 'h':
-                help_message(argv[0]);
-                exit(EXIT_SUCCESS);
-                break;
             case 'p':
                 tcp_port = atoi(optarg);
                 break;
