@@ -92,6 +92,29 @@ void help_message(char *file)
     std::cerr << std::endl;
 }
 
+bool lazy_run_help_messages(int argc, char **argv)
+{
+    if (argc < 2)
+    {
+        return false;
+    }
+
+    std::string first_arg = argv[1];
+
+    if (argv[1].compare("-h") == 0)
+    {
+        help_message(argv[0]);
+        return true;
+    }
+    else if (argv[1].compare("--help") == 0)
+    {
+        help_message(argv[0]);
+        return true;
+    }
+
+    return false;
+}
+
 int main(int argc, char **argv)
 {
     int c;
