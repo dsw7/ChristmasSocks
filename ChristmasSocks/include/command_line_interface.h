@@ -5,6 +5,6 @@
 #include <iostream>
 
 void help_message(char *file);
-bool lazy_run_help_messages(int argc, char **argv);
+bool help_message_lazy_runner(int argc, char **argv);
 
 #endif
