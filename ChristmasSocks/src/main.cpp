@@ -101,12 +101,12 @@ bool lazy_run_help_messages(int argc, char **argv)
 
     std::string first_arg = argv[1];
 
-    if (argv[1].compare("-h") == 0)
+    if (first_arg.compare("-h") == 0)
     {
         help_message(argv[0]);
         return true;
     }
-    else if (argv[1].compare("--help") == 0)
+    else if (first_arg.compare("--help") == 0)
     {
         help_message(argv[0]);
         return true;
@@ -117,6 +117,13 @@ bool lazy_run_help_messages(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
+
+    if (lazy_run_help_messages(argc, argv))
+    {
+        std::cout << "Exiting..." << std::endl;
+        exit(EXIT_SUCCESS);
+    }
+
     int c;
 
     int tcp_port = 8080;

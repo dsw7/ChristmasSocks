@@ -15,5 +15,6 @@
 
 void server_impl_main(configs_t &configs);
 void help_message(char *file);
+bool lazy_run_help_messages(int argc, char **argv);
 
 #endif
