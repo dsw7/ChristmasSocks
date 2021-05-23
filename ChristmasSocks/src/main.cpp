@@ -80,61 +80,19 @@ void server_impl_main(configs_t &configs)
 
 int main(int argc, char **argv)
 {
-
     if (help_message_lazy_runner(argc, argv))
     {
         std::cout << "Exiting..." << std::endl;
         exit(EXIT_SUCCESS);
     }
 
-    int c;
-
-    int tcp_port = 8080;
-    int tcp_buffer_size = 1024;
-
-    while (1)
-    {
-        static struct option long_options[] =
-        {
-            {"port",        required_argument, 0, 'p'},
-            {"buffer_size", required_argument, 0, 'b'}
-        };
-
-        // What's the point of this?
-        int option_index = 0;
-
-        c = getopt_long(
-            argc, argv, "p:b:", long_options, &option_index
-        );
-
-        // End of options
-        if (c == -1)
-        {
-            break;
-        }
-
-        switch (c)
-        {
-            case 'p':
-                tcp_port = atoi(optarg);
-                break;
-            case 'b':
-                tcp_buffer_size = atoi(optarg);
-                break;
-            default:
-                help_message(argv[0]);
-                exit(EXIT_FAILURE);
-        }
-    };
-
     RootLogger::header();
     register_ipc_signals();
 
     configs_t global_configs;
     set_root_configs(global_configs);
-    overwrite_default_configs_with_config_file_configs(global_configs, CONFIG_FILEPATH);
-
-    // find some clever way to override global_configs with stuff from getopt
+    overwrite_root_configs_with_config_file_configs(global_configs, CONFIG_FILEPATH);
+    overwrite_config_file_configs_with_cli_args(global_configs, argc, argv);
 
     server_impl_main(global_configs);
 

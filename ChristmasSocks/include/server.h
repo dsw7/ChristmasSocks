@@ -10,7 +10,7 @@
 #include <netinet/in.h>
 #include "logger.h"
 #include "constants.h"
-#include "config_file.h"
+#include "sysconfig_pipeline.h"
 
 class Server
 {

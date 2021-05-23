@@ -6,7 +6,7 @@
 #include <errno.h>
 #include "logger.h"
 #include "constants.h"
-#include "config_file.h"
+#include "sysconfig_pipeline.h"
 
 class Client
 {
