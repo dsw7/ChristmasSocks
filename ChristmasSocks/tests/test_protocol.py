@@ -83,7 +83,7 @@ class TestProtocolLimits(TestCase):
         self.assertEqual(first_chunk, self.client.send(string[0]))
 
     def test_echo_max_size_plus_five_bytes_string_parametrized(self) -> None:
-        for string in generate_random_punctuation(num_strings=5, len_strings=self.buffer_size + 5):
+        for string in generate_random_string(num_strings=5, len_strings=self.buffer_size + 5):
             with self.subTest():
                 first_chunk = string[0][0:1024]
                 self.assertEqual(first_chunk, self.client.send(string[0]))
