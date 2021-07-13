@@ -28,6 +28,7 @@ DEVNULL = open(devnull, 'wb')
 
 
 class ConfigBase(ABC):
+
     def __init__(self) -> None:
         self.path_this = path.dirname(__file__)
         self.start_time = time()
