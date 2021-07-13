@@ -77,6 +77,5 @@ class TestProtocolLimits(TestCase):
         self.assertEqual(string[0], self.client.send(string[0]))
 
     def test_echo_max_size_plus_five_bytes_string(self) -> None:
-        for string in generate_random_string(num_strings=1, len_strings=self.buffer_size + 5):
-            with self.subTest():
-                self.assertEqual(string, self.client.send(string))
+        string = generate_random_string(num_strings=1, len_strings=self.buffer_size + 5)
+        self.assertEqual(string[0], self.client.send(string[0]))
