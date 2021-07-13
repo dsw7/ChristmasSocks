@@ -2,7 +2,8 @@ from configparser import ConfigParser
 from os import path
 from string import (
     ascii_letters,
-    digits
+    digits,
+    punctuation
 )
 from socket import (
     socket,
@@ -17,6 +18,12 @@ def generate_random_string(num_strings: int, len_strings: int) -> list:
     result = []
     for _ in range(num_strings):
         result.append(''.join(choice(ALPHANUMERIC) for _ in range(len_strings)))
+    return result
+
+def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
+    result = []
+    for _ in range(num_strings):
+        result.append(''.join(choice(punctuation) for _ in range(len_strings)))
     return result
 
 
