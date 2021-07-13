@@ -32,7 +32,7 @@ class TestProtocolRandomStrings(TestCase):
                 self.assertEqual(string, self.client.send(string))
 
     def test_echo_almost_max_size_byte_string(self) -> None:
-        buffer_size = self.client.ini_configs['server']['tcp_buffer_size'] - 1
+        buffer_size = self.client.ini_configs['server'].getint('tcp_buffer_size') - 1
 
         for string in generate_random_string(num_strings=5, len_strings=buffer_size):
             with self.subTest():
