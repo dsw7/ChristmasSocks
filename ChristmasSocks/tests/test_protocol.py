@@ -77,12 +77,12 @@ class TestProtocolLimits(TestCase):
             with self.subTest():
                 self.assertEqual(string, self.client.send(string))
 
+    def test_echo_max_size_plus_five_bytes_string_spliced(self) -> None:
+        for string in generate_random_string(num_strings=1, len_strings=self.buffer_size + 5):
+            with self.subTest():
+                self.assertEqual(string[0:self.buffer_size + 1], self.client.send(string))
+
     def test_echo_max_size_plus_five_bytes_string(self) -> None:
         for string in generate_random_string(num_strings=1, len_strings=self.buffer_size + 5):
             with self.subTest():
                 self.assertEqual(string, self.client.send(string))
-
-    def test_echo_max_size_plus_five_bytes_string_spliced(self) -> None:
-        for string in generate_random_string(num_strings=1, len_strings=self.buffer_size + 5):
-            with self.subTest():
-                self.assertEqual(string[0:self.buffer_size], self.client.send(string))
