@@ -58,7 +58,7 @@ class TestProtocolRandomPunctuation(TestCase):
                 self.assertEqual(string, self.client.send(string))
 
 
-class TestProtocolRandomStrings(TestCase):
+class TestProtocolLimits(TestCase):
 
     def setUp(self) -> None:
         self.client = Client()
