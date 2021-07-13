@@ -78,5 +78,6 @@ class TestProtocolLimits(TestCase):
 
     def test_echo_max_size_plus_five_bytes_string(self) -> None:
         string = generate_random_string(num_strings=1, len_strings=self.buffer_size + 5)
-        print(string[0][0:1024])
-        self.assertEqual(string[0], self.client.send(string[0]))
+        first_chunk = string[0][0:1024]
+        second_chunk = string[0][1024:]
+        self.assertEqual(first_chunk, self.client.send(string[0]))
