@@ -67,8 +67,15 @@ class TestProtocolLimits(TestCase):
     def tearDown(self) -> None:
         self.client.disconnect()
 
-    def test_echo_max_size__minus_one_byte_string(self) -> None:
+    def test_echo_max_size_minus_one_byte_string(self) -> None:
         buffer_size = self.client.ini_configs['server'].getint('tcp_buffer_size') - 1
+
+        for string in generate_random_string(num_strings=5, len_strings=buffer_size):
+            with self.subTest():
+                self.assertEqual(string, self.client.send(string))
+
+    def test_echo_max_size_plus_one_byte_string(self) -> None:
+        buffer_size = self.client.ini_configs['server'].getint('tcp_buffer_size') + 1
 
         for string in generate_random_string(num_strings=5, len_strings=buffer_size):
             with self.subTest():
