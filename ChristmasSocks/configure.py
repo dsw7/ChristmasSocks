@@ -7,7 +7,6 @@ from os import (
 )
 from signal import SIGINT
 from configparser import ConfigParser
-from abc import ABC, abstractmethod
 from typing import Tuple
 from subprocess import Popen, PIPE
 from time import sleep
@@ -25,6 +24,7 @@ EXIT_FAILURE = 1
 SEPARATOR = '-' * get_terminal_size().columns
 TEST_FILENAMES_PATTERN = 'test_*'
 DEVNULL = open(devnull, 'wb')
+PATH_THIS = path.dirname(__file__)
 
 def echo_separator() -> None:
     secho(SEPARATOR, fg='yellow')
@@ -56,34 +56,29 @@ def run_shell_command(command: str, capture_output=False) -> Tuple[int, str, str
 
     return process.returncode, stdout, stderr
 
+def get_configs() -> dict:
+    path_ini_file = path.join(PATH_THIS, 'configure.ini')
 
-class ConfigBase(ABC):
+    if not path.exists(path_ini_file):
+        echo_error('Could not access {}'.format(path_ini_file))
+        sys.exit(EXIT_FAILURE)
+
+    configs = ConfigParser()
+    configs.read(path_ini_file)
+    return configs
+
+
+class Compile:
 
     def __init__(self) -> None:
-        self.path_this = path.dirname(__file__)
-        path_ini_file = path.join(self.path_this, 'configure.ini')
-
-        if not path.exists(path_ini_file):
-            echo_error('Could not access {}'.format(path_ini_file))
-            sys.exit(EXIT_FAILURE)
-
-        self.configs = ConfigParser()
-        self.configs.read(path_ini_file)
-
-
-    @abstractmethod
-    def main(self) -> int:
-        pass
-
-
-class Compile(ConfigBase):
+        self.configs = get_configs()
 
     def generate_makefiles(self) -> int:
         echo_separator()
         echo_message('Generating Makefiles for project')
 
         command = 'cmake -S {root} -B {root}/{output_dir}'.format(
-            root=self.path_this, output_dir=self.configs['compile']['output-dir']
+            root=PATH_THIS, output_dir=self.configs['compile']['output-dir']
         )
         return run_shell_command(command)[0]
 
@@ -92,7 +87,7 @@ class Compile(ConfigBase):
         echo_message('Compiling project using Makefiles')
 
         command = 'make --jobs={} -C {}/{}'.format(
-            self.configs['compile']['num-make-jobs'], self.path_this, self.configs['compile']['output-dir']
+            self.configs['compile']['num-make-jobs'], PATH_THIS, self.configs['compile']['output-dir']
         )
         return run_shell_command(command)[0]
 
@@ -106,14 +101,17 @@ class Compile(ConfigBase):
         return EXIT_SUCCESS
 
 
-class StaticAnalysis(ConfigBase):
+class StaticAnalysis:
+
+    def __init__(self) -> None:
+        self.configs = get_configs()
 
     def run_cppcheck(self) -> int:
         echo_separator()
         echo_message('Linting project using cppcheck static analysis tool')
 
         command = 'cppcheck {root}/src/ -I {root}/include/ --template={template} --enable=all'.format(
-            root=self.path_this, template=self.configs['static-analysis']['cppcheck-template']
+            root=PATH_THIS, template=self.configs['static-analysis']['cppcheck-template']
         )
         exit_code, _, _ = run_shell_command(command)
         return exit_code
@@ -125,12 +123,15 @@ class StaticAnalysis(ConfigBase):
         return EXIT_SUCCESS
 
 
-class RunTests(ConfigBase):
+class RunTests:
+
+    def __init__(self) -> None:
+        self.configs = get_configs()
 
     def start_server(self) -> Popen:
         # pass command line arguments to binary here
         command = '{}/{}/{}'.format(
-            self.path_this,
+            PATH_THIS,
             self.configs['compile']['output-dir'],
             self.configs['run-tests']['output-name']
         )
@@ -148,7 +149,7 @@ class RunTests(ConfigBase):
         process = self.start_server()
         sleep(self.configs['run-tests'].getfloat('startup-delay'))
 
-        test_directory = path.join(self.path_this, 'tests')
+        test_directory = path.join(PATH_THIS, 'tests')
         realpath = path.realpath(test_directory)
         echo_message('Running tests in directory: {}'.format(realpath))
 
