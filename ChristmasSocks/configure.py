@@ -16,7 +16,8 @@ from unittest import (
 )
 from click import (
     secho,
-    group
+    group,
+    option
 )
 
 EXIT_SUCCESS = 0
@@ -197,6 +198,7 @@ def main():
     pass
 
 @main.command(help='Compile binary')
+@option('-d', '--debug/--no-debug', default=False, help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
 def compile():
     sys.exit(Compile().compile_binary())
 
