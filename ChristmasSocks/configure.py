@@ -35,6 +35,27 @@ def echo_message(msg: str) -> None:
 def echo_error(msg: str) -> None:
     secho('{}'.format(msg), fg='red')
 
+def run_shell_command(command: str, capture_output=False) -> Tuple[int, str, str]:
+    echo_message('Running command: {}'.format(command))
+    if capture_output:
+        process = Popen(command.split(), stdout=PIPE, stderr=PIPE)
+    else:
+        process = Popen(command.split())
+
+    stdout, stderr = process.communicate()
+
+    if stdout:
+        stdout = stdout.decode()
+    else:
+        stdout = ''
+
+    if stderr:
+        stderr = stderr.decode()
+    else:
+        stderr = ''
+
+    return process.returncode, stdout, stderr
+
 
 class ConfigBase(ABC):
 
@@ -50,25 +71,6 @@ class ConfigBase(ABC):
         self.configs = ConfigParser()
         self.configs.read(path_ini_file)
 
-    def run_shell_command(self, command: str, capture_output=False) -> Tuple[int, str, str]:
-        echo_message('Running command: {}'.format(command))
-        if capture_output:
-            process = Popen(command.split(), stdout=PIPE, stderr=PIPE)
-        else:
-            process = Popen(command.split())
-        stdout, stderr = process.communicate()
-
-        if stdout:
-            stdout = stdout.decode()
-        else:
-            stdout = ''
-
-        if stderr:
-            stderr = stderr.decode()
-        else:
-            stderr = ''
-
-        return process.returncode, stdout, stderr
 
     @abstractmethod
     def main(self) -> int:
@@ -84,7 +86,7 @@ class Compile(ConfigBase):
         command = 'cmake -S {root} -B {root}/{output_dir}'.format(
             root=self.path_this, output_dir=self.configs['compile']['output-dir']
         )
-        return self.run_shell_command(command)[0]
+        return run_shell_command(command)[0]
 
     def compile_binary_from_makefiles(self) -> int:
         echo_separator()
@@ -93,7 +95,7 @@ class Compile(ConfigBase):
         command = 'make --jobs={} -C {}/{}'.format(
             self.configs['compile']['num-make-jobs'], self.path_this, self.configs['compile']['output-dir']
         )
-        return self.run_shell_command(command)[0]
+        return run_shell_command(command)[0]
 
     def main(self) -> int:
         if self.generate_makefiles() != EXIT_SUCCESS:
@@ -114,7 +116,7 @@ class StaticAnalysis(ConfigBase):
         command = 'cppcheck {root}/src/ -I {root}/include/ --template={template} --enable=all'.format(
             root=self.path_this, template=self.configs['static-analysis']['cppcheck-template']
         )
-        exit_code, _, _ = self.run_shell_command(command)
+        exit_code, _, _ = run_shell_command(command)
         return exit_code
 
     def main(self) -> int:
