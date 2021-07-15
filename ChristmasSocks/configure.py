@@ -226,17 +226,24 @@ def main():
 def compile(debug: bool):
     compiler = Compile()
     if debug:
-        compiler.compile_binary_release_with_debug_info()
+        rv = compiler.compile_binary_release_with_debug_info()
     else:
-        compiler.compile_binary()
+        rv = compiler.compile_binary()
+    sys.exit(rv)
 
 @main.command(help='Run static analysis on project')
 def lint():
     sys.exit(StaticAnalysis().main())
 
 @main.command(help='Run unit tests on project')
-def test():
-    sys.exit(RunTests().main())
+@option('-v', '--valgrind/--no-valgrind', default=False, help='Run unit tests with Valgrind debugging tool')
+def test(valgrind):
+    test_runner = RunTests()
+    if valgrind:
+        rv = test_runner.run_test_with_valgrind()
+    else:
+        rv = test_runner.run_test()
+    sys.exit(rv)
 
 if __name__ == '__main__':
     main()
