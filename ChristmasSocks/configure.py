@@ -100,8 +100,17 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
-    def main(self) -> int:
+    def compile_binary(self) -> int:
         if self.generate_makefiles() != EXIT_SUCCESS:
+            return EXIT_FAILURE
+
+        if self.run_make() != EXIT_SUCCESS:
+            return EXIT_FAILURE
+
+        return EXIT_SUCCESS
+
+    def compile_binary_release_with_debug_info(self) -> int:
+        if self.generate_makefiles_release_with_debug_info() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
         if self.run_make() != EXIT_SUCCESS:
@@ -189,7 +198,7 @@ def main():
 
 @main.command(help='Compile binary')
 def compile():
-    sys.exit(Compile().main())
+    sys.exit(Compile().compile_binary())
 
 @main.command(help='Run static analysis on project')
 def lint():
