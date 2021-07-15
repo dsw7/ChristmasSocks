@@ -158,6 +158,17 @@ class RunTests:
         echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command, stdout=DEVNULL)
 
+    def start_server_with_valgrind(self) -> Popen:
+        # pass command line arguments to binary here
+        command = 'valgrind {}/{}/{}'.format(
+            PATH_THIS,
+            self.configs['compile']['output-dir'],
+            self.configs['run-tests']['output-name']
+        )
+
+        echo_message('Starting up server on localhost with command: {}'.format(command))
+        return Popen(command, stdout=DEVNULL)
+
     def stop_server(self, process: Popen) -> None:
         echo_message('Stopping server on localhost')
         process.send_signal(SIGINT)
