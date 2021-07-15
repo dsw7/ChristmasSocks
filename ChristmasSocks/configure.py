@@ -199,8 +199,12 @@ def main():
 
 @main.command(help='Compile binary')
 @option('-d', '--debug/--no-debug', default=False, help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
-def compile():
-    sys.exit(Compile().compile_binary())
+def compile(debug: bool):
+    compiler = Compile()
+    if debug:
+        compiler.compile_binary_release_with_debug_info()
+    else:
+        compiler.compile_binary()
 
 @main.command(help='Run static analysis on project')
 def lint():
