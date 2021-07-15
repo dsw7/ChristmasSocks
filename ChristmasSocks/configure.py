@@ -203,6 +203,19 @@ class RunTests:
             return EXIT_SUCCESS
         return EXIT_FAILURE
 
+    def run_test_with_valgrind(self) -> bool:
+        echo_separator()
+
+        process = self.start_server_with_valgrind()
+        sleep(self.configs['run-tests'].getfloat('startup-delay'))
+
+        rv = self.run_unittest()
+        self.stop_server(process)
+
+        if rv:
+            return EXIT_SUCCESS
+        return EXIT_FAILURE
+
 
 @group()
 def main():
