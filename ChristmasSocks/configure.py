@@ -50,10 +50,6 @@ class ConfigBase(ABC):
         self.configs = ConfigParser()
         self.configs.read(path_ini_file)
 
-    def __del__(self) -> None:
-        echo_separator()
-        echo_message('Total processing time: {} s'.format(round(time() - self.start_time, 3)))
-
     def run_shell_command(self, command: str, capture_output=False) -> Tuple[int, str, str]:
         echo_message('Running command: {}'.format(command))
         if capture_output:
