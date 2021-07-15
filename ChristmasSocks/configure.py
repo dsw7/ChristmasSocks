@@ -167,7 +167,7 @@ class RunTests:
         )
 
         echo_message('Starting up server on localhost with command: {}'.format(command))
-        return Popen(command, stdout=DEVNULL)
+        return Popen(command.split(), stdout=DEVNULL)
 
     def stop_server(self, process: Popen) -> None:
         echo_message('Stopping server on localhost')
