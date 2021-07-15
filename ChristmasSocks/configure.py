@@ -91,7 +91,7 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
-    def compile_binary_from_makefiles(self) -> int:
+    def run_make(self) -> int:
         echo_separator()
         echo_message('Compiling project using Makefiles')
 
@@ -104,7 +104,7 @@ class Compile:
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
-        if self.compile_binary_from_makefiles() != EXIT_SUCCESS:
+        if self.run_make() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
         return EXIT_SUCCESS
