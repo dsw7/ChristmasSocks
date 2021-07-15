@@ -174,11 +174,6 @@ class RunTests:
         process.send_signal(SIGINT)
 
     def run_unittest(self) -> bool:
-        echo_separator()
-
-        process = self.start_server()
-        sleep(self.configs['run-tests'].getfloat('startup-delay'))
-
         test_directory = path.join(PATH_THIS, 'tests')
         realpath = path.realpath(test_directory)
         echo_message('Running tests in directory: {}'.format(realpath))
@@ -193,14 +188,19 @@ class RunTests:
         )
 
         test_run = runner.run(suite)
-        self.stop_server(process)
-
         return test_run.wasSuccessful()
 
-    def main(self) -> int:
-        if self.run_unittest():
-            return EXIT_SUCCESS
+    def run_test(self) -> bool:
+        echo_separator()
 
+        process = self.start_server()
+        sleep(self.configs['run-tests'].getfloat('startup-delay'))
+
+        rv = self.run_unittest()
+        self.stop_server(process)
+
+        if rv:
+            return EXIT_SUCCESS
         return EXIT_FAILURE
 
 
