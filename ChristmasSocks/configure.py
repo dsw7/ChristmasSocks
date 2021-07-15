@@ -82,6 +82,15 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
+    def generate_makefiles_release_with_debug_info(self) -> int:
+        echo_separator()
+        echo_message('Generating Makefiles for project')
+
+        command = 'cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -S {root} -B {root}/{output_dir}'.format(
+            root=PATH_THIS, output_dir=self.configs['compile']['output-dir']
+        )
+        return run_shell_command(command)[0]
+
     def compile_binary_from_makefiles(self) -> int:
         echo_separator()
         echo_message('Compiling project using Makefiles')
