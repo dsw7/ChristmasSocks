@@ -26,6 +26,15 @@ SEPARATOR = '-' * get_terminal_size().columns
 TEST_FILENAMES_PATTERN = 'test_*'
 DEVNULL = open(devnull, 'wb')
 
+def echo_separator() -> None:
+    secho(SEPARATOR, fg='yellow')
+
+def echo_message(msg: str) -> None:
+    secho('{}'.format(msg), fg='yellow')
+
+def echo_error(msg: str) -> None:
+    secho('{}'.format(msg), fg='red')
+
 
 class ConfigBase(ABC):
 
@@ -35,30 +44,18 @@ class ConfigBase(ABC):
         path_ini_file = path.join(self.path_this, 'configure.ini')
 
         if not path.exists(path_ini_file):
-            self.echo_error('Could not access {}'.format(path_ini_file))
+            echo_error('Could not access {}'.format(path_ini_file))
             sys.exit(EXIT_FAILURE)
 
         self.configs = ConfigParser()
         self.configs.read(path_ini_file)
 
     def __del__(self) -> None:
-        self.echo_separator()
-        self.echo_message('Total processing time: {} s'.format(round(time() - self.start_time, 3)))
-
-    @staticmethod
-    def echo_separator() -> None:
-        secho(SEPARATOR, fg='yellow')
-
-    @staticmethod
-    def echo_message(msg: str) -> None:
-        secho('{}'.format(msg), fg='yellow')
-
-    @staticmethod
-    def echo_error(msg: str) -> None:
-        secho('{}'.format(msg), fg='red')
+        echo_separator()
+        echo_message('Total processing time: {} s'.format(round(time() - self.start_time, 3)))
 
     def run_shell_command(self, command: str, capture_output=False) -> Tuple[int, str, str]:
-        self.echo_message('Running command: {}'.format(command))
+        echo_message('Running command: {}'.format(command))
         if capture_output:
             process = Popen(command.split(), stdout=PIPE, stderr=PIPE)
         else:
@@ -85,8 +82,8 @@ class ConfigBase(ABC):
 class Compile(ConfigBase):
 
     def generate_makefiles(self) -> int:
-        self.echo_separator()
-        self.echo_message('Generating Makefiles for project')
+        echo_separator()
+        echo_message('Generating Makefiles for project')
 
         command = 'cmake -S {root} -B {root}/{output_dir}'.format(
             root=self.path_this, output_dir=self.configs['compile']['output-dir']
@@ -94,8 +91,8 @@ class Compile(ConfigBase):
         return self.run_shell_command(command)[0]
 
     def compile_binary_from_makefiles(self) -> int:
-        self.echo_separator()
-        self.echo_message('Compiling project using Makefiles')
+        echo_separator()
+        echo_message('Compiling project using Makefiles')
 
         command = 'make --jobs={} -C {}/{}'.format(
             self.configs['compile']['num-make-jobs'], self.path_this, self.configs['compile']['output-dir']
@@ -115,8 +112,8 @@ class Compile(ConfigBase):
 class StaticAnalysis(ConfigBase):
 
     def run_cppcheck(self) -> int:
-        self.echo_separator()
-        self.echo_message('Linting project using cppcheck static analysis tool')
+        echo_separator()
+        echo_message('Linting project using cppcheck static analysis tool')
 
         command = 'cppcheck {root}/src/ -I {root}/include/ --template={template} --enable=all'.format(
             root=self.path_this, template=self.configs['static-analysis']['cppcheck-template']
@@ -141,22 +138,22 @@ class RunTests(ConfigBase):
             self.configs['run-tests']['output-name']
         )
 
-        self.echo_message('Starting up server on localhost with command: {}'.format(command))
+        echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command, stdout=DEVNULL)
 
     def stop_server(self, process: Popen) -> None:
-        self.echo_message('Stopping server on localhost')
+        echo_message('Stopping server on localhost')
         process.send_signal(SIGINT)
 
     def run_unittest(self) -> bool:
-        self.echo_separator()
+        echo_separator()
 
         process = self.start_server()
         sleep(self.configs['run-tests'].getfloat('startup-delay'))
 
         test_directory = path.join(self.path_this, 'tests')
         realpath = path.realpath(test_directory)
-        self.echo_message('Running tests in directory: {}'.format(realpath))
+        echo_message('Running tests in directory: {}'.format(realpath))
 
         suite = TestLoader().discover(
             test_directory, pattern=TEST_FILENAMES_PATTERN
