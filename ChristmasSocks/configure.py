@@ -207,7 +207,7 @@ class RunTests:
         echo_separator()
 
         process = self.start_server_with_valgrind()
-        sleep(self.configs['run-tests'].getfloat('startup-delay'))
+        sleep(self.configs['run-tests'].getfloat('startup-delay-valgrind'))
 
         rv = self.run_unittest()
         self.stop_server(process)
