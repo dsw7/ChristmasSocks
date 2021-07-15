@@ -7,10 +7,9 @@ from os import (
 )
 from signal import SIGINT
 from configparser import ConfigParser
-from abc import ABC, abstractmethod
 from typing import Tuple
 from subprocess import Popen, PIPE
-from time import time, sleep
+from time import sleep
 from unittest import (
     TestLoader,
     TextTestRunner
@@ -25,82 +24,72 @@ EXIT_FAILURE = 1
 SEPARATOR = '-' * get_terminal_size().columns
 TEST_FILENAMES_PATTERN = 'test_*'
 DEVNULL = open(devnull, 'wb')
+PATH_THIS = path.dirname(__file__)
+
+def echo_separator() -> None:
+    secho(SEPARATOR, fg='yellow')
+
+def echo_message(msg: str) -> None:
+    secho('{}'.format(msg), fg='yellow')
+
+def echo_error(msg: str) -> None:
+    secho('{}'.format(msg), fg='red')
+
+def run_shell_command(command: str, capture_output=False) -> Tuple[int, str, str]:
+    echo_message('Running command: {}'.format(command))
+    if capture_output:
+        process = Popen(command.split(), stdout=PIPE, stderr=PIPE)
+    else:
+        process = Popen(command.split())
+
+    stdout, stderr = process.communicate()
+
+    if stdout:
+        stdout = stdout.decode()
+    else:
+        stdout = ''
+
+    if stderr:
+        stderr = stderr.decode()
+    else:
+        stderr = ''
+
+    return process.returncode, stdout, stderr
+
+def get_configs() -> dict:
+    path_ini_file = path.join(PATH_THIS, 'configure.ini')
+
+    if not path.exists(path_ini_file):
+        echo_error('Could not access {}'.format(path_ini_file))
+        sys.exit(EXIT_FAILURE)
+
+    configs = ConfigParser()
+    configs.read(path_ini_file)
+    return configs
 
 
-class ConfigBase(ABC):
+class Compile:
 
     def __init__(self) -> None:
-        self.path_this = path.dirname(__file__)
-        self.start_time = time()
-        path_ini_file = path.join(self.path_this, 'configure.ini')
-
-        if not path.exists(path_ini_file):
-            self.echo_error('Could not access {}'.format(path_ini_file))
-            sys.exit(EXIT_FAILURE)
-
-        self.configs = ConfigParser()
-        self.configs.read(path_ini_file)
-
-    def __del__(self) -> None:
-        self.echo_separator()
-        self.echo_message('Total processing time: {} s'.format(round(time() - self.start_time, 3)))
-
-    @staticmethod
-    def echo_separator() -> None:
-        secho(SEPARATOR, fg='yellow')
-
-    @staticmethod
-    def echo_message(msg: str) -> None:
-        secho('{}'.format(msg), fg='yellow')
-
-    @staticmethod
-    def echo_error(msg: str) -> None:
-        secho('{}'.format(msg), fg='red')
-
-    def run_shell_command(self, command: str, capture_output=False) -> Tuple[int, str, str]:
-        self.echo_message('Running command: {}'.format(command))
-        if capture_output:
-            process = Popen(command.split(), stdout=PIPE, stderr=PIPE)
-        else:
-            process = Popen(command.split())
-        stdout, stderr = process.communicate()
-
-        if stdout:
-            stdout = stdout.decode()
-        else:
-            stdout = ''
-
-        if stderr:
-            stderr = stderr.decode()
-        else:
-            stderr = ''
-
-        return process.returncode, stdout, stderr
-
-    @abstractmethod
-    def main(self) -> int:
-        pass
-
-
-class Compile(ConfigBase):
+        self.configs = get_configs()
 
     def generate_makefiles(self) -> int:
-        self.echo_separator()
-        self.echo_message('Generating Makefiles for project')
+        echo_separator()
+        echo_message('Generating Makefiles for project')
 
         command = 'cmake -S {root} -B {root}/{output_dir}'.format(
-            root=self.path_this, output_dir=self.configs['compile']['output-dir']
+            root=PATH_THIS, output_dir=self.configs['compile']['output-dir']
         )
-        return self.run_shell_command(command)[0]
+        return run_shell_command(command)[0]
 
     def compile_binary_from_makefiles(self) -> int:
-        self.echo_separator()
-        self.echo_message('Compiling project using Makefiles')
+        echo_separator()
+        echo_message('Compiling project using Makefiles')
 
         command = 'make --jobs={} -C {}/{}'.format(
-            self.configs['compile']['num-make-jobs'], self.path_this, self.configs['compile']['output-dir']
+            self.configs['compile']['num-make-jobs'], PATH_THIS, self.configs['compile']['output-dir']
         )
-        return self.run_shell_command(command)[0]
+        return run_shell_command(command)[0]
 
     def main(self) -> int:
         if self.generate_makefiles() != EXIT_SUCCESS:
@@ -112,16 +101,19 @@ class Compile(ConfigBase):
         return EXIT_SUCCESS
 
 
-class StaticAnalysis(ConfigBase):
+class StaticAnalysis:
+
+    def __init__(self) -> None:
+        self.configs = get_configs()
 
     def run_cppcheck(self) -> int:
-        self.echo_separator()
-        self.echo_message('Linting project using cppcheck static analysis tool')
+        echo_separator()
+        echo_message('Linting project using cppcheck static analysis tool')
 
         command = 'cppcheck {root}/src/ -I {root}/include/ --template={template} --enable=all'.format(
-            root=self.path_this, template=self.configs['static-analysis']['cppcheck-template']
+            root=PATH_THIS, template=self.configs['static-analysis']['cppcheck-template']
         )
-        exit_code, _, _ = self.run_shell_command(command)
+        exit_code, _, _ = run_shell_command(command)
         return exit_code
 
     def main(self) -> int:
@@ -131,32 +123,35 @@ class StaticAnalysis(ConfigBase):
         return EXIT_SUCCESS
 
 
-class RunTests(ConfigBase):
+class RunTests:
+
+    def __init__(self) -> None:
+        self.configs = get_configs()
 
     def start_server(self) -> Popen:
         # pass command line arguments to binary here
         command = '{}/{}/{}'.format(
-            self.path_this,
+            PATH_THIS,
             self.configs['compile']['output-dir'],
             self.configs['run-tests']['output-name']
         )
 
-        self.echo_message('Starting up server on localhost with command: {}'.format(command))
+        echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command, stdout=DEVNULL)
 
     def stop_server(self, process: Popen) -> None:
-        self.echo_message('Stopping server on localhost')
+        echo_message('Stopping server on localhost')
         process.send_signal(SIGINT)
 
     def run_unittest(self) -> bool:
-        self.echo_separator()
+        echo_separator()
 
         process = self.start_server()
         sleep(self.configs['run-tests'].getfloat('startup-delay'))
 
-        test_directory = path.join(self.path_this, 'tests')
+        test_directory = path.join(PATH_THIS, 'tests')
         realpath = path.realpath(test_directory)
-        self.echo_message('Running tests in directory: {}'.format(realpath))
+        echo_message('Running tests in directory: {}'.format(realpath))
 
         suite = TestLoader().discover(
             test_directory, pattern=TEST_FILENAMES_PATTERN
