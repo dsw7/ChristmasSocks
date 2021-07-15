@@ -158,16 +158,22 @@ class RunTests:
         echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command, stdout=DEVNULL)
 
+    def start_server_with_valgrind(self) -> Popen:
+        # pass command line arguments to binary here
+        command = 'valgrind {}/{}/{}'.format(
+            PATH_THIS,
+            self.configs['compile']['output-dir'],
+            self.configs['run-tests']['output-name']
+        )
+
+        echo_message('Starting up server on localhost with command: {}'.format(command))
+        return Popen(command.split(), stdout=DEVNULL)
+
     def stop_server(self, process: Popen) -> None:
         echo_message('Stopping server on localhost')
         process.send_signal(SIGINT)
 
     def run_unittest(self) -> bool:
-        echo_separator()
-
-        process = self.start_server()
-        sleep(self.configs['run-tests'].getfloat('startup-delay'))
-
         test_directory = path.join(PATH_THIS, 'tests')
         realpath = path.realpath(test_directory)
         echo_message('Running tests in directory: {}'.format(realpath))
@@ -182,14 +188,32 @@ class RunTests:
         )
 
         test_run = runner.run(suite)
-        self.stop_server(process)
-
         return test_run.wasSuccessful()
 
-    def main(self) -> int:
-        if self.run_unittest():
-            return EXIT_SUCCESS
+    def run_test(self) -> bool:
+        echo_separator()
 
+        process = self.start_server()
+        sleep(self.configs['run-tests'].getfloat('startup-delay'))
+
+        rv = self.run_unittest()
+        self.stop_server(process)
+
+        if rv:
+            return EXIT_SUCCESS
+        return EXIT_FAILURE
+
+    def run_test_with_valgrind(self) -> bool:
+        echo_separator()
+
+        process = self.start_server_with_valgrind()
+        sleep(self.configs['run-tests'].getfloat('startup-delay-valgrind'))
+
+        rv = self.run_unittest()
+        self.stop_server(process)
+
+        if rv:
+            return EXIT_SUCCESS
         return EXIT_FAILURE
 
 
@@ -202,17 +226,24 @@ def main():
 def compile(debug: bool):
     compiler = Compile()
     if debug:
-        compiler.compile_binary_release_with_debug_info()
+        rv = compiler.compile_binary_release_with_debug_info()
     else:
-        compiler.compile_binary()
+        rv = compiler.compile_binary()
+    sys.exit(rv)
 
 @main.command(help='Run static analysis on project')
 def lint():
     sys.exit(StaticAnalysis().main())
 
 @main.command(help='Run unit tests on project')
-def test():
-    sys.exit(RunTests().main())
+@option('-v', '--valgrind/--no-valgrind', default=False, help='Run unit tests with Valgrind debugging tool')
+def test(valgrind):
+    test_runner = RunTests()
+    if valgrind:
+        rv = test_runner.run_test_with_valgrind()
+    else:
+        rv = test_runner.run_test()
+    sys.exit(rv)
 
 if __name__ == '__main__':
     main()
