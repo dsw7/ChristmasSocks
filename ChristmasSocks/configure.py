@@ -10,7 +10,7 @@ from configparser import ConfigParser
 from abc import ABC, abstractmethod
 from typing import Tuple
 from subprocess import Popen, PIPE
-from time import time, sleep
+from time import sleep
 from unittest import (
     TestLoader,
     TextTestRunner
@@ -61,7 +61,6 @@ class ConfigBase(ABC):
 
     def __init__(self) -> None:
         self.path_this = path.dirname(__file__)
-        self.start_time = time()
         path_ini_file = path.join(self.path_this, 'configure.ini')
 
         if not path.exists(path_ini_file):
