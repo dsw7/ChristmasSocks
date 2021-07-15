@@ -16,7 +16,8 @@ from unittest import (
 )
 from click import (
     secho,
-    group
+    group,
+    option
 )
 
 EXIT_SUCCESS = 0
@@ -82,7 +83,16 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
-    def compile_binary_from_makefiles(self) -> int:
+    def generate_makefiles_release_with_debug_info(self) -> int:
+        echo_separator()
+        echo_message('Generating Makefiles for project')
+
+        command = 'cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -S {root} -B {root}/{output_dir}'.format(
+            root=PATH_THIS, output_dir=self.configs['compile']['output-dir']
+        )
+        return run_shell_command(command)[0]
+
+    def run_make(self) -> int:
         echo_separator()
         echo_message('Compiling project using Makefiles')
 
@@ -91,11 +101,20 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
-    def main(self) -> int:
+    def compile_binary(self) -> int:
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
-        if self.compile_binary_from_makefiles() != EXIT_SUCCESS:
+        if self.run_make() != EXIT_SUCCESS:
+            return EXIT_FAILURE
+
+        return EXIT_SUCCESS
+
+    def compile_binary_release_with_debug_info(self) -> int:
+        if self.generate_makefiles_release_with_debug_info() != EXIT_SUCCESS:
+            return EXIT_FAILURE
+
+        if self.run_make() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
         return EXIT_SUCCESS
@@ -179,8 +198,13 @@ def main():
     pass
 
 @main.command(help='Compile binary')
-def compile():
-    sys.exit(Compile().main())
+@option('-d', '--debug/--no-debug', default=False, help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
+def compile(debug: bool):
+    compiler = Compile()
+    if debug:
+        compiler.compile_binary_release_with_debug_info()
+    else:
+        compiler.compile_binary()
 
 @main.command(help='Run static analysis on project')
 def lint():
