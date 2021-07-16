@@ -21,7 +21,6 @@ from click import (
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 SEPARATOR = '-' * get_terminal_size().columns
-TEST_FILENAMES_PATTERN = 'test_*'
 DEVNULL = open(devnull, 'wb')
 PATH_THIS = path.dirname(__file__)
 
@@ -72,7 +71,7 @@ class Compile:
     def __init__(self) -> None:
         self.configs = get_configs()
 
-    def generate_makefiles(self) -> int:
+    def generate_makefiles_release(self) -> int:
         echo_separator()
         echo_message('Generating Makefiles for project')
 
@@ -81,7 +80,7 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
-    def generate_makefiles_release_with_debug_info(self) -> int:
+    def generate_makefiles_debug(self) -> int:
         echo_separator()
         echo_message('Generating Makefiles for project')
 
@@ -99,8 +98,8 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
-    def compile_binary(self) -> int:
-        if self.generate_makefiles() != EXIT_SUCCESS:
+    def compile_release_binary(self) -> int:
+        if self.generate_makefiles_release() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
         if self.run_make() != EXIT_SUCCESS:
@@ -108,8 +107,8 @@ class Compile:
 
         return EXIT_SUCCESS
 
-    def compile_binary_release_with_debug_info(self) -> int:
-        if self.generate_makefiles_release_with_debug_info() != EXIT_SUCCESS:
+    def compile_debug_binary(self) -> int:
+        if self.generate_makefiles_debug() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
         if self.run_make() != EXIT_SUCCESS:
@@ -146,12 +145,29 @@ class RunTests:
         self.configs = get_configs()
         self.test_directory = path.join(PATH_THIS, 'tests')
 
-    def run_unittest(self) -> bool:
         echo_separator()
         echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
 
+    def run_unittest_release(self) -> bool:
+        echo_message('Running tests in files matching pattern: {}'.format(self.configs['run-tests']['test-filename-release']))
+
         suite = TestLoader().discover(
-            self.test_directory, pattern=TEST_FILENAMES_PATTERN
+            self.test_directory, pattern=self.configs['run-tests']['test-filename-release']
+        )
+
+        runner = TextTestRunner(
+            verbosity=self.configs['run-tests'].getint('test-verbosity'),
+            failfast=self.configs['run-tests'].getboolean('blind-run')
+        )
+
+        test_run = runner.run(suite)
+        return test_run.wasSuccessful()
+
+    def run_unittest_memory(self) -> bool:
+        echo_message('Running tests in files matching pattern: {}'.format(self.configs['run-tests']['test-filename-memory']))
+
+        suite = TestLoader().discover(
+            self.test_directory, pattern=self.configs['run-tests']['test-filename-memory']
         )
 
         runner = TextTestRunner(
@@ -164,17 +180,18 @@ class RunTests:
 
 
 @group()
-def main():
+def main() -> None:
     pass
 
 @main.command(help='Compile binary')
-@option('-d', '--debug/--no-debug', default=False, help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
-def compile(debug: bool):
+@option('--debug', 'build_type', flag_value='debug', help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
+@option('--release', 'build_type', flag_value='release', default=True, help='Compile with -DCMAKE_BUILD_TYPE=Release')
+def compile(build_type: str) -> None:
     compiler = Compile()
-    if debug:
-        rv = compiler.compile_binary_release_with_debug_info()
+    if build_type == 'debug':
+        rv = compiler.compile_debug_binary()
     else:
-        rv = compiler.compile_binary()
+        rv = compiler.compile_release_binary()
     sys.exit(rv)
 
 @main.command(help='Run static analysis on project')
@@ -182,14 +199,19 @@ def lint():
     sys.exit(StaticAnalysis().main())
 
 @main.command(help='Run unit tests on project')
-@option('-v', '--valgrind/--no-valgrind', default=False, help='Run unit tests with Valgrind debugging tool')
-def test(valgrind):
+@option('--memory', 'test_type', flag_value='memory', help='Run tests with Valgrind set of tools')
+@option('--release', 'test_type', flag_value='release', default=True, help='Run standard tests on release binary')
+def test(test_type: str) -> None:
     test_runner = RunTests()
-    if valgrind:
-        rv = test_runner.run_unittest() # XXX add memory specific tests
+
+    if test_type == 'memory':
+        rv = test_runner.run_unittest_memory()
     else:
-        rv = test_runner.run_unittest()
-    sys.exit(rv)
+        rv = test_runner.run_unittest_release()
+
+    if rv:
+        sys.exit(EXIT_SUCCESS)
+    sys.exit(EXIT_FAILURE)
 
 if __name__ == '__main__':
     main()
