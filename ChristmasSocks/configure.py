@@ -152,7 +152,7 @@ class RunTests:
 
     def start_server(self) -> Popen:
         echo_message('Starting up server on localhost with command: {}'.format(self.binary))
-        return Popen(command, stdout=DEVNULL)
+        return Popen(self.binary, stdout=DEVNULL)
 
     def start_server_with_valgrind(self) -> Popen:
         # pass command line arguments to binary here
@@ -160,7 +160,8 @@ class RunTests:
         echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command.split(), stdout=DEVNULL)
 
-    def stop_server(self, process: Popen) -> None:
+    @staticmethod
+    def stop_server(process: Popen) -> None:
         echo_message('Stopping server on localhost')
         process.send_signal(SIGINT)
 
