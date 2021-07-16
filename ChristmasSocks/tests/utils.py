@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 from os import path
+from time import sleep
 from subprocess import Popen, DEVNULL
 from signal import SIGINT
 from string import (
@@ -43,10 +44,12 @@ class Server:
 
     def start_server(self) -> None:
         self.process = Popen(self.binary, stdout=DEVNULL)
+        sleep(self.cfgs['server'].getfloat('startup-delay')
 
     def start_server_under_valgrind(self) -> None:
         command = 'valgrind {}'.format(self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL)
+        sleep(self.cfgs['server'].getfloat('startup-delay-valgrind')
 
     def stop_server(self) -> None:
         self.process.send_signal(SIGINT)
