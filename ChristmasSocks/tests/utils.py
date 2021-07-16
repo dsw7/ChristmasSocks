@@ -13,6 +13,8 @@ from socket import (
 from random import choice
 
 ALPHANUMERIC = ascii_letters + digits
+PATH_THIS = path.dirname(__file__)
+PATH_INI = path.join(PATH_THIS, 'client.ini')
 
 def generate_random_string(num_strings: int, len_strings: int) -> list:
     result = []
@@ -28,17 +30,22 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
 
 
 class Server:
-    def __init__(self) -> None:
-        pass
 
-    
+    def __init__(self) -> None:
+        self.ini_configs = ConfigParser()
+        self.ini_configs.read(PATH_INI)
+
+    def start_server(self) -> None:
+        parent = path.dirname(PATH_THIS)
+        binary = path.join(parent, self.ini_configs['output-dir'], self.ini_configs['output-name'])
+        print(binary)
 
 
 class Client:
 
     def __init__(self) -> None:
         self.ini_configs = ConfigParser()
-        self.ini_configs.read(path.join(path.dirname(__file__), 'client.ini'))
+        self.ini_configs.read(PATH_INI)
 
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(self.ini_configs['client'].getfloat('sock_timeout'))
