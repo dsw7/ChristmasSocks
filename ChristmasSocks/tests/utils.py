@@ -37,10 +37,16 @@ class Server:
         self.cfgs = ConfigParser()
         self.cfgs.read(PATH_INI)
 
-    def start_server(self) -> None:
         parent = path.dirname(PATH_THIS)
-        binary = path.join(parent, self.cfgs['server']['output-dir'], self.cfgs['server']['output-name'])
-        self.process = Popen(binary, stdout=DEVNULL)
+        self.binary = path.join(parent, self.cfgs['server']['output-dir'], self.cfgs['server']['output-name'])
+        self.process = None
+
+    def start_server(self) -> None:
+        self.process = Popen(self.binary, stdout=DEVNULL)
+
+    def start_server_under_valgrind(self) -> None:
+        command = 'valgrind {}'.format(self.binary)
+        self.process = Popen(command.split(), stdout=DEVNULL)
 
     def stop_server(self) -> None:
         self.process.send_signal(SIGINT)
