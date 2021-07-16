@@ -144,14 +144,14 @@ class RunTests:
 
     def __init__(self) -> None:
         self.configs = get_configs()
+        self.test_directory = path.join(PATH_THIS, 'tests')
 
     def run_unittest(self) -> bool:
-        test_directory = path.join(PATH_THIS, 'tests')
-        realpath = path.realpath(test_directory)
-        echo_message('Running tests in directory: {}'.format(realpath))
+        echo_separator()
+        echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
 
         suite = TestLoader().discover(
-            test_directory, pattern=TEST_FILENAMES_PATTERN
+            self.test_directory, pattern=TEST_FILENAMES_PATTERN
         )
 
         runner = TextTestRunner(
@@ -161,24 +161,6 @@ class RunTests:
 
         test_run = runner.run(suite)
         return test_run.wasSuccessful()
-
-    def run_test(self) -> bool:
-        echo_separator()
-
-        rv = self.run_unittest()
-
-        if rv:
-            return EXIT_SUCCESS
-        return EXIT_FAILURE
-
-    def run_test_with_valgrind(self) -> bool:
-        echo_separator()
-
-        rv = self.run_unittest()
-
-        if rv:
-            return EXIT_SUCCESS
-        return EXIT_FAILURE
 
 
 @group()
@@ -204,7 +186,7 @@ def lint():
 def test(valgrind):
     test_runner = RunTests()
     if valgrind:
-        rv = test_runner.run_test_with_valgrind()
+        rv = test_runner.run_test() # XXX add memory specific tests
     else:
         rv = test_runner.run_test()
     sys.exit(rv)
