@@ -71,7 +71,7 @@ class Compile:
     def __init__(self) -> None:
         self.configs = get_configs()
 
-    def generate_makefiles(self) -> int:
+    def generate_makefiles_release(self) -> int:
         echo_separator()
         echo_message('Generating Makefiles for project')
 
@@ -80,7 +80,7 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
-    def generate_makefiles_release_with_debug_info(self) -> int:
+    def generate_makefiles_debug(self) -> int:
         echo_separator()
         echo_message('Generating Makefiles for project')
 
@@ -99,7 +99,7 @@ class Compile:
         return run_shell_command(command)[0]
 
     def compile_release_binary(self) -> int:
-        if self.generate_makefiles() != EXIT_SUCCESS:
+        if self.generate_makefiles_release() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
         if self.run_make() != EXIT_SUCCESS:
@@ -108,7 +108,7 @@ class Compile:
         return EXIT_SUCCESS
 
     def compile_debug_binary(self) -> int:
-        if self.generate_makefiles_release_with_debug_info() != EXIT_SUCCESS:
+        if self.generate_makefiles_debug() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
         if self.run_make() != EXIT_SUCCESS:
@@ -180,13 +180,13 @@ class RunTests:
 
 
 @group()
-def main():
+def main() -> None:
     pass
 
 @main.command(help='Compile binary')
 @option('--debug', 'build_type', flag_value='debug', help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
 @option('--release', 'build_type', flag_value='release', default=True, help='Compile with -DCMAKE_BUILD_TYPE=Release')
-def compile(build_type: str):
+def compile(build_type: str) -> None:
     compiler = Compile()
     if build_type == 'debug':
         rv = compiler.compile_debug_binary()
@@ -199,11 +199,12 @@ def lint():
     sys.exit(StaticAnalysis().main())
 
 @main.command(help='Run unit tests on project')
-@option('-v', '--valgrind/--no-valgrind', default=False, help='Run unit tests with Valgrind debugging tool')
-def test(valgrind):
+@option('--memory', 'test_type', flag_value='memory', help='Run tests with Valgrind set of tools')
+@option('--release', 'test_type', flag_value='release', default=True, help='Run standard tests on release binary')
+def test(test_type: str) -> None:
     test_runner = RunTests()
 
-    if valgrind:
+    if test_type == 'memory':
         rv = test_runner.run_unittest_memory()
     else:
         rv = test_runner.run_unittest_release()
