@@ -150,12 +150,16 @@ class RunTests:
             PATH_THIS, self.configs['compile']['output-dir'], self.configs['run-tests']['output-name']
         )
 
+        if not path.exists(self.binary):
+            echo_error('{} does not exist. Was the binary compiled?'.format(self.binary))
+            sys.exit(EXIT_FAILURE)
+
     def start_server(self) -> Popen:
         echo_message('Starting up server on localhost with command: {}'.format(self.binary))
         return Popen(self.binary, stdout=DEVNULL)
 
     def start_server_with_valgrind(self) -> Popen:
-        # pass command line arguments to binary here
+        # Pass command line arguments to binary here
         command = 'valgrind {}'.format(self.binary)
         echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command.split(), stdout=DEVNULL)
