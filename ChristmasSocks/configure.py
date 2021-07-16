@@ -162,7 +162,7 @@ class RunTests:
         test_run = runner.run(suite)
         return test_run.wasSuccessful()
 
-    def run_unittest_debug(self) -> bool:
+    def run_unittest_memory(self) -> bool:
         echo_separator()
         echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
 
@@ -203,7 +203,7 @@ def test(valgrind):
     test_runner = RunTests()
 
     if valgrind:
-        rv = test_runner.run_unittest_debug()
+        rv = test_runner.run_unittest_memory()
     else:
         rv = test_runner.run_unittest_release()
 
