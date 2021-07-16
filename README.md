@@ -16,6 +16,17 @@ The `--release` flag can also be omitted:
 ```bash
 $ ./ChristmasSocks/configure.py compile --release
 ```
+### To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary:
+Run the following:
+```bash
+$ cd /path/to/ChristmasSocks
+$ chmod +x ChristmasSocks/configure.py
+$ ./ChristmasSocks/configure.py compile --debug
+```
+This will, again, compile a binary under:
+```
+/path/to/ChristmasSocks/ChristmasSocks/bin/socks
+```
 ## Static analysis
 To lint the C++ source, run:
 ```bash
