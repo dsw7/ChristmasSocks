@@ -27,18 +27,26 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
     return result
 
 
+class Server:
+    def __init__(self) -> None:
+        pass
+
+    
+
+
 class Client:
+
     def __init__(self) -> None:
         self.ini_configs = ConfigParser()
         self.ini_configs.read(path.join(path.dirname(__file__), 'client.ini'))
 
         self.socket = socket(AF_INET, SOCK_STREAM)
-        self.socket.settimeout(self.ini_configs['server'].getfloat('sock_timeout'))
+        self.socket.settimeout(self.ini_configs['client'].getfloat('sock_timeout'))
 
     def connect(self) -> None:
         self.socket.connect((
-            self.ini_configs['server']['ipv4_address_server'],
-            self.ini_configs['server'].getint('tcp_port')
+            self.ini_configs['client']['ipv4_address_server'],
+            self.ini_configs['client'].getint('tcp_port')
         ))
 
     def disconnect(self) -> None:
@@ -46,6 +54,6 @@ class Client:
 
     def send(self, command: str) -> str:
         self.socket.sendall(command.encode())
-        buffer_size = self.ini_configs['server'].getint('tcp_buffer_size')
+        buffer_size = self.ini_configs['client'].getint('tcp_buffer_size')
         bytes_recv = self.socket.recv(buffer_size)
         return bytes_recv.decode()
