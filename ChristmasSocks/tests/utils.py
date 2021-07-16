@@ -52,8 +52,8 @@ class Server:
         sleep(self.cfgs['server'].getfloat('startup-delay-valgrind'))
 
     def stop_server(self) -> None:
-        self.process.send_signal(SIGINT)
         sleep(self.cfgs['server'].getfloat('shutdown-delay'))
+        self.process.send_signal(SIGINT)
 
 
 class Client:
