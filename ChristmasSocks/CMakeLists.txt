@@ -14,6 +14,11 @@ string(TIMESTAMP COMPILE_DATE "%Y%m%d")
 # Use C++ 17 or later
 set(CMAKE_CXX_STANDARD 17)
 
+# Set the build type (if not overridden via -DCMAKE_BUILD_TYPE=)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif(NOT CMAKE_BUILD_TYPE)
+
 # All header files must be placed under include/
 include_directories("include")
 
