@@ -1,5 +1,7 @@
 from configparser import ConfigParser
 from os import path
+from subprocess import Popen, DEVNULL
+from signal import SIGINT
 from string import (
     ascii_letters,
     digits,
@@ -32,28 +34,31 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
 class Server:
 
     def __init__(self) -> None:
-        self.ini_configs = ConfigParser()
-        self.ini_configs.read(PATH_INI)
+        self.cfgs = ConfigParser()
+        self.cfgs.read(PATH_INI)
 
     def start_server(self) -> None:
         parent = path.dirname(PATH_THIS)
-        binary = path.join(parent, self.ini_configs['output-dir'], self.ini_configs['output-name'])
-        print(binary)
+        binary = path.join(parent, self.cfgs['server']['output-dir'], self.cfgs['server']['output-name'])
+        self.process = Popen(binary, stdout=DEVNULL)
+
+    def stop_server(self) -> None:
+        self.process.send_signal(SIGINT)
 
 
 class Client:
 
     def __init__(self) -> None:
-        self.ini_configs = ConfigParser()
-        self.ini_configs.read(PATH_INI)
+        self.cfgs = ConfigParser()
+        self.cfgs.read(PATH_INI)
 
         self.socket = socket(AF_INET, SOCK_STREAM)
-        self.socket.settimeout(self.ini_configs['client'].getfloat('sock_timeout'))
+        self.socket.settimeout(self.cfgs['client'].getfloat('sock_timeout'))
 
     def connect(self) -> None:
         self.socket.connect((
-            self.ini_configs['client']['ipv4_address_server'],
-            self.ini_configs['client'].getint('tcp_port')
+            self.cfgs['client']['ipv4_address_server'],
+            self.cfgs['client'].getint('tcp_port')
         ))
 
     def disconnect(self) -> None:
@@ -61,6 +66,6 @@ class Client:
 
     def send(self, command: str) -> str:
         self.socket.sendall(command.encode())
-        buffer_size = self.ini_configs['client'].getint('tcp_buffer_size')
+        buffer_size = self.cfgs['client'].getint('tcp_buffer_size')
         bytes_recv = self.socket.recv(buffer_size)
         return bytes_recv.decode()
