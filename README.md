@@ -39,12 +39,10 @@ The `--release` flag can also be omitted as the system will default to testing t
 ```bash
 $ ./ChristmasSocks/configure.py test
 ```
-## Testing with Valgrind
-To test source for memory leaks, run:
+### Running memory tests with Valgrind:
 ```bash
 $ cd /path/to/ChristmasSocks
-$ ./ChristmasSocks/configure.py compile --debug
-$ ./ChristmasSocks/configure.py test --valgrind
+$ ./ChristmasSocks/configure.py test --memory
 ```
 ## Testing with Docker
 To run tests with Docker, first make sure that Docker is installed. Then run:
