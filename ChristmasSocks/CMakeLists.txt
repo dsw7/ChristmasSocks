@@ -19,6 +19,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)
 
+# Print the build type
+message(STATUS "The build type will be: ${CMAKE_BUILD_TYPE}")
+
 # All header files must be placed under include/
 include_directories("include")
 
