@@ -186,9 +186,9 @@ def lint():
 def test(valgrind):
     test_runner = RunTests()
     if valgrind:
-        rv = test_runner.run_test() # XXX add memory specific tests
+        rv = test_runner.run_unittest() # XXX add memory specific tests
     else:
-        rv = test_runner.run_test()
+        rv = test_runner.run_unittest()
     sys.exit(rv)
 
 if __name__ == '__main__':
