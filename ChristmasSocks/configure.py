@@ -146,16 +146,12 @@ class RunTests:
 
     def __init__(self) -> None:
         self.configs = get_configs()
-
-    def start_server(self) -> Popen:
-        # pass command line arguments to binary here
-        command = '{}/{}/{}'.format(
-            PATH_THIS,
-            self.configs['compile']['output-dir'],
-            self.configs['run-tests']['output-name']
+        self.binary = path.join(
+            PATH_THIS, self.configs['compile']['output-dir'], self.configs['run-tests']['output-name']
         )
 
-        echo_message('Starting up server on localhost with command: {}'.format(command))
+    def start_server(self) -> Popen:
+        echo_message('Starting up server on localhost with command: {}'.format(self.binary))
         return Popen(command, stdout=DEVNULL)
 
     def start_server_with_valgrind(self) -> Popen:
