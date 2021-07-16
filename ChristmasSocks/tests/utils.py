@@ -17,7 +17,7 @@ from random import choice
 
 ALPHANUMERIC = ascii_letters + digits
 PATH_THIS = path.dirname(__file__)
-PATH_INI = path.join(PATH_THIS, 'client.ini')
+PATH_INI = path.join(PATH_THIS, 'tests.ini')
 
 def generate_random_string(num_strings: int, len_strings: int) -> list:
     result = []
