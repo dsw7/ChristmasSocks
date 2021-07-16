@@ -146,30 +146,26 @@ class RunTests:
 
     def __init__(self) -> None:
         self.configs = get_configs()
+        self.binary = path.join(
+            PATH_THIS, self.configs['compile']['output-dir'], self.configs['run-tests']['output-name']
+        )
+
+        if not path.exists(self.binary):
+            echo_error('{} does not exist. Was the binary compiled?'.format(self.binary))
+            sys.exit(EXIT_FAILURE)
 
     def start_server(self) -> Popen:
-        # pass command line arguments to binary here
-        command = '{}/{}/{}'.format(
-            PATH_THIS,
-            self.configs['compile']['output-dir'],
-            self.configs['run-tests']['output-name']
-        )
-
-        echo_message('Starting up server on localhost with command: {}'.format(command))
-        return Popen(command, stdout=DEVNULL)
+        echo_message('Starting up server on localhost with command: {}'.format(self.binary))
+        return Popen(self.binary, stdout=DEVNULL)
 
     def start_server_with_valgrind(self) -> Popen:
-        # pass command line arguments to binary here
-        command = 'valgrind {}/{}/{}'.format(
-            PATH_THIS,
-            self.configs['compile']['output-dir'],
-            self.configs['run-tests']['output-name']
-        )
-
+        # Pass command line arguments to binary here
+        command = 'valgrind {}'.format(self.binary)
         echo_message('Starting up server on localhost with command: {}'.format(command))
         return Popen(command.split(), stdout=DEVNULL)
 
-    def stop_server(self, process: Popen) -> None:
+    @staticmethod
+    def stop_server(process: Popen) -> None:
         echo_message('Stopping server on localhost')
         process.send_signal(SIGINT)
 
