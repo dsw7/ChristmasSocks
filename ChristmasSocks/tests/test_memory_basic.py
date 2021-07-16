@@ -12,7 +12,7 @@ class TestMemoryBasic(TestCase):
     @classmethod
     def setUpClass(self) -> None:
         self.server = Server()
-        self.server.start_server()
+        self.server.start_server_under_valgrind()
         self.client = Client()
         self.client.connect()
 
