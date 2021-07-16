@@ -21,7 +21,6 @@ from click import (
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 SEPARATOR = '-' * get_terminal_size().columns
-TEST_FILENAMES_PATTERN = 'test_*'
 DEVNULL = open(devnull, 'wb')
 PATH_THIS = path.dirname(__file__)
 
@@ -151,7 +150,7 @@ class RunTests:
 
     def run_unittest_release(self) -> bool:
         suite = TestLoader().discover(
-            self.test_directory, pattern=TEST_FILENAMES_PATTERN
+            self.test_directory, pattern=self.configs['run-tests']['test-filename-release']
         )
 
         runner = TextTestRunner(
@@ -164,7 +163,7 @@ class RunTests:
 
     def run_unittest_memory(self) -> bool:
         suite = TestLoader().discover(
-            self.test_directory, pattern=TEST_FILENAMES_PATTERN
+            self.test_directory, pattern=self.configs['run-tests']['test-filename-memory']
         )
 
         runner = TextTestRunner(
