@@ -201,11 +201,15 @@ def lint():
 @option('-v', '--valgrind/--no-valgrind', default=False, help='Run unit tests with Valgrind debugging tool')
 def test(valgrind):
     test_runner = RunTests()
+
     if valgrind:
         rv = test_runner.run_unittest_debug()
     else:
         rv = test_runner.run_unittest_release()
-    sys.exit(rv)
+
+    if rv:
+        sys.exit(EXIT_SUCCESS)
+    sys.exit(EXIT_FAILURE)
 
 if __name__ == '__main__':
     main()
