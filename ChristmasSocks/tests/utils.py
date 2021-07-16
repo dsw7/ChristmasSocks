@@ -53,6 +53,7 @@ class Server:
 
     def stop_server(self) -> None:
         self.process.send_signal(SIGINT)
+        sleep(self.cfgs['server'].getfloat('shutdown-delay'))
 
 
 class Client:
