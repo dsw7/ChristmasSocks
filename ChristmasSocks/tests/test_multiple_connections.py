@@ -11,7 +11,7 @@ from utils import (
 
 class TestMultipleConnections(TestCase):
 
-    def setUp(self) -> None:
+    def setUpClass(self) -> None:
         self.server = Server()
         self.server.start_server()
         self.client_a = Client()
@@ -21,7 +21,7 @@ class TestMultipleConnections(TestCase):
         self.client_b.connect()
         self.client_c.connect()
 
-    def tearDown(self) -> None:
+    def tearDownClass(self) -> None:
         self.client_a.disconnect()
         self.client_b.disconnect()
         self.client_c.disconnect()
