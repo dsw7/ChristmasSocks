@@ -11,12 +11,14 @@ from utils import (
 
 class TestProtocolRandomStrings(TestCase):
 
+    @classmethod
     def setUpClass(self) -> None:
         self.server = Server()
         self.server.start_server()
         self.client = Client()
         self.client.connect()
 
+    @classmethod
     def tearDownClass(self) -> None:
         self.client.disconnect()
         self.server.stop_server()
@@ -54,6 +56,7 @@ class TestProtocolRandomStrings(TestCase):
 
 class TestProtocolLimits(TestCase):
 
+    @classmethod
     def setUpClass(self) -> None:
         self.server = Server()
         self.server.start_server()
@@ -65,6 +68,7 @@ class TestProtocolLimits(TestCase):
 
         self.buffer_size = self.client.cfgs['client'].getint('tcp_buffer_size') - 1
 
+    @classmethod
     def tearDownClass(self) -> None:
         self.client.disconnect()
         self.server.stop_server()
