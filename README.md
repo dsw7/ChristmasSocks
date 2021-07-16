@@ -39,11 +39,12 @@ The `--release` flag can also be omitted as the system will default to testing t
 ```bash
 $ ./ChristmasSocks/configure.py test
 ```
-### Running memory tests with Valgrind:
+### Running memory tests:
 ```bash
 $ cd /path/to/ChristmasSocks
 $ ./ChristmasSocks/configure.py test --memory
 ```
+This project uses [Valgrind](https://valgrind.org/) for all dynamic analysis.
 ## Testing with Docker
 To run tests with Docker, first make sure that Docker is installed. Then run:
 ```bash
