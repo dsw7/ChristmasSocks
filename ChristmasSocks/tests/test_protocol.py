@@ -3,6 +3,7 @@
 from unittest import TestCase
 from utils import (
     Client,
+    Server,
     generate_random_string,
     generate_random_punctuation
 )
@@ -11,11 +12,14 @@ from utils import (
 class TestProtocolRandomStrings(TestCase):
 
     def setUp(self) -> None:
+        self.server = Server()
+        self.server.start_server()
         self.client = Client()
         self.client.connect()
 
     def tearDown(self) -> None:
         self.client.disconnect()
+        self.server.stop_server()
 
     def test_echo_5_byte_string(self) -> None:
         for string in generate_random_string(num_strings=5, len_strings=5):
@@ -31,16 +35,6 @@ class TestProtocolRandomStrings(TestCase):
         for string in generate_random_string(num_strings=5, len_strings=15):
             with self.subTest():
                 self.assertEqual(string, self.client.send(string))
-
-
-class TestProtocolRandomPunctuation(TestCase):
-
-    def setUp(self) -> None:
-        self.client = Client()
-        self.client.connect()
-
-    def tearDown(self) -> None:
-        self.client.disconnect()
 
     def test_echo_5_byte_punctuation(self) -> None:
         for string in generate_random_punctuation(num_strings=5, len_strings=5):
@@ -61,16 +55,19 @@ class TestProtocolRandomPunctuation(TestCase):
 class TestProtocolLimits(TestCase):
 
     def setUp(self) -> None:
+        self.server = Server()
+        self.server.start_server()
         self.client = Client()
         self.client.connect()
 
         # Tell unittest to print large strings (diffs)
         self.maxDiff = None
 
-        self.buffer_size = self.client.ini_configs['client'].getint('tcp_buffer_size') - 1
+        self.buffer_size = self.client.cfgs['client'].getint('tcp_buffer_size') - 1
 
     def tearDown(self) -> None:
         self.client.disconnect()
+        self.server.stop_server()
 
     def test_echo_max_size_minus_one_byte_string(self) -> None:
         string = generate_random_string(num_strings=1, len_strings=self.buffer_size)
