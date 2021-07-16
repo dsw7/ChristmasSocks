@@ -45,7 +45,7 @@ namespace RootLogger {
         std::cout << "** Project: " << NAME_PROJECT << "\n";
         std::cout << "** Project maintainer: " << MAINTAINER << "\n";
         std::cout << "** Compile date: " << COMPILE_DATE << "\n";
-        std::cout << "** Debug logging is disabled by default\n";
+        std::cout << "** CMAKE_BUILD_TYPE: " << CMAKE_BUILD_TYPE << "\n";
         std::cout << "** Legend:\n";
         std::cout << "   - CL: Lines stemming from incoming client connections\n";
         std::cout << "   - SL: Lines stemming from a master server connection\n";
