@@ -149,6 +149,8 @@ class RunTests:
         echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
 
     def run_unittest_release(self) -> bool:
+        echo_message('Running tests in files matching pattern: {}'.format(self.configs['run-tests']['test-filename-release']))
+
         suite = TestLoader().discover(
             self.test_directory, pattern=self.configs['run-tests']['test-filename-release']
         )
@@ -162,6 +164,8 @@ class RunTests:
         return test_run.wasSuccessful()
 
     def run_unittest_memory(self) -> bool:
+        echo_message('Running tests in files matching pattern: {}'.format(self.configs['run-tests']['test-filename-memory']))
+
         suite = TestLoader().discover(
             self.test_directory, pattern=self.configs['run-tests']['test-filename-memory']
         )
