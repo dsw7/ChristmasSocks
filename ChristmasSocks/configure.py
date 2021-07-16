@@ -146,10 +146,10 @@ class RunTests:
         self.configs = get_configs()
         self.test_directory = path.join(PATH_THIS, 'tests')
 
-    def run_unittest_release(self) -> bool:
         echo_separator()
         echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
 
+    def run_unittest_release(self) -> bool:
         suite = TestLoader().discover(
             self.test_directory, pattern=TEST_FILENAMES_PATTERN
         )
@@ -163,9 +163,6 @@ class RunTests:
         return test_run.wasSuccessful()
 
     def run_unittest_memory(self) -> bool:
-        echo_separator()
-        echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
-
         suite = TestLoader().discover(
             self.test_directory, pattern=TEST_FILENAMES_PATTERN
         )
