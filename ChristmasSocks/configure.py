@@ -184,7 +184,7 @@ def main():
     pass
 
 @main.command(help='Compile binary')
-@option('--debug', 'build_type', flag_value='debug', default=False, help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
+@option('--debug', 'build_type', flag_value='debug', help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
 @option('--release', 'build_type', flag_value='release', default=True, help='Compile with -DCMAKE_BUILD_TYPE=Release')
 def compile(build_type: str):
     compiler = Compile()
