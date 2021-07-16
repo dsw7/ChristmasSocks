@@ -67,7 +67,7 @@ class TestProtocolLimits(TestCase):
         # Tell unittest to print large strings (diffs)
         self.maxDiff = None
 
-        self.buffer_size = self.client.ini_configs['server'].getint('tcp_buffer_size') - 1
+        self.buffer_size = self.client.ini_configs['client'].getint('tcp_buffer_size') - 1
 
     def tearDown(self) -> None:
         self.client.disconnect()
