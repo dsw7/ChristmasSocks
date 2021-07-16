@@ -98,7 +98,7 @@ class Compile:
         )
         return run_shell_command(command)[0]
 
-    def compile_binary(self) -> int:
+    def compile_release_binary(self) -> int:
         if self.generate_makefiles() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
@@ -107,7 +107,7 @@ class Compile:
 
         return EXIT_SUCCESS
 
-    def compile_binary_release_with_debug_info(self) -> int:
+    def compile_debug_binary(self) -> int:
         if self.generate_makefiles_release_with_debug_info() != EXIT_SUCCESS:
             return EXIT_FAILURE
 
@@ -184,13 +184,14 @@ def main():
     pass
 
 @main.command(help='Compile binary')
-@option('-d', '--debug/--no-debug', default=False, help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
-def compile(debug: bool):
+@option('--debug', 'build_type', default=False, help='Compile with -DCMAKE_BUILD_TYPE=RelWithDebInfo')
+@option('--release', 'build_type', default=True, help='Compile with -DCMAKE_BUILD_TYPE=Release')
+def compile(build_type: str):
     compiler = Compile()
-    if debug:
-        rv = compiler.compile_binary_release_with_debug_info()
+    if build_type == 'debug':
+        rv = compiler.compile_debug_binary()
     else:
-        rv = compiler.compile_binary()
+        rv = compiler.compile_release_binary()
     sys.exit(rv)
 
 @main.command(help='Run static analysis on project')
