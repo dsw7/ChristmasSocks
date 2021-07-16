@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8.1)
 project(ChristmasSocks)
 
 # Maybe it works on Windows... I have no idea
-if (UNIX)
+if(UNIX)
     message(STATUS "Detecting *nix platform. Proceeding.")
 else()
     message(FATAL_ERROR "Cannot compile on non-*nix platform!")
