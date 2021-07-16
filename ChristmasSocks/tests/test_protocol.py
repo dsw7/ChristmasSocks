@@ -1,4 +1,5 @@
 # pylint: disable=C0103  # Disable snake case warning
+# pylint: disable=C0202  # Disable cls requirement for setUpClass / tearDownClass
 
 from unittest import TestCase
 from utils import (
