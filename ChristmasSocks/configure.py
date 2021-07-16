@@ -146,7 +146,23 @@ class RunTests:
         self.configs = get_configs()
         self.test_directory = path.join(PATH_THIS, 'tests')
 
-    def run_unittest(self) -> bool:
+    def run_unittest_release(self) -> bool:
+        echo_separator()
+        echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
+
+        suite = TestLoader().discover(
+            self.test_directory, pattern=TEST_FILENAMES_PATTERN
+        )
+
+        runner = TextTestRunner(
+            verbosity=self.configs['run-tests'].getint('test-verbosity'),
+            failfast=self.configs['run-tests'].getboolean('blind-run')
+        )
+
+        test_run = runner.run(suite)
+        return test_run.wasSuccessful()
+
+    def run_unittest_debug(self) -> bool:
         echo_separator()
         echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
 
@@ -186,9 +202,9 @@ def lint():
 def test(valgrind):
     test_runner = RunTests()
     if valgrind:
-        rv = test_runner.run_unittest() # XXX add memory specific tests
+        rv = test_runner.run_unittest_debug()
     else:
-        rv = test_runner.run_unittest()
+        rv = test_runner.run_unittest_release()
     sys.exit(rv)
 
 if __name__ == '__main__':
