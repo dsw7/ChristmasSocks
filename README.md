@@ -1,15 +1,20 @@
 # ChristmasSocks
 C++ socket utilities for my various other projects. This project also depicts my workflow for working with C++ projects.
 ## Compiling a test binary
-To compile a test binary, run the following:
+### To compile a `CMAKE_BUILD_TYPE=Release` binary:
+Run the following:
 ```bash
 $ cd /path/to/ChristmasSocks
 $ chmod +x ChristmasSocks/configure.py
-$ ./ChristmasSocks/configure.py compile
+$ ./ChristmasSocks/configure.py compile --release
 ```
 This will compile a binary under:
 ```
 /path/to/ChristmasSocks/ChristmasSocks/bin/socks
+```
+The `--release` flag can also be omitted:
+```bash
+$ ./ChristmasSocks/configure.py compile --release
 ```
 ## Static analysis
 To lint the C++ source, run:
