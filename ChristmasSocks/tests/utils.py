@@ -44,12 +44,12 @@ class Server:
 
     def start_server(self) -> None:
         self.process = Popen(self.binary, stdout=DEVNULL)
-        sleep(self.cfgs['server'].getfloat('startup-delay')
+        sleep(self.cfgs['server'].getfloat('startup-delay'))
 
     def start_server_under_valgrind(self) -> None:
         command = 'valgrind {}'.format(self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL)
-        sleep(self.cfgs['server'].getfloat('startup-delay-valgrind')
+        sleep(self.cfgs['server'].getfloat('startup-delay-valgrind'))
 
     def stop_server(self) -> None:
         self.process.send_signal(SIGINT)
