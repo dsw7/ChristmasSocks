@@ -12,9 +12,9 @@ This will compile a binary under:
 ```
 /path/to/ChristmasSocks/ChristmasSocks/bin/socks
 ```
-The `--release` flag can also be omitted:
+The `--release` flag can also be omitted as the system will default to compiling a release binary:
 ```bash
-$ ./ChristmasSocks/configure.py compile --release
+$ ./ChristmasSocks/configure.py compile
 ```
 ### To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary:
 Run the following:
@@ -29,9 +29,14 @@ This will, again, compile a binary under:
 ```
 As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
 ## Testing locally
+### Testing a `CMAKE_BUILD_TYPE=Release` binary:
 To test a binary that was compiled following the instructions under [Compiling a test binary](#compiling-a-test-binary), run:
 ```bash
 $ cd /path/to/ChristmasSocks
+$ ./ChristmasSocks/configure.py test --release
+```
+The `--release` flag can also be omitted as the system will default to testing the release binary:
+```bash
 $ ./ChristmasSocks/configure.py test
 ```
 ## Testing with Valgrind
