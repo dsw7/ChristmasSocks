@@ -5,11 +5,9 @@ from os import (
     path,
     devnull
 )
-from signal import SIGINT
 from configparser import ConfigParser
 from typing import Tuple
 from subprocess import Popen, PIPE
-from time import sleep
 from unittest import (
     TestLoader,
     TextTestRunner
@@ -146,28 +144,6 @@ class RunTests:
 
     def __init__(self) -> None:
         self.configs = get_configs()
-        self.binary = path.join(
-            PATH_THIS, self.configs['compile']['output-dir'], self.configs['run-tests']['output-name']
-        )
-
-        if not path.exists(self.binary):
-            echo_error('{} does not exist. Was the binary compiled?'.format(self.binary))
-            sys.exit(EXIT_FAILURE)
-
-    def start_server(self) -> Popen:
-        echo_message('Starting up server on localhost with command: {}'.format(self.binary))
-        return Popen(self.binary, stdout=DEVNULL)
-
-    def start_server_with_valgrind(self) -> Popen:
-        # Pass command line arguments to binary here
-        command = 'valgrind {}'.format(self.binary)
-        echo_message('Starting up server on localhost with command: {}'.format(command))
-        return Popen(command.split(), stdout=DEVNULL)
-
-    @staticmethod
-    def stop_server(process: Popen) -> None:
-        echo_message('Stopping server on localhost')
-        process.send_signal(SIGINT)
 
     def run_unittest(self) -> bool:
         test_directory = path.join(PATH_THIS, 'tests')
@@ -189,11 +165,7 @@ class RunTests:
     def run_test(self) -> bool:
         echo_separator()
 
-        process = self.start_server()
-        sleep(self.configs['run-tests'].getfloat('startup-delay'))
-
         rv = self.run_unittest()
-        self.stop_server(process)
 
         if rv:
             return EXIT_SUCCESS
@@ -202,11 +174,7 @@ class RunTests:
     def run_test_with_valgrind(self) -> bool:
         echo_separator()
 
-        process = self.start_server_with_valgrind()
-        sleep(self.configs['run-tests'].getfloat('startup-delay-valgrind'))
-
         rv = self.run_unittest()
-        self.stop_server(process)
 
         if rv:
             return EXIT_SUCCESS
