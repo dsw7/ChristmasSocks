@@ -5,11 +5,9 @@ from os import (
     path,
     devnull
 )
-from signal import SIGINT
 from configparser import ConfigParser
 from typing import Tuple
 from subprocess import Popen, PIPE
-from time import sleep
 from unittest import (
     TestLoader,
     TextTestRunner
@@ -146,36 +144,14 @@ class RunTests:
 
     def __init__(self) -> None:
         self.configs = get_configs()
-        self.binary = path.join(
-            PATH_THIS, self.configs['compile']['output-dir'], self.configs['run-tests']['output-name']
-        )
-
-        if not path.exists(self.binary):
-            echo_error('{} does not exist. Was the binary compiled?'.format(self.binary))
-            sys.exit(EXIT_FAILURE)
-
-    def start_server(self) -> Popen:
-        echo_message('Starting up server on localhost with command: {}'.format(self.binary))
-        return Popen(self.binary, stdout=DEVNULL)
-
-    def start_server_with_valgrind(self) -> Popen:
-        # Pass command line arguments to binary here
-        command = 'valgrind {}'.format(self.binary)
-        echo_message('Starting up server on localhost with command: {}'.format(command))
-        return Popen(command.split(), stdout=DEVNULL)
-
-    @staticmethod
-    def stop_server(process: Popen) -> None:
-        echo_message('Stopping server on localhost')
-        process.send_signal(SIGINT)
+        self.test_directory = path.join(PATH_THIS, 'tests')
 
     def run_unittest(self) -> bool:
-        test_directory = path.join(PATH_THIS, 'tests')
-        realpath = path.realpath(test_directory)
-        echo_message('Running tests in directory: {}'.format(realpath))
+        echo_separator()
+        echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
 
         suite = TestLoader().discover(
-            test_directory, pattern=TEST_FILENAMES_PATTERN
+            self.test_directory, pattern=TEST_FILENAMES_PATTERN
         )
 
         runner = TextTestRunner(
@@ -185,32 +161,6 @@ class RunTests:
 
         test_run = runner.run(suite)
         return test_run.wasSuccessful()
-
-    def run_test(self) -> bool:
-        echo_separator()
-
-        process = self.start_server()
-        sleep(self.configs['run-tests'].getfloat('startup-delay'))
-
-        rv = self.run_unittest()
-        self.stop_server(process)
-
-        if rv:
-            return EXIT_SUCCESS
-        return EXIT_FAILURE
-
-    def run_test_with_valgrind(self) -> bool:
-        echo_separator()
-
-        process = self.start_server_with_valgrind()
-        sleep(self.configs['run-tests'].getfloat('startup-delay-valgrind'))
-
-        rv = self.run_unittest()
-        self.stop_server(process)
-
-        if rv:
-            return EXIT_SUCCESS
-        return EXIT_FAILURE
 
 
 @group()
@@ -236,9 +186,9 @@ def lint():
 def test(valgrind):
     test_runner = RunTests()
     if valgrind:
-        rv = test_runner.run_test_with_valgrind()
+        rv = test_runner.run_unittest() # XXX add memory specific tests
     else:
-        rv = test_runner.run_test()
+        rv = test_runner.run_unittest()
     sys.exit(rv)
 
 if __name__ == '__main__':
