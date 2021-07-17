@@ -20,7 +20,7 @@ class TestProtocolRandomStrings(TestCase):
     @classmethod
     def tearDownClass(self) -> None:
         self.client.disconnect()
-        #self.server.stop_server()
+        self.server.stop_server()
 
     def test_process_is_alive(self) -> None:
         self.assertTrue(is_process_running(self.server.process.pid))
