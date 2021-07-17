@@ -5,8 +5,6 @@ from unittest import TestCase
 from utils import (
     Client,
     Server,
-    generate_random_string,
-    generate_random_punctuation,
     is_process_running
 )
 
@@ -25,7 +23,9 @@ class TestProtocolRandomStrings(TestCase):
         self.client.disconnect()
         self.server.stop_server()
 
-    def test_process_is_dead(self) -> None:
-        if is_process_running(self.server.process.pid):
-            print(True)
-        assert True
+    def test_process_is_alive(self) -> None:
+        self.assertTrue(is_process_running(self.server.process.pid))
+
+    def test_process_is_dead_after_sending_exit(self) -> None:
+        self.client.send('exit')
+        self.assertFalse(is_process_running(self.server.process.pid))
