@@ -82,4 +82,5 @@ class Client:
 
     def stop_server(self) -> None:
         command = 'exit'
+        sleep(self.cfgs['server'].getfloat('shutdown-delay'))
         self.socket.sendall(command.encode())
