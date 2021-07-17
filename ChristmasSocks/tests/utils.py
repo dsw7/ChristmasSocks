@@ -79,3 +79,7 @@ class Client:
         buffer_size = self.cfgs['client'].getint('tcp_buffer_size')
         bytes_recv = self.socket.recv(buffer_size)
         return bytes_recv.decode()
+
+    def stop_server(self) -> None:
+        command = 'exit'
+        self.socket.sendall(command.encode())
