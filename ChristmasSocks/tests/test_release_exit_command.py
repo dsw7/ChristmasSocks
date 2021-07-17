@@ -31,3 +31,4 @@ class TestProtocolRandomStrings(TestCase):
         self.client.send('exit')
         sleep(0.5)
         self.assertFalse(is_process_running(self.server.process.pid))
+        print(self.server.process.pid)
