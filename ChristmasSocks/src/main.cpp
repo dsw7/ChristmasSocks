@@ -69,7 +69,14 @@ void server_impl_main(configs_t &configs)
 
                 if (client.read_data(message, socket_fd_client_from_struct))
                 {
-                    client.write_data(message, socket_fd_client_from_struct);
+                    if (message.compare("exit") == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        client.write_data(message, socket_fd_client_from_struct);
+                    }
                 }
             }
         }
