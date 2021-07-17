@@ -4,11 +4,10 @@
 from unittest import TestCase
 from utils import (
     Client,
-    Server,
-    is_process_running
+    Server
 )
 
-class TestProtocolRandomStrings(TestCase):
+class TestExitCommand(TestCase):
 
     @classmethod
     def setUpClass(self) -> None:
@@ -23,5 +22,10 @@ class TestProtocolRandomStrings(TestCase):
         self.server.stop_server()
 
     def test_process_is_dead_after_sending_exit(self) -> None:
+        string = 'foobar'
+        self.assertEqual(string, self.client.send(string))
         self.client.send('exit')
-        self.assertFalse(is_process_running(self.server.process.pid))
+
+        # Cannot simply check if /proc/self.server.process.pid no longer exists because
+        # python keeps the process lingering as a zombie
+        self.assertIsNone(self.client.send(string))
