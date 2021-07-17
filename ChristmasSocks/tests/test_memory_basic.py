@@ -19,7 +19,8 @@ class TestMemoryBasic(TestCase):
     @classmethod
     def tearDownClass(self) -> None:
         self.client.disconnect()
-        self.server.stop_server()
+        #self.server.stop_server()
+        self.client.stop_server()
 
     def test_echo_6_bytes(self) -> None:
         string = 'foobar'
