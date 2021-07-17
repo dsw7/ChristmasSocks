@@ -29,6 +29,4 @@ class TestProtocolRandomStrings(TestCase):
 
     def test_process_is_dead_after_sending_exit(self) -> None:
         self.client.send('exit')
-        sleep(0.5)
         self.assertFalse(is_process_running(self.server.process.pid))
-        print(self.server.process.pid)

@@ -1,5 +1,5 @@
 from configparser import ConfigParser
-from os import path, kill
+from os import path
 from time import sleep
 from subprocess import Popen, DEVNULL
 from signal import SIGINT
@@ -32,11 +32,9 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
     return result
 
 def is_process_running(pid: int) -> bool:
-    try:
-        kill(pid, 0)
-    except OSError:
-        return False
-    return True
+    if path.exists('/proc/{}'.format(pid)):
+        return True
+    return False
 
 
 class Server:
