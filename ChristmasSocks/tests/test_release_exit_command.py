@@ -36,4 +36,4 @@ class TestProtocolRandomStrings(TestCase):
                 is_server_dead = True
                 break
 
-        assertTrue(is_server_dead)
+        self.assertTrue(is_server_dead)
