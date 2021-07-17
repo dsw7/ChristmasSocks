@@ -1,5 +1,5 @@
 from configparser import ConfigParser
-from os import path
+from os import path, makedirs
 from time import sleep
 from subprocess import Popen, DEVNULL
 from signal import SIGINT
@@ -52,7 +52,12 @@ class Server:
         sleep(self.cfgs['server'].getfloat('startup-delay'))
 
     def start_server_under_valgrind(self, log_file: str) -> None:
-        command = 'valgrind --leak-check=yes --log-file={} {}'.format(log_file, self.binary)
+        log_file_dump = self.cfgs['server']['valgrind-log-files']
+        if not path.exists(log_file_dump):
+            makedirs(log_file_dump)
+
+        path_log_file = path.join(log_file_dump, log_file)
+        command = 'valgrind --leak-check=yes --log-file={} {}'.format(path_log_file, self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL)
         sleep(self.cfgs['server'].getfloat('startup-delay-valgrind'))
 
