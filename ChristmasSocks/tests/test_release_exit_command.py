@@ -31,4 +31,6 @@ class TestProtocolRandomStrings(TestCase):
         self.client.send('exit')
         print(self.server.process.pid)
         print(listdir('/proc'))
+        sleep(0.5)
+        print(listdir('/proc'))
         self.assertFalse(is_process_running(self.server.process.pid))
