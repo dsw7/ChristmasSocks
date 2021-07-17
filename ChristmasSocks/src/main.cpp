@@ -103,7 +103,7 @@ int main(int argc, char **argv)
     overwrite_config_file_configs_with_cli_args(global_configs, argc, argv);
 
     server_impl_main(global_configs);
-    RootLogger::message("Program appears to have exited normally");
+    RootLogger::info("Program appears to have exited normally");
     RootLogger::footer();
     return 0;
 }
