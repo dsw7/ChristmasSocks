@@ -9,7 +9,6 @@ from utils import (
     is_process_running
 )
 
-from os import listdir
 class TestProtocolRandomStrings(TestCase):
 
     @classmethod
@@ -29,4 +28,12 @@ class TestProtocolRandomStrings(TestCase):
 
     def test_process_is_dead_after_sending_exit(self) -> None:
         self.client.send('exit')
-        self.assertFalse(is_process_running(self.server.process.pid))
+        is_server_dead = False
+
+        for _ in range(0, 5):
+            sleep(0.5)
+            if not is_process_running(self.server.process.pid):
+                is_server_dead = True
+                break
+
+        assertTrue(is_server_dead)
