@@ -4,9 +4,6 @@
 // This file can be used to override all the following downstream global variables
 std::string CONFIG_FILEPATH = "/etc/socks.ini";
 
-// Tell logger to print debug log lines
-bool ENABLE_DEBUG_LOGGING = false;
-
 // Specify TCP port here
 unsigned int TCP_PORT = 8080;
 
