@@ -71,7 +71,7 @@ void server_impl_main(configs_t &configs)
                 {
                     if (message.compare("exit") == 0)
                     {
-                        break;
+                        goto endloop;
                     }
                     else
                     {
@@ -82,6 +82,7 @@ void server_impl_main(configs_t &configs)
         }
     }
 
+    endloop:;
     server.close_server_socket_file_descriptor();
 }
 
