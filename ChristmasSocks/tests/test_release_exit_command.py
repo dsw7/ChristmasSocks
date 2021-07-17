@@ -19,7 +19,6 @@ class TestExitCommand(TestCase):
     @classmethod
     def tearDownClass(self) -> None:
         self.client.disconnect()
-        self.server.stop_server()
 
     def test_process_is_dead_after_sending_exit(self) -> None:
         string = 'foobar'
