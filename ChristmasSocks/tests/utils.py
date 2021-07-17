@@ -14,10 +14,14 @@ from socket import (
     SOCK_STREAM
 )
 from random import choice
+from click import secho
 
 ALPHANUMERIC = ascii_letters + digits
 PATH_THIS = path.dirname(__file__)
 PATH_INI = path.join(PATH_THIS, 'tests.ini')
+
+def echo_message(msg: str) -> None:
+    secho('{}'.format(msg), fg='yellow')
 
 def generate_random_string(num_strings: int, len_strings: int) -> list:
     result = []
@@ -57,7 +61,8 @@ class Server:
             makedirs(log_file_dump)
 
         path_log_file = path.join(log_file_dump, log_file)
-        print(path_log_file)
+        echo_message('Valgrind log file: {}'.format(path_log_file))
+
         command = 'valgrind --leak-check=yes --log-file={} {}'.format(path_log_file, self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL)
         sleep(self.cfgs['server'].getfloat('startup-delay-valgrind'))
