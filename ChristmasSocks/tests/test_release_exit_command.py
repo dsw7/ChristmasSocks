@@ -28,4 +28,4 @@ class TestExitCommand(TestCase):
 
         # Cannot simply check if /proc/self.server.process.pid no longer exists because
         # python keeps the process lingering as a zombie
-        self.assertIsNone(self.client.send(string))
+        self.assertEqual('', self.client.send(string))
