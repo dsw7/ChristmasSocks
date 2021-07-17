@@ -88,5 +88,5 @@ Compile and test release binary:
 ```
 Compile and test debug binary:
 ```bash
- ./configure.py compile --debug && ./configure.py test --memory
- ```
+./configure.py compile --debug && ./configure.py test --memory
+```
