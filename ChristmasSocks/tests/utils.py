@@ -57,6 +57,7 @@ class Server:
             makedirs(log_file_dump)
 
         path_log_file = path.join(log_file_dump, log_file)
+        print(path_log_file)
         command = 'valgrind --leak-check=yes --log-file={} {}'.format(path_log_file, self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL)
         sleep(self.cfgs['server'].getfloat('startup-delay-valgrind'))
