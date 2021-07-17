@@ -18,7 +18,8 @@ class TestMemoryBasic(TestCase):
 
     @classmethod
     def tearDownClass(self) -> None:
-        #self.server.stop_server()
+        # Exit gracefully instead of using IPC signal...
+        # Signals are terrible for debugging with Valgrind
         self.client.stop_server()
         self.client.disconnect()
 
