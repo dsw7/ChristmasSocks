@@ -51,8 +51,8 @@ class Server:
         self.process = Popen(self.binary, stdout=DEVNULL)
         sleep(self.cfgs['server'].getfloat('startup-delay'))
 
-    def start_server_under_valgrind(self) -> None:
-        command = 'valgrind {}'.format(self.binary)
+    def start_server_under_valgrind(self, log_file: str) -> None:
+        command = 'valgrind --leak-check=yes --log-file={} {}'.format(log_file, self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL)
         sleep(self.cfgs['server'].getfloat('startup-delay-valgrind'))
 
