@@ -81,3 +81,12 @@ Then send a message in another terminal:
 echo -n "exit" | nc localhost 1234
 ```
 The `-n` flag is important as the server does not interpret trailing newlines. The server should now shut down.
+## Shortcuts
+Compile and test release binary:
+```bash
+./configure.py compile --release && ./configure.py test --release
+```
+Compile and test debug binary:
+```bash
+ ./configure.py compile --debug && ./configure.py test --memory
+ ```
