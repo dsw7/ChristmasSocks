@@ -31,6 +31,11 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
         result.append(''.join(choice(punctuation) for _ in range(len_strings)))
     return result
 
+def is_process_running(pid: int) -> bool:
+    if path.exists('/proc/{}'.format(pid)):
+        return True
+    return False
+
 
 class Server:
 
