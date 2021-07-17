@@ -48,7 +48,7 @@ class Server:
         self.process = None
 
     def start_server(self) -> None:
-        self.process = Popen(self.binary, stdout=DEVNULL)
+        self.process = Popen(self.binary) #, stdout=DEVNULL)
         sleep(self.cfgs['server'].getfloat('startup-delay'))
 
     def start_server_under_valgrind(self) -> None:
