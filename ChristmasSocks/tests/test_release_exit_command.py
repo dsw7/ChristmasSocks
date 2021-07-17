@@ -6,7 +6,8 @@ from utils import (
     Client,
     Server,
     generate_random_string,
-    generate_random_punctuation
+    generate_random_punctuation,
+    is_process_running
 )
 
 
@@ -25,5 +26,6 @@ class TestProtocolRandomStrings(TestCase):
         self.server.stop_server()
 
     def test_process_is_dead(self) -> None:
-        print(self.server.process.pid)
+        if is_process_running(self.server.process.pid):
+            print(True)
         assert True

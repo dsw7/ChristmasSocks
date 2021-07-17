@@ -1,5 +1,5 @@
 from configparser import ConfigParser
-from os import path
+from os import path, kill
 from time import sleep
 from subprocess import Popen, DEVNULL
 from signal import SIGINT
@@ -30,6 +30,13 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
     for _ in range(num_strings):
         result.append(''.join(choice(punctuation) for _ in range(len_strings)))
     return result
+
+def is_process_running(pid: int) -> bool:
+    try:
+        kill(pid, 0)
+    except OSError:
+        return False
+    return True
 
 
 class Server:
