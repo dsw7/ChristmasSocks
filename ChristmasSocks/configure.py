@@ -75,7 +75,7 @@ class Compile:
         echo_separator()
         echo_message('Generating Makefiles for project')
 
-        command = 'cmake -S {root} -B {root}/{output_dir}'.format(
+        command = 'cmake -DCMAKE_BUILD_TYPE=Release -S {root} -B {root}/{output_dir}'.format(
             root=PATH_THIS, output_dir=self.configs['compile']['output-dir']
         )
         return run_shell_command(command)[0]
