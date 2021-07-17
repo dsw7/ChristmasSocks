@@ -10,7 +10,6 @@
 
 namespace RootLogger
 {
-    void debug(std::string);
     void info(std::string);
     void warning(std::string);
     void error(std::string);
@@ -21,7 +20,6 @@ namespace RootLogger
 
 namespace ClientLogger
 {
-    void debug(std::string, int &fd);
     void info(std::string, int &fd);
     void warning(std::string, int &fd);
     void error(std::string, int &fd);
@@ -29,7 +27,6 @@ namespace ClientLogger
 
 namespace ServerLogger
 {
-    void debug(std::string, int &fd);
     void info(std::string, int &fd);
     void warning(std::string, int &fd);
     void error(std::string, int &fd);
