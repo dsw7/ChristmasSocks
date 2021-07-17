@@ -11,9 +11,8 @@ class TestMemoryBasic(TestCase):
 
     @classmethod
     def setUpClass(self) -> None:
-        print(self.__class__)
         self.server = Server()
-        self.server.start_server_under_valgrind()
+        self.server.start_server_under_valgrind(log_file='TestMemoryBasic.log')
         self.client = Client()
         self.client.connect()
 
