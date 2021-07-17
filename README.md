@@ -78,6 +78,6 @@ Manual testing can be done using [netcat](https://linux.die.net/man/1/nc) (`nc`)
 ```
 Then send a message in another terminal:
 ```bash
-echo "exit" -n | nc localhost 1234
+echo -n "exit" | nc localhost 1234
 ```
-The server should now shut down.
+The `-n` flag is important as the server does not interpret trailing newlines. The server should now shut down.
