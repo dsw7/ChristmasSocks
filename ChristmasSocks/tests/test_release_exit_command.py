@@ -2,7 +2,6 @@
 # pylint: disable=C0202  # Disable cls requirement for setUpClass / tearDownClass
 
 from unittest import TestCase
-from time import sleep
 from utils import (
     Client,
     Server,
@@ -21,19 +20,11 @@ class TestProtocolRandomStrings(TestCase):
     @classmethod
     def tearDownClass(self) -> None:
         self.client.disconnect()
-        self.server.stop_server()
+        #self.server.stop_server()
 
     def test_process_is_alive(self) -> None:
         self.assertTrue(is_process_running(self.server.process.pid))
 
     def test_process_is_dead_after_sending_exit(self) -> None:
         self.client.send('exit')
-        is_server_dead = False
-
-        for _ in range(0, 5):
-            sleep(0.5)
-            if not is_process_running(self.server.process.pid):
-                is_server_dead = True
-                break
-
-        self.assertTrue(is_server_dead)
+        self.assertFalse(is_process_running(self.server.process.pid))
