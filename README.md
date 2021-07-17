@@ -71,3 +71,13 @@ $ cd /path/to/ChristmasSocks
 $ ./ChristmasSocks/configure.py lint
 ```
 As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
+## Manual testing
+Manual testing can be done using [netcat](https://linux.die.net/man/1/nc) (`nc`). First, start the server:
+```bash
+/path/to/socks --port 1234 # Or whatever port TCP port you wish to use
+```
+Then send a message in another terminal:
+```bash
+echo "exit" -n | nc localhost 1234
+```
+The server should now shut down.
