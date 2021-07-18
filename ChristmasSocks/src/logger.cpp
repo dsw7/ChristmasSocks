@@ -7,8 +7,10 @@ void render_separator()
 
     // Can also access window_size.ws_row to access rows
     int window_columns = window_size.ws_col;
-    std::string separator(window_columns, '=');
-    std::cout << separator << std::endl;
+    //std::string separator(window_columns, '=');
+    //std::string(window_columns, '=');
+    //std::cout << separator << std::endl;
+    std::cout << std::string(window_columns, '=') << std::endl;
 }
 
 namespace RootLogger {
