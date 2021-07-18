@@ -6,7 +6,8 @@ void render_separator()
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
 
     // Can also access window_size.ws_row to access rows
-    std::string separator(window_size.ws_col, '=');
+    int window_columns = window_size.ws_col;
+    std::string separator(window_columns, '=');
     std::cout << separator << std::endl;
 }
 
