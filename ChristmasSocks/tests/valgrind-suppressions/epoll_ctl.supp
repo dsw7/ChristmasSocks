@@ -1,0 +1,8 @@
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   epoll_ctl(event)
+   fun:epoll_ctl
+   fun:_Z16server_impl_mainR9configs_t
+   fun:main
+}
