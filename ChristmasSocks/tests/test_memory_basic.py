@@ -22,6 +22,6 @@ class TestMemoryBasic(TestCase):
         self.client.stop_server()
         self.client.disconnect()
 
-    def test_echo_6_bytes(self) -> None:
+    def test_simple_echo(self) -> None:
         string = 'foobar'
         self.assertEqual(string, self.client.send(string))
