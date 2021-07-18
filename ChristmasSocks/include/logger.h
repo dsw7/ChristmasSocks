@@ -8,12 +8,13 @@
 #include "utilities.h"
 #include "constants.h"
 
+void render_separator();
+
 namespace RootLogger
 {
     void info(std::string);
     void warning(std::string);
     void error(std::string);
-    void render_separator();
     void header();
     void footer();
 }

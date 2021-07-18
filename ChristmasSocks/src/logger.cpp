@@ -1,5 +1,15 @@
 #include "logger.h"
 
+void render_separator()
+{
+    struct winsize window_size;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
+
+    // Can also access window_size.ws_row to access rows
+    std::string separator(window_size.ws_col, '=');
+    std::cout << separator << std::endl;
+}
+
 namespace RootLogger {
 
     void info(std::string message)
@@ -18,16 +28,6 @@ namespace RootLogger {
     {
         std::string line = get_current_datetime_string() + " E RT " + message;
         std::cout << line << std::endl;
-    }
-
-    void render_separator()
-    {
-        struct winsize window_size;
-        ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
-
-        // can also access window_size.ws_row to access rows
-        std::string separator(window_size.ws_col, '=');
-        std::cout << separator << std::endl;
     }
 
     void header()
