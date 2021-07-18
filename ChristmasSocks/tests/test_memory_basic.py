@@ -12,7 +12,7 @@ class TestMemoryBasic(TestCase):
     def setUp(self) -> None:
         log_file = '{}.log'.format(self.id())
         self.server = Server()
-        self.server.start_server_under_valgrind(log_file='TestMemoryBasic.log')
+        self.server.start_server_under_valgrind(log_file=log_file)
         self.client = Client()
         self.client.connect()
 
