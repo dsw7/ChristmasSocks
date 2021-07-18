@@ -9,15 +9,14 @@ from utils import (
 
 class TestMemoryBasic(TestCase):
 
-    @classmethod
-    def setUpClass(self) -> None:
+    def setUp(self) -> None:
+        log_file = '{}.log'.format(self.id())
         self.server = Server()
         self.server.start_server_under_valgrind(log_file='TestMemoryBasic.log')
         self.client = Client()
         self.client.connect()
 
-    @classmethod
-    def tearDownClass(self) -> None:
+    def tearDown(self) -> None:
         # Exit gracefully instead of using IPC signal...
         # Signals are terrible for debugging with Valgrind
         self.client.stop_server()
