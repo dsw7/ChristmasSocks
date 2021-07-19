@@ -4,6 +4,7 @@
 #include <arpa/inet.h> // inet_ntoa
 #include <string.h>
 #include <errno.h>
+#include <unistd.h>
 #include "logger.h"
 #include "constants.h"
 #include "sysconfig_pipeline.h"
