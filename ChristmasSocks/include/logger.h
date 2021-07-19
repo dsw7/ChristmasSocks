@@ -3,20 +3,13 @@
 
 #include <iostream>
 #include <string>
-#include <sys/ioctl.h>  // For ioctl() and TIOCGWINSZ
-#include <unistd.h>     // For STDOUT_FILENO
 #include "utilities.h"
-#include "constants.h"
-
-void render_separator();
 
 namespace RootLogger
 {
     void info(std::string);
     void warning(std::string);
     void error(std::string);
-    void header();
-    void footer();
 }
 
 namespace ClientLogger
