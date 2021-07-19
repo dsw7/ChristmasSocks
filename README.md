@@ -98,3 +98,7 @@ _Compile and test debug binary_:
 ```bash
 ./configure.py compile --debug && ./configure.py test --memory
 ```
+_Run end to end Docker test_:
+```bash
+docker build -t socks . && docker run -it --rm socks
+```
