@@ -1,39 +1,42 @@
 # ChristmasSocks
 An experimental C++ server that I built more or less out of personal interest. Unless otherwise noted, all instructions are to be carried out relative to the `/path/to/ChristmasSocks/ChristmasSocks` directory. Ensure that the `configure.py` script is executable.
 ## Table of Contents
+  - [Static analysis](#static-analysis)
   - [Compiling a test binary](#compiling-a-test-binary)
     - [To compile a `CMAKE_BUILD_TYPE=Release` binary](#to-compile-a-cmake_build_typerelease-binary)
     - [To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary](#to-compile-a-cmake_build_typerelwithdebinfo-binary)
+  - [Testing](#testing)
 
+## Static analysis
+To lint the C++ source, run:
+```bash
+./configure.py lint
+```
+As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
 ## Compiling a test binary
 ### To compile a `CMAKE_BUILD_TYPE=Release` binary:
 Run the following:
 ```bash
-cd /path/to/ChristmasSocks
-chmod +x ChristmasSocks/configure.py
-./ChristmasSocks/configure.py compile --release
+./configure.py compile --release
 ```
 This will compile a binary under:
 ```
-/path/to/ChristmasSocks/ChristmasSocks/bin/socks
+./bin/socks
 ```
 The `--release` flag can also be omitted as the system will default to compiling a release binary:
 ```bash
-./ChristmasSocks/configure.py compile
+./configure.py compile
 ```
 ### To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary:
 Run the following:
 ```bash
-cd /path/to/ChristmasSocks
-chmod +x ChristmasSocks/configure.py
-./ChristmasSocks/configure.py compile --debug
+./configure.py compile --debug
 ```
 This will, again, compile a binary under:
 ```
-/path/to/ChristmasSocks/ChristmasSocks/bin/socks
+./bin/socks
 ```
-As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
-## Testing locally
+## Testing 
 ### Testing a `CMAKE_BUILD_TYPE=Release` binary:
 To test a binary that was compiled following the instructions under [Compiling a test binary](#compiling-a-test-binary), run:
 ```bash
@@ -69,12 +72,6 @@ But within the container itself.
 I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
 To make these mounts, I simply print out the `layout.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
 and cut out the shape according to the template. The circles are nothing than drill hole markers. Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
-## Static analysis
-To lint the C++ source, run:
-```bash
-cd /path/to/ChristmasSocks
-./ChristmasSocks/configure.py lint
-```
 As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
 ## Manual testing
 Manual testing can be done using [netcat](https://linux.die.net/man/1/nc) (`nc`). First, start the server:
