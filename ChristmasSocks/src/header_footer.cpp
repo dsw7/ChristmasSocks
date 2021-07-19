@@ -1,12 +1,5 @@
 #include "header_footer.h"
 
-void render_separator()
-{
-    struct winsize window_size;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
-    std::cout << std::string(window_size.ws_col, '=') << std::endl;
-}
-
 void display_header()
 {
     render_separator();

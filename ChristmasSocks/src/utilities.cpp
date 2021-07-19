@@ -34,3 +34,10 @@ void read_file(std::string &filepath, std::string &file_contents)
 
     filestream.close();
 }
+
+void render_separator()
+{
+    struct winsize window_size;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
+    std::cout << std::string(window_size.ws_col, '=') << std::endl;
+}
