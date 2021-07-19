@@ -3,14 +3,14 @@
 void sigint_handler(int signal)
 {
     RootLogger::info("Interrupt signal SIGINT (" + std::to_string(signal) + ") received!");
-    RootLogger::footer();
+    display_footer();
     exit(signal);
 }
 
 void sigterm_handler(int signal)
 {
     RootLogger::info("Termination signal SIGTERM (" + std::to_string(signal) + ") received!");
-    RootLogger::footer();
+    display_footer();
     exit(signal);
 }
 
