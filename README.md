@@ -10,6 +10,8 @@ An experimental C++ server that I built more or less out of personal interest. U
     - [Running memory tests](#running-memory-tests)
     - [Testing with Docker](#testing-with-docker)
     - [Manual testing](#manual-testing)
+  - [Testing hardware](#testing-hardware)
+  - [Shortcuts](#shortcuts)
 
 ## Static analysis
 To lint the C++ source, run:
@@ -88,11 +90,11 @@ I use a Raspberry Pi cluster for testing this product. The individual nodes are 
 To make these mounts, I simply print out the `layout.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
 and cut out the shape according to the template. The circles are nothing than drill hole markers. Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
 ## Shortcuts
-Compile and test release binary:
+_Compile and test release binary_:
 ```bash
 ./configure.py compile --release && ./configure.py test --release
 ```
-Compile and test debug binary:
+_Compile and test debug binary_:
 ```bash
 ./configure.py compile --debug && ./configure.py test --memory
 ```
