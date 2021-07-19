@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "header_footer.h"
 
 void render_separator()
 {
