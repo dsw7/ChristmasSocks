@@ -6,6 +6,9 @@ An experimental C++ server that I built more or less out of personal interest. U
     - [To compile a `CMAKE_BUILD_TYPE=Release` binary](#to-compile-a-cmake_build_typerelease-binary)
     - [To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary](#to-compile-a-cmake_build_typerelwithdebinfo-binary)
   - [Testing](#testing)
+    - [Testing a `CMAKE_BUILD_TYPE=Release` binary](#testing-a-cmake_build_typerelease-binary)
+    - [Running memory tests](#running-memory-tests)
+    - [Testing with Docker](#testing-with-docker)
 
 ## Static analysis
 To lint the C++ source, run:
@@ -36,27 +39,24 @@ This will, again, compile a binary under:
 ```
 ./bin/socks
 ```
-## Testing 
+## Testing
 ### Testing a `CMAKE_BUILD_TYPE=Release` binary:
 To test a binary that was compiled following the instructions under [Compiling a test binary](#compiling-a-test-binary), run:
 ```bash
-cd /path/to/ChristmasSocks
-./ChristmasSocks/configure.py test --release
+./configure.py test --release
 ```
 The `--release` flag can also be omitted as the system will default to testing the release binary:
 ```bash
-./ChristmasSocks/configure.py test
+./configure.py test
 ```
 ### Running memory tests:
 ```bash
-cd /path/to/ChristmasSocks
-./ChristmasSocks/configure.py test --memory
+./configure.py test --memory
 ```
 This project uses [Valgrind](https://valgrind.org/) for all dynamic analysis.
-## Testing with Docker
+### Testing with Docker
 To run tests with Docker, first make sure that Docker is installed. Then run:
 ```bash
-cd /path/to/ChristmasSocks
 docker build -t socks .
 ```
 This will generate a Debian based local Docker image. To actually test the product, run the `socks` image:
@@ -65,7 +65,7 @@ docker run -it --rm socks
 ```
 The Dockerfile will simply run the steps:
 - [Compiling a test binary](#compiling-a-test-binary)
-- [Testing locally](#testing-locally)
+- [Testing](#testing)
 
 But within the container itself.
 ## Testing hardware
