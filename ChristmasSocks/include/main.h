@@ -11,6 +11,7 @@
 #include "ipc_signal_registers.h"
 #include "clients.h"
 #include "sysconfig_pipeline.h"
+#include "header_footer.h"
 
 void server_impl_main(configs_t &configs);
 

@@ -94,7 +94,7 @@ int main(int argc, char **argv)
         exit(EXIT_SUCCESS);
     }
 
-    RootLogger::header();
+    display_header();
     register_ipc_signals();
 
     configs_t global_configs;
@@ -104,6 +104,6 @@ int main(int argc, char **argv)
 
     server_impl_main(global_configs);
     RootLogger::info("Program appears to have exited normally");
-    RootLogger::footer();
+    display_footer();
     return 0;
 }
