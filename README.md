@@ -2,7 +2,8 @@
 An experimental C++ server that I built more or less out of personal interest.
 ## Table of Contents
   - [Compiling a test binary](#compiling-a-test-binary)
-    - [To compile a `CMAKE_BUILD_TYPE=Release` binary](#to-compile-a-cmakebuildtyperelease-binary)
+    - [To compile a `CMAKE_BUILD_TYPE=Release` binary](#to-compile-a-cmake_build_typerelease-binary)
+    - [To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary](#to-compile-a-cmake_build_typerelwithdebinfo-binary)
 
 ## Compiling a test binary
 ### To compile a `CMAKE_BUILD_TYPE=Release` binary:
