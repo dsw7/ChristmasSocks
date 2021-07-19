@@ -9,6 +9,7 @@ An experimental C++ server that I built more or less out of personal interest. U
     - [Testing a `CMAKE_BUILD_TYPE=Release` binary](#testing-a-cmake_build_typerelease-binary)
     - [Running memory tests](#running-memory-tests)
     - [Testing with Docker](#testing-with-docker)
+    - [Manual testing](#manual-testing)
 
 ## Static analysis
 To lint the C++ source, run:
@@ -55,7 +56,11 @@ The `--release` flag can also be omitted as the system will default to testing t
 ```
 This project uses [Valgrind](https://valgrind.org/) for all dynamic analysis.
 ### Testing with Docker
-To run tests with Docker, first make sure that Docker is installed. Then run:
+To run tests with Docker, first make sure that Docker is installed then change directories to the project root:
+```
+cd /path/to/ChristmasSocks
+```
+Then run:
 ```bash
 docker build -t socks .
 ```
@@ -68,21 +73,20 @@ The Dockerfile will simply run the steps:
 - [Testing](#testing)
 
 But within the container itself.
-## Testing hardware
-I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
-To make these mounts, I simply print out the `layout.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
-and cut out the shape according to the template. The circles are nothing than drill hole markers. Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
-As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
-## Manual testing
+### Manual testing
 Manual testing can be done using [netcat](https://linux.die.net/man/1/nc) (`nc`). First, start the server:
 ```bash
-/path/to/socks --port 1234 # Or whatever port TCP port you wish to use
+./bin/socks --port 1234 # Or whatever port TCP port you wish to use
 ```
 Then send a message in another terminal:
 ```bash
 echo -n "exit" | nc localhost 1234
 ```
 The `-n` flag is important as the server does not interpret trailing newlines. The server should now shut down.
+## Testing hardware
+I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
+To make these mounts, I simply print out the `layout.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
+and cut out the shape according to the template. The circles are nothing than drill hole markers. Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
 ## Shortcuts
 Compile and test release binary:
 ```bash
