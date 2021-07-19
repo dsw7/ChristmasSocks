@@ -4,9 +4,9 @@ C++ socket utilities for my various other projects. This project also depicts my
 ### To compile a `CMAKE_BUILD_TYPE=Release` binary:
 Run the following:
 ```bash
-$ cd /path/to/ChristmasSocks
-$ chmod +x ChristmasSocks/configure.py
-$ ./ChristmasSocks/configure.py compile --release
+cd /path/to/ChristmasSocks
+chmod +x ChristmasSocks/configure.py
+./ChristmasSocks/configure.py compile --release
 ```
 This will compile a binary under:
 ```
@@ -14,14 +14,14 @@ This will compile a binary under:
 ```
 The `--release` flag can also be omitted as the system will default to compiling a release binary:
 ```bash
-$ ./ChristmasSocks/configure.py compile
+./ChristmasSocks/configure.py compile
 ```
 ### To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary:
 Run the following:
 ```bash
-$ cd /path/to/ChristmasSocks
-$ chmod +x ChristmasSocks/configure.py
-$ ./ChristmasSocks/configure.py compile --debug
+cd /path/to/ChristmasSocks
+chmod +x ChristmasSocks/configure.py
+./ChristmasSocks/configure.py compile --debug
 ```
 This will, again, compile a binary under:
 ```
@@ -32,28 +32,28 @@ As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) 
 ### Testing a `CMAKE_BUILD_TYPE=Release` binary:
 To test a binary that was compiled following the instructions under [Compiling a test binary](#compiling-a-test-binary), run:
 ```bash
-$ cd /path/to/ChristmasSocks
-$ ./ChristmasSocks/configure.py test --release
+cd /path/to/ChristmasSocks
+./ChristmasSocks/configure.py test --release
 ```
 The `--release` flag can also be omitted as the system will default to testing the release binary:
 ```bash
-$ ./ChristmasSocks/configure.py test
+./ChristmasSocks/configure.py test
 ```
 ### Running memory tests:
 ```bash
-$ cd /path/to/ChristmasSocks
-$ ./ChristmasSocks/configure.py test --memory
+cd /path/to/ChristmasSocks
+./ChristmasSocks/configure.py test --memory
 ```
 This project uses [Valgrind](https://valgrind.org/) for all dynamic analysis.
 ## Testing with Docker
 To run tests with Docker, first make sure that Docker is installed. Then run:
 ```bash
-$ cd /path/to/ChristmasSocks
-$ docker build -t socks .
+cd /path/to/ChristmasSocks
+docker build -t socks .
 ```
 This will generate a Debian based local Docker image. To actually test the product, run the `socks` image:
 ```bash
-$ docker run -it --rm socks
+docker run -it --rm socks
 ```
 The Dockerfile will simply run the steps:
 - [Compiling a test binary](#compiling-a-test-binary)
@@ -67,8 +67,8 @@ and cut out the shape according to the template. The circles are nothing than dr
 ## Static analysis
 To lint the C++ source, run:
 ```bash
-$ cd /path/to/ChristmasSocks
-$ ./ChristmasSocks/configure.py lint
+cd /path/to/ChristmasSocks
+./ChristmasSocks/configure.py lint
 ```
 As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
 ## Manual testing
