@@ -1,5 +1,5 @@
 # ChristmasSocks
-C++ socket utilities for my various other projects. This project also depicts my workflow for working with C++ projects.
+An experimental C++ server that I build more or less out of personal interest.
 ## Compiling a test binary
 ### To compile a `CMAKE_BUILD_TYPE=Release` binary:
 Run the following:
