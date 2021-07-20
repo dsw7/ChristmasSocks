@@ -126,7 +126,7 @@ class StaticAnalysis:
         echo_separator()
         echo_message('Linting project using cppcheck static analysis tool')
 
-        command = 'cppcheck {root}/src/ -I {root}/include/ --template={template} --enable=all'.format(
+        command = 'cppcheck {root}/src/ --template={template} --enable=all'.format(
             root=PATH_THIS, template=self.configs['static-analysis']['cppcheck-template']
         )
         exit_code, _, _ = run_shell_command(command)
