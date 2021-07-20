@@ -1,5 +1,5 @@
 # ChristmasSocks
-An experimental C++ server that I built more or less out of personal interest. Unless otherwise noted, all instructions are to be carried out relative to the `/path/to/ChristmasSocks/ChristmasSocks` directory. Ensure that the `configure.py` script is executable.
+An experimental [epoll](https://linux.die.net/man/4/epoll) driven server that I built more or less out of personal interest. Unless otherwise noted, all instructions are to be carried out relative to the `/path/to/ChristmasSocks/ChristmasSocks` directory. Ensure that the `configure.py` script is executable.
 ## Table of Contents
   - [Static analysis](#static-analysis)
   - [Compiling a test binary](#compiling-a-test-binary)
