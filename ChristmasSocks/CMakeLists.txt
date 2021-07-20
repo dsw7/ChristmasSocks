@@ -50,9 +50,9 @@ include_directories(
 
 # Avoid using glob patterns
 add_executable(${OUTPUT_NAME}
+    "src/main.cpp"
     "src/frontend/header_footer.cpp"
     "src/logging/logger.cpp"
-    "src/main.cpp"
     "src/server/clients.cpp"
     "src/server/server.cpp"
     "src/server/sysconfig_pipeline.cpp"
