@@ -2,6 +2,7 @@
 #define HELP_MENU_H
 
 #include <string>
+#include <iostream>
 
 void help_message(
     char *file
