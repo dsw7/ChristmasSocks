@@ -1,5 +1,5 @@
-#ifndef CLIENTS_H
-#define CLIENTS_H
+#ifndef INCOMING_CLIENT_PRIMITIVES_H
+#define INCOMING_CLIENT_PRIMITIVES_H
 
 #include <arpa/inet.h> // inet_ntoa
 #include <string.h>
@@ -9,13 +9,13 @@
 #include "constants.h"
 #include "sysconfig_pipeline.h"
 
-class Client
+class IncomingClientPrimitives
 {
     private:
         int buffer_size;
 
     public:
-        Client(configs_t &configs);
+        IncomingClientPrimitives(configs_t &configs);
 
         bool accept_incoming_connection(int &socket_fd_server, struct sockaddr_in &address, int &socket_fd_client);
         bool close_client_socket_file_descriptor(int &socket_fd_client);

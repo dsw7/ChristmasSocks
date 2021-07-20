@@ -6,8 +6,8 @@
 #include "help_menu.h"
 #include "logger.h"
 #include "server_primitives.h"
+#include "incoming_client_primitives.h"
 #include "ipc_signal_registers.h"
-#include "clients.h"
 #include "sysconfig_pipeline.h"
 #include "header_footer.h"
 
@@ -19,7 +19,7 @@ void server_impl_main(configs_t &configs)
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
 
-    Client client(configs);
+    IncomingClientPrimitives client(configs);
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;

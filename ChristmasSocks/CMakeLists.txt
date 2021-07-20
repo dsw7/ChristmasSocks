@@ -54,7 +54,7 @@ add_executable(${OUTPUT_NAME}
     "src/frontend/header_footer.cpp"
     "src/frontend/help_menu.cpp"
     "src/logging/logger.cpp"
-    "src/server/clients.cpp"
+    "src/server/incoming_client_primitives.cpp"
     "src/server/server_primitives.cpp"
     "src/server/sysconfig_pipeline.cpp"
     "src/utilities/constants.cpp"
