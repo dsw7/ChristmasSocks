@@ -41,6 +41,13 @@ set(OUTPUT_NAME socks)
 set(FULL_PATH_BINARY "${CMAKE_BINARY_DIR}/${OUTPUT_NAME}")
 message(STATUS "Compiled binary will be ${FULL_PATH_BINARY}")
 
+include_directories(
+    "logging"
+    "frontend"
+    "server"
+    "utilities"
+)
+
 # All source files must be placed under src/
 file(GLOB SOURCE_FILES "src/*.cpp")
 
