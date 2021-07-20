@@ -5,7 +5,7 @@
 
 #include "help_menu.h"
 #include "logger.h"
-#include "server.h"
+#include "server_primitives.h"
 #include "ipc_signal_registers.h"
 #include "clients.h"
 #include "sysconfig_pipeline.h"
@@ -13,7 +13,7 @@
 
 void server_impl_main(configs_t &configs)
 {
-    Server server(configs);
+    ServerPrimitives server(configs);
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
     server.bind_socket_file_descriptor_to_port();

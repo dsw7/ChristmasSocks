@@ -1,5 +1,5 @@
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef SERVER_PRIMITIVES_H
+#define SERVER_PRIMITIVES_H
 
 #include <iostream>
 #include <string>
@@ -12,14 +12,14 @@
 #include "constants.h"
 #include "sysconfig_pipeline.h"
 
-class Server
+class ServerPrimitives
 {
     private:
         int tcp_port;
         int max_connections_queue;
 
     public:
-        Server(configs_t &configs);
+        ServerPrimitives(configs_t &configs);
 
         bool open_server_socket_file_descriptor();
         bool close_server_socket_file_descriptor();
