@@ -14,38 +14,23 @@ class TestProtocolRandomStrings(TestCase):
 
     @classmethod
     def setUpClass(self) -> None:
+
+        # Tell unittest to print large strings (diffs)
+        self.maxDiff = None
+
         self.server = Server()
         self.server.start_server()
         self.client = Client()
         self.client.connect()
+        self.buffer_size = self.client.cfgs['client'].getint('tcp_buffer_size') - 1
 
     @classmethod
     def tearDownClass(self) -> None:
         self.client.disconnect()
         self.server.stop_server()
 
-    def test_echo_5_byte_string(self) -> None:
-        for string in generate_random_string(num_strings=5, len_strings=5):
-            with self.subTest():
-                self.assertEqual(string, self.client.send(string))
-
-    def test_echo_10_byte_string(self) -> None:
-        for string in generate_random_string(num_strings=5, len_strings=10):
-            with self.subTest():
-                self.assertEqual(string, self.client.send(string))
-
     def test_echo_15_byte_string(self) -> None:
         for string in generate_random_string(num_strings=5, len_strings=15):
-            with self.subTest():
-                self.assertEqual(string, self.client.send(string))
-
-    def test_echo_5_byte_punctuation(self) -> None:
-        for string in generate_random_punctuation(num_strings=5, len_strings=5):
-            with self.subTest():
-                self.assertEqual(string, self.client.send(string))
-
-    def test_echo_10_byte_punctuation(self) -> None:
-        for string in generate_random_punctuation(num_strings=5, len_strings=10):
             with self.subTest():
                 self.assertEqual(string, self.client.send(string))
 
@@ -53,26 +38,6 @@ class TestProtocolRandomStrings(TestCase):
         for string in generate_random_punctuation(num_strings=5, len_strings=15):
             with self.subTest():
                 self.assertEqual(string, self.client.send(string))
-
-
-class TestProtocolLimits(TestCase):
-
-    @classmethod
-    def setUpClass(self) -> None:
-        self.server = Server()
-        self.server.start_server()
-        self.client = Client()
-        self.client.connect()
-
-        # Tell unittest to print large strings (diffs)
-        self.maxDiff = None
-
-        self.buffer_size = self.client.cfgs['client'].getint('tcp_buffer_size') - 1
-
-    @classmethod
-    def tearDownClass(self) -> None:
-        self.client.disconnect()
-        self.server.stop_server()
 
     def test_echo_max_size_minus_one_byte_string(self) -> None:
         string = generate_random_string(num_strings=1, len_strings=self.buffer_size)
