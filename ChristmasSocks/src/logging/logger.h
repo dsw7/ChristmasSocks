@@ -7,23 +7,23 @@
 
 namespace RootLogger
 {
-    void info(std::string);
-    void warning(std::string);
-    void error(std::string);
+    void info(const std::string &message);
+    void warning(const std::string &message);
+    void error(const std::string &message);
 }
 
 namespace ClientLogger
 {
-    void info(std::string, int &fd);
-    void warning(std::string, int &fd);
-    void error(std::string, int &fd);
+    void info(const std::string &message, int &fd);
+    void warning(const std::string &message, int &fd);
+    void error(const std::string &message, int &fd);
 }
 
 namespace ServerLogger
 {
-    void info(std::string, int &fd);
-    void warning(std::string, int &fd);
-    void error(std::string, int &fd);
+    void info(const std::string &message, int &fd);
+    void warning(const std::string &message, int &fd);
+    void error(const std::string &message, int &fd);
 }
 
 #endif
