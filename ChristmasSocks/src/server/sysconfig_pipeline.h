@@ -8,6 +8,7 @@
 #include "utilities.h"
 #include "constants.h"
 #include "logger.h"
+#include "help_menu.h"
 
 struct configs_t
 {
@@ -16,12 +17,6 @@ struct configs_t
     unsigned int tcp_buffer_size;
 };
 
-void help_message(
-    char *file
-);
-bool help_message_lazy_runner(
-    int argc, char **argv
-);
 void parse_config_file_contents(
     std::string &file_contents, std::map<std::string, std::string> &raw_configs
 );
