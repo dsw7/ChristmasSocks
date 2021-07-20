@@ -48,7 +48,15 @@ include_directories(
     "src/utilities"
 )
 
-# All source files must be placed under src/
-file(GLOB SOURCE_FILES "src/*.cpp")
-
-add_executable(${OUTPUT_NAME} ${SOURCE_FILES})
+# Avoid using glob patterns
+add_executable(${OUTPUT_NAME}
+    "src/frontend/header_footer.cpp"
+    "src/logging/logger.cpp"
+    "src/main.cpp"
+    "src/server/clients.cpp"
+    "src/server/server.cpp"
+    "src/server/sysconfig_pipeline.cpp"
+    "src/utilities/constants.cpp"
+    "src/utilities/utilities.cpp"
+    "src/utilities/ipc_signal_registers.cpp"
+)
