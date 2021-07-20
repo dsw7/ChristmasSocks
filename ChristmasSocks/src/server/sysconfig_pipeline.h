@@ -1,5 +1,5 @@
-#ifndef CONFIG_FILE_H
-#define CONFIG_FILE_H
+#ifndef SYSCONFIG_PIPELINE_H
+#define SYSCONFIG_PIPELINE_H
 
 #include <map>
 #include <sstream>
