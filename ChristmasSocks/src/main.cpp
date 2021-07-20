@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/epoll.h>
 
+#include "help_menu.h"
 #include "logger.h"
 #include "server.h"
 #include "ipc_signal_registers.h"
