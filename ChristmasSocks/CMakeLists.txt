@@ -22,12 +22,6 @@ endif(NOT CMAKE_BUILD_TYPE)
 # Print the build type
 message(STATUS "The build type will be: ${CMAKE_BUILD_TYPE}")
 
-# All header files must be placed under include/
-include_directories("include")
-
-# All source files must be placed under src/
-file(GLOB SOURCE_FILES "src/*.cpp")
-
 # Set all macro definitions
 set(MAX_EPOLL_EVENTS 10)
 
@@ -46,5 +40,8 @@ set(OUTPUT_NAME socks)
 # Set full path to binary
 set(FULL_PATH_BINARY "${CMAKE_BINARY_DIR}/${OUTPUT_NAME}")
 message(STATUS "Compiled binary will be ${FULL_PATH_BINARY}")
+
+# All source files must be placed under src/
+file(GLOB SOURCE_FILES "src/*.cpp")
 
 add_executable(${OUTPUT_NAME} ${SOURCE_FILES})
