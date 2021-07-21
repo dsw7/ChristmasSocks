@@ -10,7 +10,6 @@
 #include <netinet/in.h>
 #include "logger.h"
 #include "constants.h"
-#include "sysconfig_pipeline.h"
 
 class ServerPrimitives
 {
