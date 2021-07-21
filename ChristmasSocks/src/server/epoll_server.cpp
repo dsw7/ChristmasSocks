@@ -8,7 +8,7 @@ void server_impl_main(configs_t &configs)
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
 
-    IncomingClientPrimitives client(configs);
+    IncomingClientPrimitives client(configs.tcp_buffer_size);
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
