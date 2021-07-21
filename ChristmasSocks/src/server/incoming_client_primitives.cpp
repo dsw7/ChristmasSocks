@@ -1,8 +1,8 @@
 #include "incoming_client_primitives.h"
 
-IncomingClientPrimitives::IncomingClientPrimitives(configs_t &configs)
+IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size)
 {
-    this->buffer_size = configs.tcp_buffer_size;
+    this->buffer_size = tcp_buffer_size;
 }
 
 /* https://linux.die.net/man/3/accept */

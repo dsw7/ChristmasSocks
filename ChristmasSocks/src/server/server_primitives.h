@@ -10,16 +10,15 @@
 #include <netinet/in.h>
 #include "logger.h"
 #include "constants.h"
-#include "sysconfig_pipeline.h"
 
 class ServerPrimitives
 {
     private:
-        int tcp_port;
-        int max_connections_queue;
+        unsigned int tcp_port;
+        unsigned int max_num_connections_queue;
 
     public:
-        ServerPrimitives(configs_t &configs);
+        ServerPrimitives(unsigned int &tcp_port, unsigned int &max_num_connections_queue);
 
         bool open_server_socket_file_descriptor();
         bool close_server_socket_file_descriptor();
