@@ -1,9 +1,9 @@
 #include "server_primitives.h"
 
-ServerPrimitives::ServerPrimitives(unsigned int &tcp_port, unsigned int &max_connections_queue)
+ServerPrimitives::ServerPrimitives(unsigned int &tcp_port, unsigned int &max_num_connections_queue)
 {
     this->tcp_port = tcp_port;
-    this->max_connections_queue = max_connections_queue;
+    this->max_num_connections_queue = max_num_connections_queue;
     this->socket_fd_server = -1;
 }
 
@@ -100,12 +100,12 @@ bool ServerPrimitives::bind_socket_file_descriptor_to_port()
 /* https://linux.die.net/man/3/listen */
 bool ServerPrimitives::listen_on_bound_tcp_port()
 {
-    int rv = listen(this->socket_fd_server, this->max_connections_queue);
+    int rv = listen(this->socket_fd_server, this->max_num_connections_queue);
 
     if (rv == 0)
     {
         ServerLogger::info("Listening on TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
-        ServerLogger::info("Will queue a maximum of " + std::to_string(this->max_connections_queue) + " connections", this->socket_fd_server);
+        ServerLogger::info("Will queue a maximum of " + std::to_string(this->max_num_connections_queue) + " connections", this->socket_fd_server);
         return true;
     }
 

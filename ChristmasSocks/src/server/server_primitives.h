@@ -16,10 +16,10 @@ class ServerPrimitives
 {
     private:
         unsigned int tcp_port;
-        unsigned int max_connections_queue;
+        unsigned int max_num_connections_queue;
 
     public:
-        ServerPrimitives(unsigned int &tcp_port, unsigned int &max_connections_queue)
+        ServerPrimitives(unsigned int &tcp_port, unsigned int &max_num_connections_queue);
 
         bool open_server_socket_file_descriptor();
         bool close_server_socket_file_descriptor();
