@@ -7,6 +7,7 @@
 
 #include "logger.h"
 #include "server_primitives.h"
+#include "sysconfig_pipeline.h"
 #include "incoming_client_primitives.h"
 
 void server_impl_main(configs_t &configs);
