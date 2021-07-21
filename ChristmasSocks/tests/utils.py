@@ -51,7 +51,7 @@ class Server:
         sleep(self.cfgs['server'].getfloat('startup-delay'))
 
     def start_server_under_valgrind(self, log_file: str) -> None:
-        log_file_dump = self.cfgs['server']['valgrind-log-files']
+        log_file_dump = path.join(PATH_THIS, self.cfgs['server']['valgrind-log-directory'])
         if not path.exists(log_file_dump):
             makedirs(log_file_dump)
 
