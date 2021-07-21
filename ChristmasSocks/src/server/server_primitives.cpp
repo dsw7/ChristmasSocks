@@ -1,9 +1,9 @@
 #include "server_primitives.h"
 
-ServerPrimitives::ServerPrimitives(configs_t &configs)
+ServerPrimitives::ServerPrimitives(unsigned int &tcp_port, unsigned int &max_connections_queue)
 {
-    this->tcp_port = configs.tcp_port;
-    this->max_connections_queue = configs.max_num_connections_queue;
+    this->tcp_port = tcp_port;
+    this->max_connections_queue = max_num_connections_queue;
     this->socket_fd_server = -1;
 }
 

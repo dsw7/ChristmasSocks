@@ -2,7 +2,7 @@
 
 void server_impl_main(configs_t &configs)
 {
-    ServerPrimitives server(configs);
+    ServerPrimitives server(configs.tcp_port, configs.max_connections_queue);
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
     server.bind_socket_file_descriptor_to_port();
