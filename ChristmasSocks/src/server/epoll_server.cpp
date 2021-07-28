@@ -51,7 +51,7 @@ void ServerImplMain::server_impl_main()
             if (events[n].data.fd == socket_fd_server)
             {
 
-                client.accept_incoming_connection(
+                accept_incoming_connection(
                     socket_fd_server, address, socket_fd_client_to_struct
                 );
 
@@ -71,7 +71,7 @@ void ServerImplMain::server_impl_main()
                 message.clear();
                 socket_fd_client_from_struct = events[n].data.fd;
 
-                if (client.read_data(message, socket_fd_client_from_struct))
+                if (read_data(message, socket_fd_client_from_struct))
                 {
                     if (message.compare("exit") == 0)
                     {
@@ -79,7 +79,7 @@ void ServerImplMain::server_impl_main()
                     }
                     else
                     {
-                        client.write_data(message, socket_fd_client_from_struct);
+                        write_data(message, socket_fd_client_from_struct);
                     }
                 }
             }
