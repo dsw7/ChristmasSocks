@@ -5,7 +5,7 @@ ServerImplMain::ServerImplMain(configs_t &configs)
     this->configs = configs;
 }
 
-ServerImplMain::server_impl_main()
+void ServerImplMain::server_impl_main()
 {
     ServerPrimitives server(this->configs.tcp_port, this->configs.max_num_connections_queue);
     server.open_server_socket_file_descriptor();
