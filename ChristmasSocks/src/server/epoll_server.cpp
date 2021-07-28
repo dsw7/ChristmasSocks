@@ -2,10 +2,25 @@
 
 void ServerImplMain::server_setup()
 {
-    open_server_socket_file_descriptor();
-    attach_socket_file_descriptor_to_port();
-    bind_socket_file_descriptor_to_port();
-    listen_on_bound_tcp_port();
+    if (!open_server_socket_file_descriptor())
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    if (!attach_socket_file_descriptor_to_port())
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    if (!bind_socket_file_descriptor_to_port())
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    if (!listen_on_bound_tcp_port())
+    {
+        exit(EXIT_FAILURE);
+    }
 }
 
 void ServerImplMain::server_teardown()
