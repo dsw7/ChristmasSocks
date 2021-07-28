@@ -23,11 +23,6 @@ void ServerImplMain::server_setup()
     }
 }
 
-void ServerImplMain::server_teardown()
-{
-    close_server_socket_file_descriptor();
-}
-
 /* https://linux.die.net/man/2/epoll_create1 */
 void ServerImplMain::open_epoll_file_descriptor()
 {
@@ -55,10 +50,9 @@ void ServerImplMain::register_server_fd_to_epoll_event()
 
 void ServerImplMain::server_impl_main()
 {
+    int nfds, socket_fd_client_to_struct, socket_fd_client_from_struct;
     struct epoll_event events[MAX_EPOLL_EVENTS];
-    int nfds;
 
-    int socket_fd_client_to_struct, socket_fd_client_from_struct;
     std::string message;
 
     while (true)
@@ -112,4 +106,9 @@ void ServerImplMain::server_impl_main()
     }
 
     endloop:;
+}
+
+void ServerImplMain::server_teardown()
+{
+    close_server_socket_file_descriptor();
 }
