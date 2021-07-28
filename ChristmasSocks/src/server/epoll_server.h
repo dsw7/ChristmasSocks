@@ -12,6 +12,9 @@
 
 class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
+    private:
+        int epoll_fd;
+
     public:
         ServerImplMain(configs_t &configs): ServerPrimitives(
             configs.tcp_port, configs.max_num_connections_queue
@@ -19,9 +22,11 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
         IncomingClientPrimitives(
             configs.tcp_buffer_size
         ) {}
-        void server_setup(); // XXX better naming
-        void server_teardown(); // XXX better naming
+
+        void server_setup();
+        void server_teardown();
         void server_impl_main();
+        void open_epoll_file_descriptor();
 };
 
 #endif

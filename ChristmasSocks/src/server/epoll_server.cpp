@@ -28,22 +28,26 @@ void ServerImplMain::server_teardown()
     close_server_socket_file_descriptor();
 }
 
+void ServerImplMain::open_epoll_file_descriptor()
+{
+    this->epoll_fd = epoll_create1(0);
+    if (this->epoll_fd == -1)
+    {
+        RootLogger::error(strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+}
+
 void ServerImplMain::server_impl_main()
 {
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
 
-    int epollfd = epoll_create1(0);
-    if (epollfd == -1)
-    {
-        RootLogger::error(strerror(errno));
-        exit(EXIT_FAILURE);
-    }
 
     ev.events = EPOLLIN;
     ev.data.fd = socket_fd_server;
 
-    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_server, &ev) == -1)
+    if (epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, socket_fd_server, &ev) == -1)
     {
         RootLogger::error(strerror(errno));
         exit(EXIT_FAILURE);
@@ -55,7 +59,7 @@ void ServerImplMain::server_impl_main()
     while (true)
     {
 
-        nfds = epoll_wait(epollfd, events, MAX_EPOLL_EVENTS, -1);
+        nfds = epoll_wait(this->epoll_fd, events, MAX_EPOLL_EVENTS, -1);
         if (nfds == -1)
         {
             RootLogger::error(strerror(errno));
@@ -75,7 +79,7 @@ void ServerImplMain::server_impl_main()
                 ev.events = EPOLLIN | EPOLLET;
                 ev.data.fd = socket_fd_client_to_struct;
 
-                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_client_to_struct, &ev) == -1)
+                if (epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, socket_fd_client_to_struct, &ev) == -1)
                 {
                     RootLogger::error(strerror(errno));
                     exit(EXIT_FAILURE);
