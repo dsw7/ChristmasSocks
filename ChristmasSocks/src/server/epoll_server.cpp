@@ -48,7 +48,7 @@ void ServerImplMain::register_server_fd_to_epoll_event()
     }
 }
 
-void ServerImplMain::server_impl_main()
+void ServerImplMain::loop()
 {
     int nfds, socket_fd_client_to_struct, socket_fd_client_from_struct;
     struct epoll_event events[MAX_EPOLL_EVENTS];

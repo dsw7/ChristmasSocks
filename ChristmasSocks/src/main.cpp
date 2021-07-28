@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     server.server_setup();
     server.open_epoll_file_descriptor();
     server.register_server_fd_to_epoll_event();
-    server.server_impl_main();
+    server.loop();
     server.server_teardown();
 
     RootLogger::info("Program appears to have exited normally");

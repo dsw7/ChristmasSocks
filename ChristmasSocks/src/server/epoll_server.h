@@ -25,10 +25,10 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
         ) {}
 
         void server_setup();
-        void server_teardown();
         void open_epoll_file_descriptor();
         void register_server_fd_to_epoll_event();
-        void server_impl_main();
+        void loop();
+        void server_teardown();
 };
 
 #endif
