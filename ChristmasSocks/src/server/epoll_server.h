@@ -10,6 +10,16 @@
 #include "sysconfig_pipeline.h"
 #include "incoming_client_primitives.h"
 
+class ServerImplMain
+{
+    private:
+        configs_t configs;
+
+    public:
+        ServerImplMain();
+        void server_impl_main();
+}
+
 void server_impl_main(configs_t &configs);
 
 #endif
