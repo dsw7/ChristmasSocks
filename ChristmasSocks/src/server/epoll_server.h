@@ -20,6 +20,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
             configs.tcp_buffer_size
         ) {}
         void server_setup(); // XXX better naming
+        void server_teardown(); // XXX better naming
         void server_impl_main();
 };
 

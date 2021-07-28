@@ -9,6 +9,11 @@ void ServerImplMain::server_setup()
     listen_on_bound_tcp_port();
 }
 
+void ServerImplMain::server_teardown()
+{
+    close_server_socket_file_descriptor();
+}
+
 void ServerImplMain::server_impl_main()
 {
 
@@ -87,5 +92,4 @@ void ServerImplMain::server_impl_main()
     }
 
     endloop:;
-    server.close_server_socket_file_descriptor();
 }
