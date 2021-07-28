@@ -31,6 +31,7 @@ void ServerImplMain::server_teardown()
 void ServerImplMain::open_epoll_file_descriptor()
 {
     this->epoll_fd = epoll_create1(0);
+
     if (this->epoll_fd == -1)
     {
         RootLogger::error(strerror(errno));
@@ -42,7 +43,6 @@ void ServerImplMain::server_impl_main()
 {
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
-
 
     ev.events = EPOLLIN;
     ev.data.fd = socket_fd_server;
