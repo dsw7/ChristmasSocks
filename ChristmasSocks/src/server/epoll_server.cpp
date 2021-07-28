@@ -1,19 +1,20 @@
 #include "epoll_server.h"
 
-ServerImplMain::ServerImplMain(configs_t &configs)
+ServerImplMain::ServerImplMain(configs_t &configs) {}
+
+void ServerImplMain::server_setup()
 {
-    this->configs = configs;
+    //ServerPrimitives server(this->configs.tcp_port, this->configs.max_num_connections_queue);
+    open_server_socket_file_descriptor();
+    attach_socket_file_descriptor_to_port();
+    bind_socket_file_descriptor_to_port();
+    listen_on_bound_tcp_port();
 }
 
 void ServerImplMain::server_impl_main()
 {
-    ServerPrimitives server(this->configs.tcp_port, this->configs.max_num_connections_queue);
-    server.open_server_socket_file_descriptor();
-    server.attach_socket_file_descriptor_to_port();
-    server.bind_socket_file_descriptor_to_port();
-    server.listen_on_bound_tcp_port();
 
-    IncomingClientPrimitives client(this->configs.tcp_buffer_size);
+    //IncomingClientPrimitives client(this->configs.tcp_buffer_size);
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
@@ -26,9 +27,9 @@ void ServerImplMain::server_impl_main()
     }
 
     ev.events = EPOLLIN;
-    ev.data.fd = server.socket_fd_server;
+    ev.data.fd = socket_fd_server;
 
-    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, server.socket_fd_server, &ev) == -1)
+    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, socket_fd_server, &ev) == -1)
     {
         RootLogger::error(strerror(errno));
         exit(EXIT_FAILURE);
@@ -49,11 +50,11 @@ void ServerImplMain::server_impl_main()
 
         for (int n = 0; n < nfds; ++n)
         {
-            if (events[n].data.fd == server.socket_fd_server)
+            if (events[n].data.fd == socket_fd_server)
             {
 
                 client.accept_incoming_connection(
-                    server.socket_fd_server, server.address, socket_fd_client_to_struct
+                    socket_fd_server, address, socket_fd_client_to_struct
                 );
 
                 //setnonblocking(socket_fd_client_to_struct);

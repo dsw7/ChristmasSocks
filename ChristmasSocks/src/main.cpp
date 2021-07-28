@@ -24,6 +24,7 @@ int main(int argc, char **argv)
     overwrite_config_file_configs_with_cli_args(global_configs, argc, argv);
 
     ServerImplMain server(global_configs);
+    server.server_setup();
     server.server_impl_main();
 
     RootLogger::info("Program appears to have exited normally");

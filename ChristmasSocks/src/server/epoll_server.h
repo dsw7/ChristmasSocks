@@ -10,13 +10,16 @@
 #include "sysconfig_pipeline.h"
 #include "incoming_client_primitives.h"
 
-class ServerImplMain
+class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
-    private:
-        configs_t configs;
-
     public:
-        ServerImplMain(configs_t &configs);
+        ServerImplMain(configs_t &configs): ServerPrimitives(
+            configs.tcp_port, configs.max_num_connections_queue
+        ),
+        IncomingClientPrimitives(
+            configs.tcp_buffer_size
+        );
+        void server_setup(); // XXX better naming
         void server_impl_main();
 };
 
