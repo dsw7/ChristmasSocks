@@ -5,15 +5,15 @@ ServerImplMain::ServerImplMain(configs_t &configs)
     this->configs = configs;
 }
 
-void server_impl_main(configs_t &configs)
+ServerImplMain::server_impl_main()
 {
-    ServerPrimitives server(configs.tcp_port, configs.max_num_connections_queue);
+    ServerPrimitives server(this->configs.tcp_port, this->configs.max_num_connections_queue);
     server.open_server_socket_file_descriptor();
     server.attach_socket_file_descriptor_to_port();
     server.bind_socket_file_descriptor_to_port();
     server.listen_on_bound_tcp_port();
 
-    IncomingClientPrimitives client(configs.tcp_buffer_size);
+    IncomingClientPrimitives client(this->configs.tcp_buffer_size);
 
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;

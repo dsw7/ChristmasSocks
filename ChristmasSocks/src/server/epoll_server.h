@@ -20,6 +20,4 @@ class ServerImplMain
         void server_impl_main();
 };
 
-void server_impl_main(configs_t &configs);
-
 #endif
