@@ -16,7 +16,7 @@ class ServerImplMain
         configs_t configs;
 
     public:
-        ServerImplMain();
+        ServerImplMain(configs_t &configs);
         void server_impl_main();
 };
 

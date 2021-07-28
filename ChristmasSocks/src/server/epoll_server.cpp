@@ -1,5 +1,10 @@
 #include "epoll_server.h"
 
+ServerImplMain::ServerImplMain(configs_t &configs)
+{
+    this->configs->configs;
+}
+
 void server_impl_main(configs_t &configs)
 {
     ServerPrimitives server(configs.tcp_port, configs.max_num_connections_queue);
