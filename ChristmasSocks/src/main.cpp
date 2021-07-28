@@ -26,6 +26,7 @@ int main(int argc, char **argv)
     ServerImplMain server(global_configs);
     server.server_setup();
     server.server_impl_main();
+    server.server_teardown();
 
     RootLogger::info("Program appears to have exited normally");
     display_footer();

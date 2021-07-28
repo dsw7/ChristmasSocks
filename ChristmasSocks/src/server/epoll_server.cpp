@@ -2,7 +2,6 @@
 
 void ServerImplMain::server_setup()
 {
-    //ServerPrimitives server(this->configs.tcp_port, this->configs.max_num_connections_queue);
     open_server_socket_file_descriptor();
     attach_socket_file_descriptor_to_port();
     bind_socket_file_descriptor_to_port();
@@ -16,9 +15,6 @@ void ServerImplMain::server_teardown()
 
 void ServerImplMain::server_impl_main()
 {
-
-    //IncomingClientPrimitives client(this->configs.tcp_buffer_size);
-
     struct epoll_event ev, events[MAX_EPOLL_EVENTS];
     int nfds;
 
