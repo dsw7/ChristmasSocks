@@ -2,7 +2,7 @@
 
 ServerImplMain::ServerImplMain(configs_t &configs)
 {
-    this->configs->configs;
+    this->configs = configs;
 }
 
 void server_impl_main(configs_t &configs)
