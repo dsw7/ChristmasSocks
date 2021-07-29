@@ -43,7 +43,10 @@ void ServerImplMain::open_epoll_file_descriptor()
 /* https://linux.die.net/man/2/epoll_ctl */
 void ServerImplMain::register_server_fd_to_epoll_instance()
 {
-    EventLogger::info("Registering server file descriptor to epoll instance", this->epoll_fd);
+    EventLogger::info(
+        "Registering server file descriptor " + std::to_string(socket_fd_server) + \
+        " to epoll file descriptor " + std::to_string(this->epoll_fd),
+    this->epoll_fd);
 
     this->ev.events = EPOLLIN;
     this->ev.data.fd = socket_fd_server;
