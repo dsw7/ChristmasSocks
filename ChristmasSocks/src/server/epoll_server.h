@@ -14,7 +14,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
     private:
         struct epoll_event ev;
-        int epoll_fd = 0;
+        int epoll_fd = -1; // -1 means not set
 
     public:
         ServerImplMain(configs_t &configs): ServerPrimitives(

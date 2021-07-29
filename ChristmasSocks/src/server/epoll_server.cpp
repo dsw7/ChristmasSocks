@@ -2,7 +2,7 @@
 
 void ServerImplMain::server_setup()
 {
-    EventLogger::info("Setting up server primitives");
+    EventLogger::info("Setting up server primitives", this->epoll_fd);
 
     if (!open_server_socket_file_descriptor())
     {
@@ -28,13 +28,13 @@ void ServerImplMain::server_setup()
 /* https://linux.die.net/man/2/epoll_create1 */
 void ServerImplMain::open_epoll_file_descriptor()
 {
-    EventLogger::info("Creating epoll file descriptor");
+    EventLogger::info("Creating epoll file descriptor", this->epoll_fd);
 
     this->epoll_fd = epoll_create1(0);
 
     if (this->epoll_fd == -1)
     {
-        EventLogger::error(strerror(errno));
+        EventLogger::error(strerror(errno), this->epoll_fd);
         exit(EXIT_FAILURE);
     }
 }
@@ -42,14 +42,14 @@ void ServerImplMain::open_epoll_file_descriptor()
 /* https://linux.die.net/man/2/epoll_ctl */
 void ServerImplMain::register_server_fd_to_epoll_instance()
 {
-    EventLogger::info("Registering server file descriptor to epoll instance");
+    EventLogger::info("Registering server file descriptor to epoll instance", this->epoll_fd);
 
     this->ev.events = EPOLLIN;
     this->ev.data.fd = socket_fd_server;
 
     if (epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, socket_fd_server, &this->ev) == -1)
     {
-        EventLogger::error(strerror(errno));
+        EventLogger::error(strerror(errno), this->epoll_fd);
         exit(EXIT_FAILURE);
     }
 }
@@ -60,7 +60,7 @@ void ServerImplMain::loop()
     struct epoll_event events[MAX_EPOLL_EVENTS];
 
     std::string message;
-    EventLogger::info("Starting epoll event loop");
+    EventLogger::info("Starting epoll event loop", this->epoll_fd);
 
     while (true)
     {
@@ -68,7 +68,7 @@ void ServerImplMain::loop()
         nfds = epoll_wait(this->epoll_fd, events, MAX_EPOLL_EVENTS, -1);
         if (nfds == -1)
         {
-            EventLogger::error(strerror(errno));
+            EventLogger::error(strerror(errno), this->epoll_fd);
             exit(EXIT_FAILURE);
         }
 
@@ -87,7 +87,7 @@ void ServerImplMain::loop()
 
                 if (epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, socket_fd_client_to_struct, &this->ev) == -1)
                 {
-                    EventLogger::error(strerror(errno));
+                    EventLogger::error(strerror(errno), this->epoll_fd);
                     exit(EXIT_FAILURE);
                 }
 
@@ -113,7 +113,7 @@ void ServerImplMain::loop()
     }
 
     endloop:;
-    EventLogger::info("Ending epoll event loop");
+    EventLogger::info("Ending epoll event loop", this->epoll_fd);
 }
 
 void ServerImplMain::server_teardown()
