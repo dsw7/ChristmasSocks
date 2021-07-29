@@ -65,3 +65,25 @@ namespace ServerLogger {
     }
 
 }
+
+namespace EventLogger {
+
+    void info(const std::string &message, int &fd)
+    {
+        std::string line = get_current_datetime_string() + " I EV " + std::to_string(fd) + " " + message;
+        std::cout << line << std::endl;
+    }
+
+    void warning(const std::string &message, int &fd)
+    {
+        std::string line = get_current_datetime_string() + " W EV " + std::to_string(fd) + " " + message;
+        std::cout << line << std::endl;
+    }
+
+    void error(const std::string &message, int &fd)
+    {
+        std::string line = get_current_datetime_string() + " E EV " + std::to_string(fd) + " " + message;
+        std::cout << line << std::endl;
+    }
+
+}

@@ -26,4 +26,11 @@ namespace ServerLogger
     void error(const std::string &message, int &fd);
 }
 
+namespace EventLogger
+{
+    void info(const std::string &message, int &fd);
+    void warning(const std::string &message, int &fd);
+    void error(const std::string &message, int &fd);
+}
+
 #endif
