@@ -28,8 +28,7 @@ void ServerImplMain::server_setup()
 /* https://linux.die.net/man/2/epoll_create1 */
 void ServerImplMain::open_epoll_file_descriptor()
 {
-    EventLogger::info("Creating epoll file descriptor", this->epoll_fd);
-
+    EventLogger::info("Setting epoll file descriptor", this->epoll_fd);
     this->epoll_fd = epoll_create1(0);
 
     if (this->epoll_fd == -1)
@@ -37,6 +36,8 @@ void ServerImplMain::open_epoll_file_descriptor()
         EventLogger::error(strerror(errno), this->epoll_fd);
         exit(EXIT_FAILURE);
     }
+
+    EventLogger::info("Set epoll file descriptor " + std::to_string(this->epoll_fd), this->epoll_fd);
 }
 
 /* https://linux.die.net/man/2/epoll_ctl */
