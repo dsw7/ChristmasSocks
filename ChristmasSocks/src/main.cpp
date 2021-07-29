@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     ServerImplMain server(global_configs);
     server.server_setup();
     server.open_epoll_file_descriptor();
-    server.register_server_fd_to_epoll_event();
+    server.register_server_fd_to_epoll_instance();
     server.loop();
     server.server_teardown();
 

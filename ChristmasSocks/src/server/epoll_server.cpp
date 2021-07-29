@@ -2,6 +2,8 @@
 
 void ServerImplMain::server_setup()
 {
+    EventLogger::info("Setting up server primitives");
+
     if (!open_server_socket_file_descriptor())
     {
         exit(EXIT_FAILURE);
@@ -26,24 +28,28 @@ void ServerImplMain::server_setup()
 /* https://linux.die.net/man/2/epoll_create1 */
 void ServerImplMain::open_epoll_file_descriptor()
 {
+    EventLogger::info("Creating epoll file descriptor");
+
     this->epoll_fd = epoll_create1(0);
 
     if (this->epoll_fd == -1)
     {
-        RootLogger::error(strerror(errno));
+        EventLogger::error(strerror(errno));
         exit(EXIT_FAILURE);
     }
 }
 
 /* https://linux.die.net/man/2/epoll_ctl */
-void ServerImplMain::register_server_fd_to_epoll_event()
+void ServerImplMain::register_server_fd_to_epoll_instance()
 {
+    EventLogger::info("Registering server file descriptor to epoll instance");
+
     this->ev.events = EPOLLIN;
     this->ev.data.fd = socket_fd_server;
 
     if (epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, socket_fd_server, &this->ev) == -1)
     {
-        RootLogger::error(strerror(errno));
+        EventLogger::error(strerror(errno));
         exit(EXIT_FAILURE);
     }
 }
@@ -54,6 +60,7 @@ void ServerImplMain::loop()
     struct epoll_event events[MAX_EPOLL_EVENTS];
 
     std::string message;
+    EventLogger::info("Starting epoll event loop");
 
     while (true)
     {
@@ -61,7 +68,7 @@ void ServerImplMain::loop()
         nfds = epoll_wait(this->epoll_fd, events, MAX_EPOLL_EVENTS, -1);
         if (nfds == -1)
         {
-            RootLogger::error(strerror(errno));
+            EventLogger::error(strerror(errno));
             exit(EXIT_FAILURE);
         }
 
@@ -80,7 +87,7 @@ void ServerImplMain::loop()
 
                 if (epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, socket_fd_client_to_struct, &this->ev) == -1)
                 {
-                    RootLogger::error(strerror(errno));
+                    EventLogger::error(strerror(errno));
                     exit(EXIT_FAILURE);
                 }
 
@@ -106,6 +113,7 @@ void ServerImplMain::loop()
     }
 
     endloop:;
+    EventLogger::info("Ending epoll event loop");
 }
 
 void ServerImplMain::server_teardown()
