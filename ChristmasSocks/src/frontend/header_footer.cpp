@@ -10,6 +10,7 @@ void display_header()
     std::cout << "** Legend:\n";
     std::cout << "   - CL: Lines stemming from incoming client connections\n";
     std::cout << "   - SL: Lines stemming from a master server connection\n";
+    std::cout << "   - EV: Lines stemming from event handler\n";
     std::cout << "   - RT: Lines logged from all other parts of the program\n";
     std::cout << std::endl;
     render_separator();
