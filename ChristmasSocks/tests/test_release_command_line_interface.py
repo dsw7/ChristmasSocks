@@ -14,13 +14,10 @@ class TestCommandLineInterface(TestCase):
 
     @classmethod
     def setUpClass(self) -> None:
-        #self.client = Client()
-        #self.client.connect()
         self.server = Server()
 
     @classmethod
-    def tearDownClass(self) -> None:
-        #self.client.disconnect()
+    def tearDown(self) -> None:
         self.server.stop_server()
 
     def test_invalid_port_low(self) -> None:
