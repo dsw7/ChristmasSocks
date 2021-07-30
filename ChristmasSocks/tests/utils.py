@@ -46,8 +46,14 @@ class Server:
         self.binary = path.join(parent, self.cfgs['server']['output-dir'], self.cfgs['server']['output-name'])
         self.process = None
 
-    def start_server(self) -> None:
-        self.process = Popen(self.binary, stdout=DEVNULL)
+    def start_server(self, *args) -> None:
+        if len(args) > 0:
+            command = ()
+            command += (self.binary,)
+            command += args
+        else:
+            command = self.binary
+        self.process = Popen(command, stdout=DEVNULL)
         sleep(self.cfgs['server'].getfloat('startup-delay'))
 
     def start_server_under_valgrind(self, log_file: str) -> None:
