@@ -49,7 +49,7 @@ class Server:
     def start_server(self, *args) -> None:
         if len(args) > 0:
             command = ()
-            command += (self.binary)
+            command += (self.binary,)
             command += args
         else:
             command = self.binary
