@@ -20,14 +20,14 @@ class TestCommandLineInterface(TestCase):
     def tearDown(self) -> None:
         self.server.stop_server()
 
-    def test_invalid_port_low(self) -> None:
+    def test_invalid_port_low_long_option(self) -> None:
         self.server.start_server('--port=22')
         self.assertIsNone(self.server.process.pid)
 
-    def test_invalid_port_high(self) -> None:
+    def test_invalid_port_high_long_option(self) -> None:
         self.server.start_server('--port=99999')
         self.assertIsNone(self.server.process.pid)
 
-    def test_valid_port(self) -> None:
+    def test_valid_port_long_option(self) -> None:
         self.server.start_server('--port=8080')
         self.assertTrue(self.server.process.pid > 0)
