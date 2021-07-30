@@ -31,3 +31,7 @@ class TestCommandLineInterface(TestCase):
     def test_valid_port_long_option(self) -> None:
         self.server.start_server('--port=8080')
         self.assertTrue(self.server.process.pid > 0)
+
+    def test_invalid_port_low_short_option(self) -> None:
+        self.server.start_server('-p', '22')
+        self.assertIsNone(self.server.process.pid)
