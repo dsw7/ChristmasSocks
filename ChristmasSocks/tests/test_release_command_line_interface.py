@@ -35,3 +35,11 @@ class TestCommandLineInterface(TestCase):
     def test_invalid_port_low_short_option(self) -> None:
         self.server.start_server('-p', '22')
         self.assertIsNone(self.server.process.pid)
+
+    def test_invalid_port_high_short_option(self) -> None:
+        self.server.start_server('-p', '99999')
+        self.assertIsNone(self.server.process.pid)
+
+    def test_valid_port_short_option(self) -> None:
+        self.server.start_server('-p', '8080')
+        self.assertTrue(self.server.process.pid > 0)
