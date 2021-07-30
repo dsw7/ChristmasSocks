@@ -16,7 +16,7 @@ class TestCommandLineInterface(TestCase):
     def setUpClass(self) -> None:
         #self.client = Client()
         #self.client.connect()
-        pass
+        self.server = Server()
 
     @classmethod
     def tearDownClass(self) -> None:
@@ -24,6 +24,5 @@ class TestCommandLineInterface(TestCase):
         self.server.stop_server()
 
     def test_invalid_port_low(self) -> None:
-        self.server = Server()
         self.server.start_server('--port=22')
         print(self.server.process.pid)
