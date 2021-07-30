@@ -2,12 +2,7 @@
 # pylint: disable=C0202  # Disable cls requirement for setUpClass / tearDownClass
 
 from unittest import TestCase
-from utils import (
-    Client,
-    Server,
-    generate_random_string,
-    generate_random_punctuation
-)
+from utils import Server
 
 
 class TestCommandLineInterface(TestCase):
