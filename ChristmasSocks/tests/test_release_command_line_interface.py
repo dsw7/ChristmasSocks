@@ -23,3 +23,7 @@ class TestCommandLineInterface(TestCase):
     def test_invalid_port_low(self) -> None:
         self.server.start_server('--port=22')
         self.assertIsNone(self.server.process.pid)
+
+    def test_invalid_port_high(self) -> None:
+        self.server.start_server('--port=99999')
+        self.assertIsNone(self.server.process.pid)
