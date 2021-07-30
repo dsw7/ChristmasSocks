@@ -48,8 +48,9 @@ class Server:
 
     def start_server(self, *args) -> None:
         if len(args) > 0:
-            command = tuple(self.binary) + args
-            print(command)
+            command = ()
+            command += self.binary
+            command += args
         else:
             command = self.binary
         self.process = Popen(command, stdout=DEVNULL)
