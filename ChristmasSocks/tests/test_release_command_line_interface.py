@@ -30,8 +30,11 @@ class TestCommandLineInterface(TestCase):
             self.client.connect(port=port)
 
     def test_valid_port_long_option(self) -> None:
-        self.server.start_server('--port=8080')
-        self.assertTrue(self.server.process.pid > 0)
+        port = 8080
+        string = 'foobar'
+        self.server.start_server('--port={}'.format(port))
+        self.client.connect(port=port)
+        self.assertEqual(string, self.client.send(string))
 
     def test_invalid_port_low_short_option(self) -> None:
         port = 22
@@ -46,5 +49,8 @@ class TestCommandLineInterface(TestCase):
             self.client.connect(port=port)
 
     def test_valid_port_short_option(self) -> None:
-        self.server.start_server('-p', '8080')
-        self.assertTrue(self.server.process.pid > 0)
+        port = 8080
+        string = 'foobar'
+        self.server.start_server('-p', str(port))
+        self.client.connect(port=port)
+        self.assertEqual(string, self.client.send(string))
