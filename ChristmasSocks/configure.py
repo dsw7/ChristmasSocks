@@ -8,10 +8,6 @@ from os import (
 from configparser import ConfigParser
 from typing import Tuple
 from subprocess import Popen, PIPE
-from unittest import (
-    TestLoader,
-    TextTestRunner
-)
 from click import (
     secho,
     group,
@@ -149,22 +145,23 @@ class RunTests:
 
     def run_unittest_release(self) -> int:
         echo_message('Running tests with marker: {}'.format(self.configs['run-tests']['test-marker-release']))
-        return pytest_main_runner([self.test_directory, '-v', '-m', self.configs['run-tests']['test-marker-release']])
+        command = [
+            self.test_directory,
+            '-c', path.join(PATH_THIS, 'pytest.ini'),
+            '-m', self.configs['run-tests']['test-marker-release'],
+            '--verbose'
+        ]
+        return pytest_main_runner(command)
 
     def run_unittest_memory(self) -> bool:
-        echo_message('Running tests in files matching pattern: {}'.format(self.configs['run-tests']['test-filename-memory']))
-
-        suite = TestLoader().discover(
-            self.test_directory, pattern=self.configs['run-tests']['test-filename-memory']
-        )
-
-        runner = TextTestRunner(
-            verbosity=self.configs['run-tests'].getint('test-verbosity'),
-            failfast=self.configs['run-tests'].getboolean('blind-run')
-        )
-
-        test_run = runner.run(suite)
-        return test_run.wasSuccessful()
+        echo_message('Running tests with marker: {}'.format(self.configs['run-tests']['test-marker-memory']))
+        command = [
+            self.test_directory,
+            '-c', path.join(PATH_THIS, 'pytest.ini'),
+            '-m', self.configs['run-tests']['test-marker-memory'],
+            '--verbose'
+        ]
+        return pytest_main_runner(command)
 
 
 @group()
@@ -177,10 +174,10 @@ def main() -> None:
 def compile(build_type: str) -> None:
     compiler = Compile()
     if build_type == 'debug':
-        rv = compiler.compile_debug_binary()
+        retval = compiler.compile_debug_binary()
     else:
-        rv = compiler.compile_release_binary()
-    sys.exit(rv)
+        retval = compiler.compile_release_binary()
+    sys.exit(retval)
 
 @main.command(help='Run static analysis on project')
 def lint():
@@ -192,10 +189,10 @@ def lint():
 def test(test_type: str) -> None:
     test_runner = RunTests()
     if test_type == 'memory':
-        rv = test_runner.run_unittest_memory()
+        retval = test_runner.run_unittest_memory()
     else:
-        rv = test_runner.run_unittest_release()
-    sys.exit(rv)
+        retval = test_runner.run_unittest_release()
+    sys.exit(retval)
 
 if __name__ == '__main__':
     main()
