@@ -1,19 +1,17 @@
-# pylint: disable=C0103  # Disable snake case warning
-# pylint: disable=C0202  # Disable cls requirement for setUpClass / tearDownClass
+# pylint: disable=W0201  # Disable defined outside __init__
 
-from unittest import TestCase
 from concurrent import futures
+from pytest import mark
 from utils import (
     Server,
     Client,
     generate_random_string
 )
 
+@mark.release_test
+class TestMultipleConnections:
 
-class TestMultipleConnections(TestCase):
-
-    @classmethod
-    def setUpClass(self) -> None:
+    def setup_class(self) -> None:
         self.server = Server()
         self.server.start_server()
         self.client_a = Client()
@@ -23,8 +21,7 @@ class TestMultipleConnections(TestCase):
         self.client_b.connect()
         self.client_c.connect()
 
-    @classmethod
-    def tearDownClass(self) -> None:
+    def teardown_class(self) -> None:
         self.client_a.disconnect()
         self.client_b.disconnect()
         self.client_c.disconnect()
@@ -51,5 +48,4 @@ class TestMultipleConnections(TestCase):
                     results.append(worker.result())
 
         for result in results:
-            with self.subTest():
-                self.assertEqual(result['outgoing_message'], result['returning_message'])
+            assert result['outgoing_message'] == result['returning_message']
