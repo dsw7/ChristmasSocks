@@ -79,11 +79,12 @@ class Client:
     def __init__(self) -> None:
         self.cfgs = ConfigParser()
         self.cfgs.read(PATH_INI)
+        self.socket = None
 
+    def connect(self, port: Optional[int]=None, host: Optional[str]=None) -> None:
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(self.cfgs['client'].getfloat('sock_timeout'))
 
-    def connect(self, port: Optional[int]=None, host: Optional[str]=None) -> None:
         if not port:
             port = self.cfgs['client'].getint('tcp_port')
 
