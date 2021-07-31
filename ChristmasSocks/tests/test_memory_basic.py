@@ -1,7 +1,12 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 
-from utils import Client, Server
+from pytest import mark
+from utils import (
+    Client,
+    Server
+)
 
+@mark.memory
 class TestMemoryBasic:
 
     def setup_class(self) -> None:
