@@ -6,7 +6,7 @@ from utils import (
     Server
 )
 
-@mark.memory
+@mark.memory_test
 class TestMemoryBasic:
 
     def setup_class(self) -> None:
