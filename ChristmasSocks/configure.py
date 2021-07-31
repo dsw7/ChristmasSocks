@@ -17,6 +17,7 @@ from click import (
     group,
     option
 )
+from pytest import main as pytest_main_runner
 
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
@@ -144,24 +145,11 @@ class RunTests:
     def __init__(self) -> None:
         self.configs = get_configs()
         self.test_directory = path.join(PATH_THIS, 'tests')
-
         echo_separator()
-        echo_message('Running tests in directory: {}'.format(path.realpath(self.test_directory)))
 
-    def run_unittest_release(self) -> bool:
-        echo_message('Running tests in files matching pattern: {}'.format(self.configs['run-tests']['test-filename-release']))
-
-        suite = TestLoader().discover(
-            self.test_directory, pattern=self.configs['run-tests']['test-filename-release']
-        )
-
-        runner = TextTestRunner(
-            verbosity=self.configs['run-tests'].getint('test-verbosity'),
-            failfast=self.configs['run-tests'].getboolean('blind-run')
-        )
-
-        test_run = runner.run(suite)
-        return test_run.wasSuccessful()
+    def run_unittest_release(self) -> int:
+        echo_message('Running tests with marker: {}'.format(self.configs['run-tests']['test-filename-release']))
+        return pytest_main_runner([self.test_directory, '-m', self.configs['run-tests']['test-filename-release'])
 
     def run_unittest_memory(self) -> bool:
         echo_message('Running tests in files matching pattern: {}'.format(self.configs['run-tests']['test-filename-memory']))
@@ -203,15 +191,11 @@ def lint():
 @option('--release', 'test_type', flag_value='release', default=True, help='Run standard tests on release binary')
 def test(test_type: str) -> None:
     test_runner = RunTests()
-
     if test_type == 'memory':
         rv = test_runner.run_unittest_memory()
     else:
         rv = test_runner.run_unittest_release()
-
-    if rv:
-        sys.exit(EXIT_SUCCESS)
-    sys.exit(EXIT_FAILURE)
+    sys.exit(rv)
 
 if __name__ == '__main__':
     main()
