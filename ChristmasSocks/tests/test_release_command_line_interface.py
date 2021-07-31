@@ -20,8 +20,8 @@ class TestCommandLineInterface(TestCase):
     def test_invalid_port_low_long_option(self) -> None:
         port = 22
         self.server.start_server('--port={}'.format(port))
-        self.client.connect(port=port)
-        self.assertIsNone(self.server.process.pid)
+        with self.assertRaises(OSError):
+            self.client.connect(port=port)
 
     def test_invalid_port_high_long_option(self) -> None:
         self.server.start_server('--port=99999')
