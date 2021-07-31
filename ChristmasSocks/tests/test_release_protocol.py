@@ -22,11 +22,11 @@ class TestProtocolRandomStrings:
         self.client.disconnect()
         self.server.stop_server()
 
-    @mark.parametrize('string', generate_random_string(num_strings=5, len_strings=15))
+    @mark.parametrize('string', generate_random_string(num_strings=10, len_strings=15))
     def test_echo_15_byte_string(self, string) -> None:
         assert string == self.client.send(string)
 
-    @mark.parametrize('string', generate_random_punctuation(num_strings=5, len_strings=15))
+    @mark.parametrize('string', generate_random_punctuation(num_strings=10, len_strings=15))
     def test_echo_15_byte_punctuation(self, string) -> None:
         assert string == self.client.send(string)
 
