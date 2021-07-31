@@ -88,7 +88,7 @@ class Client:
             port = self.cfgs['client'].getint('tcp_port')
 
         if not host:
-            host = self.cfgs['client']['ipv4_address_server'],
+            host = self.cfgs['client']['ipv4_address_server']
 
         self.socket.connect((host, port))
 
