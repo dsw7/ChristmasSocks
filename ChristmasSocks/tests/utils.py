@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 from os import path, makedirs
+from typing import Optional
 from time import sleep
 from subprocess import Popen, DEVNULL
 from signal import SIGINT
@@ -82,11 +83,14 @@ class Client:
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(self.cfgs['client'].getfloat('sock_timeout'))
 
-    def connect(self) -> None:
-        self.socket.connect((
-            self.cfgs['client']['ipv4_address_server'],
-            self.cfgs['client'].getint('tcp_port')
-        ))
+    def connect(self, port: Optional[int]=None, host: Optional[str]=None) -> None:
+        if not port:
+            port = self.cfgs['client'].getint('tcp_port')
+
+        if not host:
+            host = self.cfgs['client']['ipv4_address_server'],
+
+        self.socket.connect((host, port))
 
     def disconnect(self) -> None:
         self.socket.close()
