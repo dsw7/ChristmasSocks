@@ -149,7 +149,7 @@ class RunTests:
 
     def run_unittest_release(self) -> int:
         echo_message('Running tests with marker: {}'.format(self.configs['run-tests']['test-filename-release']))
-        return pytest_main_runner([self.test_directory, '-m', self.configs['run-tests']['test-filename-release'])
+        return pytest_main_runner([self.test_directory, '-m', self.configs['run-tests']['test-filename-release']])
 
     def run_unittest_memory(self) -> bool:
         echo_message('Running tests in files matching pattern: {}'.format(self.configs['run-tests']['test-filename-memory']))
