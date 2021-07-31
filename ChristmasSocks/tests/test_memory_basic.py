@@ -1,21 +1,17 @@
-# pylint: disable=C0103  # Disable snake case warning
+# pylint: disable=W0201  # Disable defined outside __init__
 
-from unittest import TestCase
-from utils import (
-    Client,
-    Server
-)
+from utils import Client, Server
 
-class TestMemoryBasic(TestCase):
+class TestMemoryBasic:
 
-    def setUp(self) -> None:
-        log_file = '{}.log'.format(self.id())
+    def setup_class(self) -> None:
+        log_file = '{}.log'.format('test_simple_echo')
         self.server = Server()
         self.server.start_server_under_valgrind(log_file=log_file)
         self.client = Client()
         self.client.connect()
 
-    def tearDown(self) -> None:
+    def teardown_class(self) -> None:
         # Exit gracefully instead of using IPC signal...
         # Signals are terrible for debugging with Valgrind
         self.client.stop_server()
@@ -23,4 +19,4 @@ class TestMemoryBasic(TestCase):
 
     def test_simple_echo(self) -> None:
         string = 'foobar'
-        self.assertEqual(string, self.client.send(string))
+        assert string == self.client.send(string)
