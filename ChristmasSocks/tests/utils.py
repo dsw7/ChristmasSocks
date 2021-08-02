@@ -35,7 +35,6 @@ def read_test_config_file() -> dict:
         parser.read(ini_file)
     except FileNotFoundError:
         sys.exit('Could not open {}'.format(ini_file))
-
     return parser
 
 def echo_message(msg: str) -> None:

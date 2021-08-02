@@ -16,7 +16,7 @@ class TestProtocolRandomStrings:
         self.server.start_server_in_background()
         self.client = Client()
         self.client.connect()
-        self.buffer_size = self.client.cfgs['client'].getint('tcp_buffer_size') - 1
+        self.buffer_size = self.client.configs['client'].getint('tcp_buffer_size') - 1
 
     def teardown_class(self) -> None:
         self.client.disconnect()
