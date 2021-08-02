@@ -24,7 +24,8 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
             configs.tcp_port, configs.max_num_connections_queue
         ),
         IncomingClientPrimitives(
-            configs.tcp_buffer_size
+            configs.tcp_buffer_size,
+            configs.strip_line_breaks
         ) {}
 
         void incoming_client_setup();
