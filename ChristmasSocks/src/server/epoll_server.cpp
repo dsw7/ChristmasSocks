@@ -119,7 +119,7 @@ void ServerImplMain::loop()
                     }
                     else if (message.compare("sleep") == 0)
                     {
-                        usleep(1000000);
+                        usleep(10000000);
                         EventLogger::info("Slept...", this->epoll_fd);
                     }
                     else
