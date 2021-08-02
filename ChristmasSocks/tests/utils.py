@@ -2,7 +2,11 @@ from configparser import ConfigParser
 from os import path, makedirs
 from typing import Optional
 from time import sleep
-from subprocess import Popen, DEVNULL
+from subprocess import (
+    Popen,
+    DEVNULL,
+    call
+)
 from signal import SIGINT
 from string import (
     ascii_letters,
@@ -52,6 +56,12 @@ class Server:
     def return_path_to_binary(self) -> str:
         return self.binary
 
+    def start_server_in_foreground(self, *args) -> int:
+        command = ()
+        command += (self.binary,)
+        command += args
+        return call(command)
+
     def start_server_in_background(self, *args) -> None:
         if len(args) > 0:
             command = ()
@@ -59,6 +69,7 @@ class Server:
             command += args
         else:
             command = self.binary
+
         self.process = Popen(command, stdout=DEVNULL)
         sleep(self.cfgs['server'].getfloat('startup-delay'))
 
