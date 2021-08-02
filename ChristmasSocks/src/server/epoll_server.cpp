@@ -120,7 +120,7 @@ void ServerImplMain::loop()
                     else if (message.compare("sleep") == 0)
                     {
                         usleep(MAX_SLEEP_DURATION_USEC);
-                        write_data("Slept for " + std::string(MAX_SLEEP_DURATION_USEC) + " microseconds", socket_fd_client_from_struct);
+                        write_data("Slept for " + std::to_string(MAX_SLEEP_DURATION_USEC) + " microseconds", socket_fd_client_from_struct);
                     }
                     else
                     {
