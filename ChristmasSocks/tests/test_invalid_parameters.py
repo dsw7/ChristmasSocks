@@ -1,11 +1,7 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 
 from pytest import mark
-from utils import (
-    Server,
-    Client,
-    EXIT_FAILURE
-)
+from utils import Server, EXIT_FAILURE
 
 @mark.release_test
 class TestHelpMenu:
