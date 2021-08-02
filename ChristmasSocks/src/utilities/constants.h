@@ -9,7 +9,7 @@
 extern unsigned int TCP_PORT;
 extern unsigned int MAX_NUM_CONNECTIONS_QUEUE;
 extern unsigned int TCP_BUFFER_SIZE;
-extern bool STRIP_LAST_CHAR;
+extern bool STRIP_LINE_BREAK;
 
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS

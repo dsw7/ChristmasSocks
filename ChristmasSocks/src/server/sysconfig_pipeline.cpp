@@ -35,6 +35,7 @@ void set_root_configs(configs_t &configs)
     configs.tcp_port = TCP_PORT;
     configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
     configs.tcp_buffer_size = TCP_BUFFER_SIZE;
+    configs.strip_line_break = STRIP_LINE_BREAK;
 }
 
 void overwrite_root_configs_with_config_file_configs(configs_t &configs, std::string &path_config_file)
@@ -69,6 +70,9 @@ void overwrite_root_configs_with_config_file_configs(configs_t &configs, std::st
         {
             configs.max_num_connections_queue = std::stoi(it->second);
         }
+        /*
+         * Might add configs.strip_line_break handling here
+         */
         else
         {
             continue;
@@ -84,15 +88,17 @@ void overwrite_config_file_configs_with_cli_args(configs_t &global_configs, int 
     {
         static struct option long_options[] =
         {
-            {"port",        required_argument, 0, 'p'},
-            {"buffer-size", required_argument, 0, 'b'}
+            {"port",              required_argument, 0, 'p'},
+            {"buffer-size",       required_argument, 0, 'b'},
+            {"strip-line-breaks", no_argument,       0, 'n'}
         };
 
         // What's the point of this?
         int option_index = 0;
 
+        /* https://linux.die.net/man/3/getopt_long */
         option = getopt_long(
-            argc, argv, "p:b:", long_options, &option_index
+            argc, argv, "p:b:n", long_options, &option_index
         );
 
         // End of options
@@ -108,6 +114,9 @@ void overwrite_config_file_configs_with_cli_args(configs_t &global_configs, int 
                 break;
             case 'b':
                 global_configs.tcp_buffer_size = atoi(optarg);
+                break;
+            case 'n':
+                global_configs.strip_line_break = true;
                 break;
             default:
                 help_message(argv[0]);
