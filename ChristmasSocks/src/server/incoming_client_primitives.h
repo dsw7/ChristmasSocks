@@ -12,6 +12,7 @@ class IncomingClientPrimitives
 {
     private:
         unsigned int buffer_size;
+        bool strip_line_breaks;
 
     public:
         IncomingClientPrimitives(
