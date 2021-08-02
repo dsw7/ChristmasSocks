@@ -1,7 +1,10 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 
 from pytest import mark
-from utils import Server, EXIT_FAILURE
+from utils import (
+    Server,
+    Client
+)
 
 @mark.release_test
 class TestLineBreakToggler:
