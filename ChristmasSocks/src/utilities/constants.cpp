@@ -23,3 +23,9 @@ std::string CONFIG_FILEPATH = "/etc/socks.ini";
 
 // Minimum TCP buffer size
 unsigned int MINIMUM_TCP_BUFFER_SIZE = 16;
+
+// Cutoff for reserved TCP ports
+unsigned int MINIMUM_TCP_PORT = 1024;
+
+// Maximum unsigned 16 bit int
+unsigned int MAXIMUM_TCP_PORT = 65535;

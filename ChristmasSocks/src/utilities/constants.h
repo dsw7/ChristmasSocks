@@ -15,5 +15,7 @@ extern unsigned int TCP_BUFFER_SIZE;
 // --------------------------------------------------------------
 extern std::string CONFIG_FILEPATH;
 extern unsigned int MINIMUM_TCP_BUFFER_SIZE;
+extern unsigned int MINIMUM_TCP_PORT;
+extern unsigned int MAXIMUM_TCP_PORT;
 
 #endif

@@ -65,14 +65,14 @@ bool ServerPrimitives::attach_socket_file_descriptor_to_port()
 /* https://linux.die.net/man/3/bind */
 bool ServerPrimitives::bind_socket_file_descriptor_to_port()
 {
-    if (this->tcp_port <= 1024)
+    if (this->tcp_port <= MINIMUM_TCP_PORT)
     {
-        ServerLogger::error("All TCP ports below 1024 are reserved!", this->socket_fd_server);
+        ServerLogger::error("All TCP ports below " + std::to_string(MINIMUM_TCP_PORT) + " are reserved!", this->socket_fd_server);
         return false;
     }
-    else if (this->tcp_port > 65535)
+    else if (this->tcp_port > MAXIMUM_TCP_PORT)
     {
-        ServerLogger::error("Cannot bind to a TCP port exceeding 65535!", this->socket_fd_server);
+        ServerLogger::error("Cannot bind to a TCP port exceeding " + std::to_string(MAXIMUM_TCP_PORT), this->socket_fd_server);
         return false;
     }
     else
