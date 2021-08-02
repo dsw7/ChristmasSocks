@@ -159,7 +159,8 @@ class RunTests:
             self.test_directory,
             '-c', path.join(PATH_THIS, 'pytest.ini'),
             '-m', self.configs['run-tests']['test-marker-memory'],
-            '--verbose'
+            '--verbose',
+            '--capture=no'
         ]
         return pytest_main_runner(command)
 
