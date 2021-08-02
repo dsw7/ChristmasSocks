@@ -52,7 +52,7 @@ class Server:
     def return_path_to_binary(self) -> str:
         return self.binary
 
-    def start_server(self, *args) -> None:
+    def start_server_in_background(self, *args) -> None:
         if len(args) > 0:
             command = ()
             command += (self.binary,)
