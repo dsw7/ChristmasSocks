@@ -119,8 +119,8 @@ void ServerImplMain::loop()
                     }
                     else if (message.compare("sleep") == 0)
                     {
-                        usleep(10000000);
-                        EventLogger::info("Slept...", this->epoll_fd);
+                        usleep(MAX_SLEEP_DURATION_USEC);
+                        write_data("Slept for " + std::string(MAX_SLEEP_DURATION_USEC) + " microseconds", socket_fd_client_from_struct);
                     }
                     else
                     {

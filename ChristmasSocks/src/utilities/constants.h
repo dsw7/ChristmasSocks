@@ -18,5 +18,6 @@ extern std::string CONFIG_FILEPATH;
 extern unsigned int MINIMUM_TCP_BUFFER_SIZE;
 extern unsigned int MINIMUM_TCP_PORT;
 extern unsigned int MAXIMUM_TCP_PORT;
+extern unsigned int MAX_SLEEP_DURATION_USEC;
 
 #endif
