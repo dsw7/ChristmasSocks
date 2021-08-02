@@ -48,7 +48,7 @@ bool ServerPrimitives::attach_socket_file_descriptor_to_port()
     int optval = 1;
 
     int rv = setsockopt(
-        this->socket_fd_server, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &optval, sizeof(optval)
+        this->socket_fd_server, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)
     );
 
     if (rv == 0)
