@@ -14,7 +14,10 @@ class IncomingClientPrimitives
         unsigned int buffer_size;
 
     public:
-        IncomingClientPrimitives(unsigned int &tcp_buffer_size);
+        IncomingClientPrimitives(
+            unsigned int &tcp_buffer_size,
+            bool &strip_line_breaks
+        );
 
         bool is_valid_buffer_size();
         bool accept_incoming_connection(int &socket_fd_server, struct sockaddr_in &address, int &socket_fd_client);

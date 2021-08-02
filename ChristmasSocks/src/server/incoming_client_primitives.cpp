@@ -1,8 +1,9 @@
 #include "incoming_client_primitives.h"
 
-IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size)
+IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size, bool &strip_line_breaks)
 {
     this->buffer_size = tcp_buffer_size;
+    this->strip_line_breaks = strip_line_breaks;
 }
 
 bool IncomingClientPrimitives::is_valid_buffer_size()
@@ -56,6 +57,11 @@ bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_cl
 
     int rv = read(socket_fd_client, buffer, this->buffer_size);
     message = std::string(buffer);
+
+    if (this->strip_line_breaks)
+    {
+        message = message.substr(0, substr.size() - 1);
+    }
 
     if (rv < 0)
     {
