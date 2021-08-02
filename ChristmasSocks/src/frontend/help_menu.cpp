@@ -6,11 +6,15 @@ void help_message(char *file)
     std::cout << "  $ " << file;
     std::cout << " [-h]";
     std::cout << " [-p <tcp-port>]";
-    std::cout << " [-b <buffer-size>]\n\n";         // add --path-config-file here?
+    std::cout << " [-b <buffer-size>]";
+    std::cout << " [-n]";
+    std::cout << "\n\n";         // add --path-config-file here?
     std::cout << "Options:\n\n";
     std::cout << "  -h, --help                      Print help information and exit\n";
     std::cout << "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n";
     std::cout << "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n";
+    std::cout << "  -n, --strip-line-breaks         Strip newlines from incoming client messages\n";
+    std::cout << "                                  Useful for manual testing with netcat (nc) \n";
     std::cout << std::endl;
 }
 
