@@ -15,6 +15,7 @@ ENV PWD=/root
 WORKDIR $PWD
 
 CMD git clone https://github.com/dsw7/ChristmasSocks.git \
- && chmod +x ./ChristmasSocks/ChristmasSocks/configure.py \
- && ./ChristmasSocks/ChristmasSocks/configure.py compile --release \
- && ./ChristmasSocks/ChristmasSocks/configure.py test --release
+ && cd ChristmasSocks/ChristmasSocks \
+ && chmod +x ./configure.py \
+ && ./configure.py compile --release \
+ && ./configure.py test --release
