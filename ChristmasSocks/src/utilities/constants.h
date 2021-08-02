@@ -3,9 +3,17 @@
 
 #include <string>
 
-extern std::string CONFIG_FILEPATH;
+// --------------------------------------------------------------
+// CONSTANTS TO BE OVERRIDDEN VIA CONFIG FILE OR COMMAND LINE ARGUMENT
+// --------------------------------------------------------------
 extern unsigned int TCP_PORT;
 extern unsigned int MAX_NUM_CONNECTIONS_QUEUE;
 extern unsigned int TCP_BUFFER_SIZE;
+
+// --------------------------------------------------------------
+// HARD CODED INTERNAL CONSTANTS
+// --------------------------------------------------------------
+extern std::string CONFIG_FILEPATH;
+extern unsigned int MINIMUM_TCP_BUFFER_SIZE;
 
 #endif

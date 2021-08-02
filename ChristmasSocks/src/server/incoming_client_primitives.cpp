@@ -7,9 +7,9 @@ IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size
 
 bool IncomingClientPrimitives::is_valid_buffer_size()
 {
-    if (this->buffer_size < 16)
+    if (this->buffer_size < MINIMUM_TCP_BUFFER_SIZE)
     {
-        RootLogger::error("Invalid buffer size. Minimum buffer size is " + std::to_string(16) + " bytes");
+        RootLogger::error("Invalid buffer size. Minimum buffer size is " + std::to_string(MINIMUM_TCP_BUFFER_SIZE) + " bytes");
         return false;
     }
     return true;
