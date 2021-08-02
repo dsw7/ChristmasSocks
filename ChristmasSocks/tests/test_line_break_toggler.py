@@ -1,6 +1,5 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 
-from subprocess import Popen
 from pytest import mark
 from utils import Server, EXIT_FAILURE
 
@@ -9,14 +8,18 @@ class TestLineBreakToggler:
 
     def setup_class(self) -> None:
         self.server = Server()
+        self.client = Client()
 
     def teardown_method(self) -> None:
+        self.client.disconnect()
         self.server.stop_server()
 
     def test_strip_line_breaks(self) -> None:
+        self.client.connect()
         self.server.start_server_in_background('--strip-line-breaks')
-        returncode = Popen('echo "sleep" | nc localhost 8080', shell=True).wait()
+        self.client.send('sleep\n')
 
     def test_no_strip_line_breaks(self) -> None:
+        self.client.connect()
         self.server.start_server_in_background()
-        returncode = Popen('echo -n "sleep" | nc localhost 8080', shell=True).wait()
+        self.client.send('sleep\n')
