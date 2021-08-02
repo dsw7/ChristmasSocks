@@ -25,7 +25,17 @@ EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 ALPHANUMERIC = ascii_letters + digits
 PATH_THIS = path.dirname(__file__)
-PATH_INI = path.join(PATH_THIS, 'tests.ini')
+
+def read_test_config_file() -> dict:
+    parser = ConfigParser()
+    ini_file = path.join(PATH_THIS, 'tests.ini')
+
+    try:
+        parser.read(ini_file)
+    except FileNotFoundError:
+        sys.exit('Could not open {}'.format(ini_file))
+
+    return parser
 
 def echo_message(msg: str) -> None:
     secho('{}'.format(msg), fg='yellow')
@@ -46,15 +56,10 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
 class Server:
 
     def __init__(self) -> None:
-        self.cfgs = ConfigParser()
-        self.cfgs.read(PATH_INI)
-
+        self.configs = read_test_config_file()
         parent = path.dirname(PATH_THIS)
-        self.binary = path.join(parent, self.cfgs['server']['output-dir'], self.cfgs['server']['output-name'])
+        self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
         self.process = None
-
-    def return_path_to_binary(self) -> str:
-        return self.binary
 
     def start_server_in_foreground(self, *args) -> int:
         command = ()
@@ -71,10 +76,10 @@ class Server:
             command = self.binary
 
         self.process = Popen(command, stdout=DEVNULL)
-        sleep(self.cfgs['server'].getfloat('startup-delay'))
+        sleep(self.configs['server'].getfloat('startup-delay'))
 
     def start_server_under_valgrind(self, log_file: str) -> None:
-        log_file_dump = path.join(PATH_THIS, self.cfgs['server']['valgrind-log-directory'])
+        log_file_dump = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
         if not path.exists(log_file_dump):
             makedirs(log_file_dump)
 
@@ -83,29 +88,28 @@ class Server:
 
         command = 'valgrind --leak-check=yes --log-file={} {}'.format(path_log_file, self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL)
-        sleep(self.cfgs['server'].getfloat('startup-delay-valgrind'))
+        sleep(self.configs['server'].getfloat('startup-delay-valgrind'))
 
     def stop_server(self) -> None:
-        sleep(self.cfgs['server'].getfloat('shutdown-delay'))
+        sleep(self.configs['server'].getfloat('shutdown-delay'))
         self.process.send_signal(SIGINT)
 
 
 class Client:
 
     def __init__(self) -> None:
-        self.cfgs = ConfigParser()
-        self.cfgs.read(PATH_INI)
+        self.configs = read_test_config_file()
         self.socket = None
 
     def connect(self, port: Optional[int]=None, host: Optional[str]=None) -> None:
         self.socket = socket(AF_INET, SOCK_STREAM)
-        self.socket.settimeout(self.cfgs['client'].getfloat('sock_timeout'))
+        self.socket.settimeout(self.configs['client'].getfloat('sock_timeout'))
 
         if not port:
-            port = self.cfgs['client'].getint('tcp_port')
+            port = self.configs['client'].getint('tcp_port')
 
         if not host:
-            host = self.cfgs['client']['ipv4_address_server']
+            host = self.configs['client']['ipv4_address_server']
 
         self.socket.connect((host, port))
 
@@ -114,7 +118,7 @@ class Client:
 
     def send(self, command: str) -> str:
         self.socket.sendall(command.encode())
-        buffer_size = self.cfgs['client'].getint('tcp_buffer_size')
+        buffer_size = self.configs['client'].getint('tcp_buffer_size')
         bytes_recv = self.socket.recv(buffer_size)
         return bytes_recv.decode()
 
