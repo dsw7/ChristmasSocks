@@ -13,6 +13,9 @@ unsigned int MAX_NUM_CONNECTIONS_QUEUE = 5;
 // Specify the TCP buffer size for incoming connections (bytes)
 unsigned int TCP_BUFFER_SIZE = 1024;
 
+// Specify whether to strip newlines from end of incoming message
+bool STRIP_LAST_CHAR = false;
+
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS
 // --------------------------------------------------------------
