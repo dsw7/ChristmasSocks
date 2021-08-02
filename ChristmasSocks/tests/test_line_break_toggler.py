@@ -20,9 +20,9 @@ class TestLineBreakToggler:
     def test_strip_line_breaks(self) -> None:
         self.server.start_server_in_background('--strip-line-breaks')
         self.client.connect()
-        self.client.send('foobar\n')
+        assert self.client.send('foobar\n') == 'foobar'
 
     def test_no_strip_line_breaks(self) -> None:
         self.server.start_server_in_background()
         self.client.connect()
-        self.client.send('foobar\n')
+        assert self.client.send('foobar\n') == 'foobar\n'
