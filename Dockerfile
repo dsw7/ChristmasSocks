@@ -8,7 +8,7 @@ RUN apt-get update && \
     python3 \
     python3-pip
 
-RUN python3 -m pip install --user click pip
+RUN python3 -m pip install --user click pytest
 
 ENV PWD=/root
 
