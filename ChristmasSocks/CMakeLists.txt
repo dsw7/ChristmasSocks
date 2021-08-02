@@ -25,7 +25,6 @@ message(STATUS "The build type will be: ${CMAKE_BUILD_TYPE}")
 add_compile_definitions(NAME_PROJECT="ChristmasSocks")
 add_compile_definitions(MAINTAINER="David Weber")
 add_compile_definitions(COMPILE_DATE=${COMPILE_DATE})
-add_compile_definitions(MAX_EPOLL_EVENTS=${MAX_EPOLL_EVENTS})
 add_compile_definitions(CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
 
 # This is technically the default - can set to something else
