@@ -5,6 +5,16 @@ IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size
     this->buffer_size = tcp_buffer_size;
 }
 
+bool IncomingClientPrimitives::is_valid_buffer_size()
+{
+    if (this->buffer_size < 16)
+    {
+        ClientLogger::error("Invalid buffer size. Minimum buffer size is " + std::to_string(16) + " bytes");
+        return false;
+    }
+    return true;
+}
+
 /* https://linux.die.net/man/3/accept */
 bool IncomingClientPrimitives::accept_incoming_connection(int &socket_fd_server, struct sockaddr_in &address, int &socket_fd_client)
 {
