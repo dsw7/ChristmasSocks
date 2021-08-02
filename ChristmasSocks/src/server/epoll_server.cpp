@@ -117,6 +117,10 @@ void ServerImplMain::loop()
                     {
                         goto endloop;
                     }
+                    else if (message.compare("sleep") == 0)
+                    {
+                        usleep(10000);
+                    }
                     else
                     {
                         write_data(message, socket_fd_client_from_struct);
