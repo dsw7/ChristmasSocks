@@ -35,7 +35,7 @@ void set_root_configs(configs_t &configs)
     configs.tcp_port = TCP_PORT;
     configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
     configs.tcp_buffer_size = TCP_BUFFER_SIZE;
-    configs.strip_line_break = STRIP_LINE_BREAK;
+    configs.strip_line_breaks = STRIP_LINE_BREAK;
 }
 
 void overwrite_root_configs_with_config_file_configs(configs_t &configs, std::string &path_config_file)
@@ -71,7 +71,7 @@ void overwrite_root_configs_with_config_file_configs(configs_t &configs, std::st
             configs.max_num_connections_queue = std::stoi(it->second);
         }
         /*
-         * Might add configs.strip_line_break handling here
+         * Might add configs.strip_line_breaks handling here
          */
         else
         {
@@ -116,7 +116,7 @@ void overwrite_config_file_configs_with_cli_args(configs_t &global_configs, int 
                 global_configs.tcp_buffer_size = atoi(optarg);
                 break;
             case 'n':
-                global_configs.strip_line_break = true;
+                global_configs.strip_line_breaks = true;
                 break;
             default:
                 help_message(argv[0]);
