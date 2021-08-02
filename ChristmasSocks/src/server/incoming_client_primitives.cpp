@@ -9,8 +9,7 @@ bool IncomingClientPrimitives::is_valid_buffer_size()
 {
     if (this->buffer_size < 16)
     {
-        ClientLogger::error("Invalid buffer size. Minimum buffer size is " + std::to_string(16) + " bytes", -1);
-        // set socket file descriptor to -1 given that it is not set until an incoming connection is accepted
+        RootLogger::error("Invalid buffer size. Minimum buffer size is " + std::to_string(16) + " bytes");
         return false;
     }
     return true;
