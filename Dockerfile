@@ -8,12 +8,13 @@ RUN apt-get update && \
     python3 \
     python3-pip
 
+RUN python3 -m pip install --user click pytest
+
 ENV PWD=/root
 
 WORKDIR $PWD
 
 CMD git clone https://github.com/dsw7/ChristmasSocks.git \
- && python3 -m pip install click \
  && chmod +x ./ChristmasSocks/ChristmasSocks/configure.py \
  && ./ChristmasSocks/ChristmasSocks/configure.py compile --release \
  && ./ChristmasSocks/ChristmasSocks/configure.py test --release
