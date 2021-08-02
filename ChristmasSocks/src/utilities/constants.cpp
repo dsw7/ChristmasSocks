@@ -13,10 +13,6 @@ unsigned int MAX_NUM_CONNECTIONS_QUEUE = 5;
 // Specify the TCP buffer size for incoming connections (bytes)
 unsigned int TCP_BUFFER_SIZE = 1024;
 
-// Specify the default maximum number of epoll events
-// See https://man7.org/linux/man-pages/man2/epoll_wait.2.html (maxevents)
-unsigned int MAX_EPOLL_EVENTS = 10;
-
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS
 // --------------------------------------------------------------
@@ -33,6 +29,10 @@ unsigned int MINIMUM_TCP_PORT = 1024;
 
 // Maximum unsigned 16 bit int
 unsigned int MAXIMUM_TCP_PORT = 65535;
+
+// Specify the default maximum number of epoll events
+// See https://man7.org/linux/man-pages/man2/epoll_wait.2.html (maxevents)
+unsigned int MAX_EPOLL_EVENTS = 10;
 
 // Sleep command duration
 unsigned int MAX_SLEEP_DURATION_USEC = 1000000;
