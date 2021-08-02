@@ -26,12 +26,6 @@ class TestCommandLineInterface:
         with raises(OSError):
             self.client.connect(port=port)
 
-    def test_invalid_port_high_long_option(self) -> None:
-        port = 99999
-        self.server.start_server('--port={}'.format(port))
-        with raises(OSError):
-            self.client.connect(port=port)
-
     def test_valid_port_long_option(self) -> None:
         port = 8080
         string = 'foobar'
@@ -41,12 +35,6 @@ class TestCommandLineInterface:
 
     def test_invalid_port_low_short_option(self) -> None:
         port = 22
-        self.server.start_server('-p', str(port))
-        with raises(OSError):
-            self.client.connect(port=port)
-
-    def test_invalid_port_high_short_option(self) -> None:
-        port = 99999
         self.server.start_server('-p', str(port))
         with raises(OSError):
             self.client.connect(port=port)
