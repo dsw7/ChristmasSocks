@@ -24,6 +24,7 @@ int main(int argc, char **argv)
     overwrite_config_file_configs_with_cli_args(global_configs, argc, argv);
 
     ServerImplMain server(global_configs);
+    server.incoming_client_setup();
     server.server_setup();
     server.open_epoll_file_descriptor();
     server.register_server_fd_to_epoll_instance();

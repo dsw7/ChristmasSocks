@@ -1,5 +1,15 @@
 #include "epoll_server.h"
 
+void ServerImplMain::incoming_client_setup()
+{
+    EventLogger::info("Setting up incoming client primitives", this->epoll_fd);
+
+    if (!is_valid_buffer_size())
+    {
+        exit(EXIT_FAILURE);
+    }
+}
+
 void ServerImplMain::server_setup()
 {
     EventLogger::info("Setting up server primitives", this->epoll_fd);

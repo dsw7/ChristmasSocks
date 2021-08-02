@@ -24,6 +24,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
             configs.tcp_buffer_size
         ) {}
 
+        void incoming_client_setup();
         void server_setup();
         void open_epoll_file_descriptor();
         void register_server_fd_to_epoll_instance();
