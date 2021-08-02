@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/epoll.h>
+#include <unistd.h>
 
 #include "logger.h"
 #include "server_primitives.h"
