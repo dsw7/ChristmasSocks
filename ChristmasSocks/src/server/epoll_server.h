@@ -9,6 +9,7 @@
 #include "server_primitives.h"
 #include "sysconfig_pipeline.h"
 #include "incoming_client_primitives.h"
+#include "constants.h"
 
 class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
