@@ -18,6 +18,12 @@ class TestCommandLineInterface:
         self.server.stop_server()
         self.client.disconnect()
 
+    def test_help_long_option(self) -> None:
+        self.server.start_server('--help')
+
+    def test_help_short_option(self) -> None:
+        self.server.start_server('-h')
+
     def test_valid_port_long_option(self) -> None:
         port = 8080
         self.server.start_server('--port={}'.format(port))
