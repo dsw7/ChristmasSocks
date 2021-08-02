@@ -18,3 +18,6 @@ class TestHelpMenu:
 
     def test_invalid_tcp_port_high(self) -> None:
         assert self.server.start_server_in_foreground('--port=99999') == EXIT_FAILURE
+
+    def test_invalid_tcp_buffer_size(self) -> None:
+        assert self.server.start_server_in_foreground('--buffer-size=4') == EXIT_FAILURE
