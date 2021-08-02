@@ -84,8 +84,15 @@ Then send a message in another terminal:
 ```bash
 echo -n "exit" | nc localhost 1234
 ```
-The server can also be started with the `--strip-line-breaks` or `-n` flag for running `nc` with `socks` interactively. 
 The `-n` flag is important as the server does not interpret trailing newlines. The server should now shut down.
+The server can also be started with the `--strip-line-breaks` or `-n` flag for running `nc` with `socks` interactively. For example:
+```
+$ nc localhost 8080
+echo
+echo  # echoed back from the server
+exit
+```
+The `exit` command will shut down the server.
 ## Testing hardware
 I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
 To make these mounts, I simply print out the `layout.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
