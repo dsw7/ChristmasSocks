@@ -27,14 +27,13 @@ EXIT_FAILURE = 1
 ALPHANUMERIC = ascii_letters + digits
 PATH_THIS = path.dirname(__file__)
 
-def read_test_config_file() -> dict:
-    parser = ConfigParser()
+def read_test_config_file() -> ConfigParser:
     ini_file = path.join(PATH_THIS, 'tests.ini')
-
-    try:
-        parser.read(ini_file)
-    except FileNotFoundError:
+    if not path.exists(ini_file):
         sys.exit('Could not open {}'.format(ini_file))
+
+    parser = ConfigParser()
+    parser.read(ini_file)
     return parser
 
 def echo_message(msg: str) -> None:
