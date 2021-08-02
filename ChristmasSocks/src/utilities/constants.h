@@ -9,6 +9,7 @@
 extern unsigned int TCP_PORT;
 extern unsigned int MAX_NUM_CONNECTIONS_QUEUE;
 extern unsigned int TCP_BUFFER_SIZE;
+extern unsigned int MAX_EPOLL_EVENTS;
 
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS

@@ -22,9 +22,6 @@ endif(NOT CMAKE_BUILD_TYPE)
 # Print the build type
 message(STATUS "The build type will be: ${CMAKE_BUILD_TYPE}")
 
-# Set all macro definitions
-set(MAX_EPOLL_EVENTS 10)
-
 add_compile_definitions(NAME_PROJECT="ChristmasSocks")
 add_compile_definitions(MAINTAINER="David Weber")
 add_compile_definitions(COMPILE_DATE=${COMPILE_DATE})
