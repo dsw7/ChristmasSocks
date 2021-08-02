@@ -1,6 +1,6 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 
-from process import Popen
+from subprocess import Popen
 from pytest import mark
 from utils import Server, EXIT_FAILURE
 
