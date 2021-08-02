@@ -2,6 +2,7 @@
 #define EPOLL_SERVER_H
 
 #include <stdio.h>
+#include <string>
 #include <stdlib.h>
 #include <sys/epoll.h>
 #include <unistd.h>
