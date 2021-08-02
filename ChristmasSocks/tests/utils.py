@@ -17,6 +17,8 @@ from socket import (
 from random import choice
 from click import secho
 
+EXIT_SUCCESS = 0
+EXIT_FAILURE = 1
 ALPHANUMERIC = ascii_letters + digits
 PATH_THIS = path.dirname(__file__)
 PATH_INI = path.join(PATH_THIS, 'tests.ini')
@@ -46,6 +48,9 @@ class Server:
         parent = path.dirname(PATH_THIS)
         self.binary = path.join(parent, self.cfgs['server']['output-dir'], self.cfgs['server']['output-name'])
         self.process = None
+
+    def return_path_to_binary(self) -> str:
+        return self.binary
 
     def start_server(self, *args) -> None:
         if len(args) > 0:

@@ -1,10 +1,26 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 
+from subprocess import call
 from pytest import mark
 from utils import (
     Server,
-    Client
+    Client,
+    EXIT_SUCCESS
 )
+
+@mark.release_test
+class TestHelpMenu:
+
+    def setup_class(self) -> None:
+        server = Server()
+        self.path_binary = server.return_path_to_binary()
+
+    def test_help_long_option(self) -> None:
+        assert call([self.path_binary, '--help']) == EXIT_SUCCESS
+
+    def test_help_short_option(self) -> None:
+        assert call([self.path_binary, '-h']) == EXIT_SUCCESS
+
 
 @mark.release_test
 class TestCommandLineInterface:
