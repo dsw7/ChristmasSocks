@@ -35,4 +35,4 @@ unsigned int MINIMUM_TCP_PORT = 1024;
 unsigned int MAXIMUM_TCP_PORT = 65535;
 
 // Sleep command duration
-unsigned int MAX_SLEEP_DURATION_USEC = 100000;
+unsigned int MAX_SLEEP_DURATION_USEC = 1000000;
