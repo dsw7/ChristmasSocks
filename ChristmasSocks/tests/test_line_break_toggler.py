@@ -14,15 +14,15 @@ class TestLineBreakToggler:
         self.client = Client()
 
     def teardown_method(self) -> None:
-        self.server.stop_server()
         self.client.disconnect()
+        self.server.stop_server()
 
     def test_strip_line_breaks(self) -> None:
-        self.client.connect()
         self.server.start_server_in_background('--strip-line-breaks')
+        self.client.connect()
         self.client.send('sleep\n')
 
     def test_no_strip_line_breaks(self) -> None:
-        self.client.connect()
         self.server.start_server_in_background()
+        self.client.connect()
         self.client.send('sleep\n')
