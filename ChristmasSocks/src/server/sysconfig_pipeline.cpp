@@ -85,7 +85,7 @@ void overwrite_config_file_configs_with_cli_args(configs_t &global_configs, int 
         static struct option long_options[] =
         {
             {"port",        required_argument, 0, 'p'},
-            {"buffer_size", required_argument, 0, 'b'}
+            {"buffer-size", required_argument, 0, 'b'}
         };
 
         // What's the point of this?
