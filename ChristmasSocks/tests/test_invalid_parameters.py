@@ -4,7 +4,7 @@ from pytest import mark
 from utils import Server, EXIT_FAILURE
 
 @mark.release_test
-class TestHelpMenu:
+class TestInvalidParameters:
 
     def setup_class(self) -> None:
         self.server = Server()
