@@ -30,17 +30,7 @@ class SystemParameters
     public:
         SystemParameters();
         void overwrite_root_configs_with_config_file_configs();
-        void overwrite_config_file_configs_with_cli_args();
+        void overwrite_config_file_configs_with_cli_args(int argc, char **argv);
 };
-
-void set_root_configs(
-    configs_t &configs
-);
-void overwrite_root_configs_with_config_file_configs(
-    configs_t &configs, std::string &path_config_file
-);
-void overwrite_config_file_configs_with_cli_args(
-    configs_t &global_configs, int argc, char **argv
-);
 
 #endif

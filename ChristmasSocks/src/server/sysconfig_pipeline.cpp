@@ -30,26 +30,26 @@ void parse_config_file_contents(std::string &file_contents, std::map<std::string
     }
 }
 
-void set_root_configs(configs_t &configs)
+SystemParameters::SystemParameters()
 {
-    configs.tcp_port = TCP_PORT;
-    configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
-    configs.tcp_buffer_size = TCP_BUFFER_SIZE;
-    configs.strip_line_breaks = STRIP_LINE_BREAK;
+    this->configs.tcp_port = TCP_PORT;
+    this->configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
+    this->configs.tcp_buffer_size = TCP_BUFFER_SIZE;
+    this->configs.strip_line_breaks = STRIP_LINE_BREAK;
 }
 
-void overwrite_root_configs_with_config_file_configs(configs_t &configs, std::string &path_config_file)
+void SystemParameters::overwrite_root_configs_with_config_file_configs()
 {
-    if (!file_exists(path_config_file))
+    if (!file_exists(CONFIG_FILEPATH))
     {
-        RootLogger::info("Could not find " + path_config_file);
+        RootLogger::info("Could not find " + CONFIG_FILEPATH);
         return;
     }
 
-    RootLogger::info("Reading configurations from file " + path_config_file);
+    RootLogger::info("Reading configurations from file " + CONFIG_FILEPATH);
 
     std::string file_contents;
-    read_file(path_config_file, file_contents);
+    read_file(CONFIG_FILEPATH, file_contents);
 
     std::map<std::string, std::string> raw_configs;
     parse_config_file_contents(file_contents, raw_configs);
@@ -60,15 +60,15 @@ void overwrite_root_configs_with_config_file_configs(configs_t &configs, std::st
     {
         if (it->first.compare("tcp_port") == 0)
         {
-            configs.tcp_port = std::stoi(it->second);
+            this->configs.tcp_port = std::stoi(it->second);
         }
         else if (it->first.compare("tcp_buffer_size") == 0)
         {
-            configs.tcp_buffer_size = std::stoi(it->second);
+            this->configs.tcp_buffer_size = std::stoi(it->second);
         }
         else if (it->first.compare("max_num_connections_queue") == 0)
         {
-            configs.max_num_connections_queue = std::stoi(it->second);
+            this->configs.max_num_connections_queue = std::stoi(it->second);
         }
         /*
          * Might add configs.strip_line_breaks handling here
@@ -80,7 +80,7 @@ void overwrite_root_configs_with_config_file_configs(configs_t &configs, std::st
     }
 }
 
-void overwrite_config_file_configs_with_cli_args(configs_t &global_configs, int argc, char **argv)
+void SystemParameters::overwrite_config_file_configs_with_cli_args(int argc, char **argv)
 {
     int option;
 
@@ -110,25 +110,17 @@ void overwrite_config_file_configs_with_cli_args(configs_t &global_configs, int 
         switch (option)
         {
             case 'p':
-                global_configs.tcp_port = atoi(optarg);
+                this->configs.tcp_port = atoi(optarg);
                 break;
             case 'b':
-                global_configs.tcp_buffer_size = atoi(optarg);
+                this->configs.tcp_buffer_size = atoi(optarg);
                 break;
             case 'n':
-                global_configs.strip_line_breaks = true;
+                this->configs.strip_line_breaks = true;
                 break;
             default:
                 help_message(argv[0]);
                 exit(EXIT_FAILURE);
         }
     };
-}
-
-SystemParameters::SystemParameters()
-{
-    this->configs.tcp_port = TCP_PORT;
-    this->configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
-    this->configs.tcp_buffer_size = TCP_BUFFER_SIZE;
-    this->configs.strip_line_breaks = STRIP_LINE_BREAK;
 }
