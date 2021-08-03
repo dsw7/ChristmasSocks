@@ -3,7 +3,7 @@
 #include "help_menu.h"
 #include "logger.h"
 #include "ipc_signal_registers.h"
-#include "sysconfig_pipeline.h"
+#include "system_configurations.h"
 #include "header_footer.h"
 #include "epoll_server.h"
 
