@@ -1,5 +1,5 @@
-#ifndef SYSCONFIG_PIPELINE_H
-#define SYSCONFIG_PIPELINE_H
+#ifndef SYSTEM_CONFIGURATIONS_H
+#define SYSTEM_CONFIGURATIONS_H
 
 #include <map>
 #include <getopt.h>
