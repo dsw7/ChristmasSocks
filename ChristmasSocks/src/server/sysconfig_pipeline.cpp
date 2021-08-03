@@ -30,7 +30,7 @@ void parse_config_file_contents(std::string &file_contents, std::map<std::string
     }
 }
 
-SystemParameters::SystemParameters()
+SystemConfigurations::SystemConfigurations()
 {
     this->configs.tcp_port = TCP_PORT;
     this->configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
@@ -38,7 +38,7 @@ SystemParameters::SystemParameters()
     this->configs.strip_line_breaks = STRIP_LINE_BREAK;
 }
 
-void SystemParameters::overwrite_root_configs_with_config_file_configs()
+void SystemConfigurations::overwrite_root_configs_with_config_file_configs()
 {
     if (!file_exists(CONFIG_FILEPATH))
     {
@@ -80,7 +80,7 @@ void SystemParameters::overwrite_root_configs_with_config_file_configs()
     }
 }
 
-void SystemParameters::overwrite_config_file_configs_with_cli_args(int argc, char **argv)
+void SystemConfigurations::overwrite_config_file_configs_with_cli_args(int argc, char **argv)
 {
     int option;
 

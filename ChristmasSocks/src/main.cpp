@@ -18,12 +18,11 @@ int main(int argc, char **argv)
     display_header();
     register_ipc_signals();
 
-    configs_t global_configs;
-    set_root_configs(global_configs);
-    overwrite_root_configs_with_config_file_configs(global_configs, CONFIG_FILEPATH);
-    overwrite_config_file_configs_with_cli_args(global_configs, argc, argv);
+    SystemConfigurations sysconfig_handle;
+    sysconfig_handle.overwrite_root_configs_with_config_file_configs();
+    configs_t sysconfigs = sysconfig_handle.overwrite_config_file_configs_with_cli_args(argv, argv);
 
-    ServerImplMain server(global_configs);
+    ServerImplMain server(sysconfigs);
     server.incoming_client_setup();
     server.server_setup();
     server.open_epoll_file_descriptor();

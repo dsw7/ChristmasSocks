@@ -22,13 +22,13 @@ void parse_config_file_contents(
     std::string &file_contents, std::map<std::string, std::string> &raw_configs
 );
 
-class SystemParameters
+class SystemConfigurations
 {
     private:
         configs_t configs;
 
     public:
-        SystemParameters();
+        SystemConfigurations();
         void overwrite_root_configs_with_config_file_configs();
         void overwrite_config_file_configs_with_cli_args(int argc, char **argv);
 };
