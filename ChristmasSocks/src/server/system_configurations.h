@@ -2,13 +2,13 @@
 #define SYSCONFIG_PIPELINE_H
 
 #include <map>
-#include <sstream>
 #include <getopt.h>
 
 #include "utilities.h"
 #include "constants.h"
 #include "logger.h"
 #include "help_menu.h"
+#include "config_file_parser.h"
 
 struct configs_t
 {
@@ -17,10 +17,6 @@ struct configs_t
     unsigned int tcp_buffer_size;
     bool strip_line_breaks;
 };
-
-void parse_config_file_contents(
-    std::string &file_contents, std::map<std::string, std::string> &raw_configs
-);
 
 class SystemConfigurations
 {
