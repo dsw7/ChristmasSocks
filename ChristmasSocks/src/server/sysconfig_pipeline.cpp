@@ -124,3 +124,11 @@ void overwrite_config_file_configs_with_cli_args(configs_t &global_configs, int 
         }
     };
 }
+
+SystemParameters::SystemParameters()
+{
+    this->configs.tcp_port = TCP_PORT;
+    this->configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
+    this->configs.tcp_buffer_size = TCP_BUFFER_SIZE;
+    this->configs.strip_line_breaks = STRIP_LINE_BREAK;
+}
