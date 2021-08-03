@@ -30,7 +30,7 @@ class SystemConfigurations
     public:
         SystemConfigurations();
         void overwrite_root_configs_with_config_file_configs();
-        void overwrite_config_file_configs_with_cli_args(int argc, char **argv);
+        configs_t overwrite_config_file_configs_with_cli_args(int argc, char **argv);
 };
 
 #endif

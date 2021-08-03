@@ -80,7 +80,7 @@ void SystemConfigurations::overwrite_root_configs_with_config_file_configs()
     }
 }
 
-void SystemConfigurations::overwrite_config_file_configs_with_cli_args(int argc, char **argv)
+configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int argc, char **argv)
 {
     int option;
 
@@ -123,4 +123,6 @@ void SystemConfigurations::overwrite_config_file_configs_with_cli_args(int argc,
                 exit(EXIT_FAILURE);
         }
     };
+
+    return this->configs;
 }
