@@ -17,9 +17,12 @@ class ServerPrimitives
     private:
         unsigned int tcp_port;
         unsigned int max_num_connections_queue;
-        std::string bind_ip;
+        std::string  bind_ip;
 
     public:
+        int          socket_fd_server; // must be public - used in epoll class
+        struct       sockaddr_in address;
+
         ServerPrimitives(
             unsigned int &tcp_port,
             unsigned int &max_num_connections_queue,
@@ -31,9 +34,6 @@ class ServerPrimitives
         bool attach_socket_file_descriptor_to_port();
         bool bind_socket_file_descriptor_to_port();
         bool listen_on_bound_tcp_port();
-
-        int socket_fd_server; // must be public - used in epoll class
-        struct sockaddr_in address;
 };
 
 #endif
