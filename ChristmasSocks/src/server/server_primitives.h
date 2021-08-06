@@ -17,9 +17,14 @@ class ServerPrimitives
     private:
         unsigned int tcp_port;
         unsigned int max_num_connections_queue;
+        std::string bind_ip;
 
     public:
-        ServerPrimitives(unsigned int &tcp_port, unsigned int &max_num_connections_queue);
+        ServerPrimitives(
+            unsigned int &tcp_port,
+            unsigned int &max_num_connections_queue,
+            std::string bind_ip
+        );
 
         bool open_server_socket_file_descriptor();
         bool close_server_socket_file_descriptor();
