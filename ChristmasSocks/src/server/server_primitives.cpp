@@ -4,8 +4,8 @@ ServerPrimitives::ServerPrimitives(unsigned int &tcp_port, unsigned int &max_num
 {
     this->tcp_port = tcp_port;
     this->max_num_connections_queue = max_num_connections_queue;
-    this->socket_fd_server = -1;
     this->bind_ip = bind_ip;
+    this->socket_fd_server = -1;
 }
 
 /* https://linux.die.net/man/3/socket */
@@ -76,11 +76,13 @@ bool ServerPrimitives::bind_socket_file_descriptor_to_port()
         ServerLogger::error("Cannot bind to a TCP port exceeding " + std::to_string(MAXIMUM_TCP_PORT), this->socket_fd_server);
         return false;
     }
-    ServerLogger::info("Binding socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
 
     this->address.sin_family = AF_INET;
     this->address.sin_addr.s_addr = inet_addr(this->bind_ip.c_str());
     this->address.sin_port = htons(this->tcp_port);
+
+    ServerLogger::info("Binding socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
+    ServerLogger::info("Binding socket file descriptor to IPv4 address " + this->bind_ip, this->socket_fd_server);
 
     int rv = bind(this->socket_fd_server, (struct sockaddr *)&this->address, sizeof(this->address));
 
