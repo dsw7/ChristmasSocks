@@ -79,7 +79,7 @@ bool ServerPrimitives::bind_socket_file_descriptor_to_port()
     ServerLogger::info("Binding socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
 
     this->address.sin_family = AF_INET;
-    this->address.sin_addr.s_addr = inet_addr(this->bind_ip);
+    this->address.sin_addr.s_addr = inet_addr(this->bind_ip.c_str());
     this->address.sin_port = htons(this->tcp_port);
 
     int rv = bind(this->socket_fd_server, (struct sockaddr *)&this->address, sizeof(this->address));
