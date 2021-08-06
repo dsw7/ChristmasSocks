@@ -82,7 +82,16 @@ bool ServerPrimitives::bind_socket_file_descriptor_to_port()
     this->address.sin_port = htons(this->tcp_port);
 
     ServerLogger::info("Binding socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
-    ServerLogger::info("Binding socket file descriptor to IPv4 address " + this->bind_ip, this->socket_fd_server);
+
+    if (this->bind_ip.compare(BIND_IP_INADDR_ANY) == 0)
+    {
+        ServerLogger::warning("Binding socket file descriptor to IPv4 address " + this->bind_ip, this->socket_fd_server);
+        ServerLogger::warning("The listening socket will bind to all available interfaces!", this->socket_fd_server);
+    }
+    else
+    {
+        ServerLogger::info("Binding socket file descriptor to IPv4 address " + this->bind_ip, this->socket_fd_server);
+    }
 
     int rv = bind(this->socket_fd_server, (struct sockaddr *)&this->address, sizeof(this->address));
 

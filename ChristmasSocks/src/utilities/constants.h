@@ -21,5 +21,6 @@ extern unsigned int MINIMUM_TCP_PORT;
 extern unsigned int MAXIMUM_TCP_PORT;
 extern unsigned int MAX_EPOLL_EVENTS;
 extern unsigned int MAX_SLEEP_DURATION_USEC;
+extern std::string  BIND_IP_INADDR_ANY;
 
 #endif

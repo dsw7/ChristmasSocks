@@ -42,3 +42,6 @@ unsigned int MAX_EPOLL_EVENTS = 10;
 
 // Sleep command duration
 unsigned int MAX_SLEEP_DURATION_USEC = 1000000;
+
+// Bind to all available interfaces
+std::string BIND_IP_INADDR_ANY = "0.0.0.0";
