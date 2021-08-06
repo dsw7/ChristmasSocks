@@ -55,3 +55,15 @@ class TestCommandLineInterface:
         self.server.start_server_in_background('-b', str(buffer_size))
         self.client.connect()
         assert self.test_string == self.client.send(self.test_string)
+
+    def test_bind_ip_long_option(self) -> None:
+        bind_ip = '127.0.0.1'
+        self.server.start_server_in_background('--bind-ip={}'.format(bind_ip))
+        self.client.connect()
+        assert self.test_string == self.client.send(self.test_string)
+
+    def test_bind_ip_short_option(self) -> None:
+        bind_ip = '127.0.0.1'
+        self.server.start_server_in_background('-i', str(bind_ip))
+        self.client.connect()
+        assert self.test_string == self.client.send(self.test_string)
