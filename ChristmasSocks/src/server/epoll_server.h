@@ -23,7 +23,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
         ServerImplMain(configs_t &configs): ServerPrimitives(
             configs.tcp_port,
             configs.max_num_connections_queue,
-            configs.bind_ip;
+            configs.bind_ip
         ),
         IncomingClientPrimitives(
             configs.tcp_buffer_size,
