@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
+#include <arpa/inet.h> // inet_addr
 #include "logger.h"
 #include "constants.h"
 

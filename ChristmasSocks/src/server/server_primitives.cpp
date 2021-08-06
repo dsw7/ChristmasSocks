@@ -81,7 +81,7 @@ bool ServerPrimitives::bind_socket_file_descriptor_to_port()
     }
 
     this->address.sin_family = AF_INET;
-    this->address.sin_addr.s_addr = INADDR_ANY;
+    this->address.sin_addr.s_addr = inet_addr("0.0.0.0");
     this->address.sin_port = htons(this->tcp_port);
 
     int rv = bind(this->socket_fd_server, (struct sockaddr *)&this->address, sizeof(this->address));
