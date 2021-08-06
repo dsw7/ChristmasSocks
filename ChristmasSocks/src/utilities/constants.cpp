@@ -16,6 +16,9 @@ unsigned int TCP_BUFFER_SIZE = 1024;
 // Specify whether to strip newlines from end of incoming message
 bool STRIP_LINE_BREAK = false;
 
+// Specify which host to bind to
+std::string BIND_IP = "127.0.0.1";
+
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS
 // --------------------------------------------------------------

@@ -9,12 +9,13 @@
 extern unsigned int TCP_PORT;
 extern unsigned int MAX_NUM_CONNECTIONS_QUEUE;
 extern unsigned int TCP_BUFFER_SIZE;
-extern bool STRIP_LINE_BREAK;
+extern bool         STRIP_LINE_BREAK;
+extern std::string  BIND_IP;
 
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS
 // --------------------------------------------------------------
-extern std::string CONFIG_FILEPATH;
+extern std::string  CONFIG_FILEPATH;
 extern unsigned int MINIMUM_TCP_BUFFER_SIZE;
 extern unsigned int MINIMUM_TCP_PORT;
 extern unsigned int MAXIMUM_TCP_PORT;
