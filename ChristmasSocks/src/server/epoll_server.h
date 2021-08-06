@@ -20,8 +20,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
         int epoll_fd = -1; // -1 means not set
 
     public:
-        ServerImplMain(configs_t &configs):
-        ServerPrimitives(
+        ServerImplMain(configs_t &configs): ServerPrimitives(
             configs.tcp_port,
             configs.max_num_connections_queue,
             configs.bind_ip;
