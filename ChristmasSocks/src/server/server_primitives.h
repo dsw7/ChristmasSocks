@@ -32,7 +32,7 @@ class ServerPrimitives
         bool bind_socket_file_descriptor_to_port();
         bool listen_on_bound_tcp_port();
 
-        int socket_fd_server;
+        int socket_fd_server; // must be public - used in epoll class
         struct sockaddr_in address;
 };
 
