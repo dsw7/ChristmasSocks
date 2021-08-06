@@ -6,6 +6,7 @@ SystemConfigurations::SystemConfigurations()
     this->configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
     this->configs.tcp_buffer_size = TCP_BUFFER_SIZE;
     this->configs.strip_line_breaks = STRIP_LINE_BREAK;
+    this->configs.bind_ip = BIND_IP;
 }
 
 void SystemConfigurations::overwrite_root_configs_with_config_file_configs()
@@ -40,6 +41,10 @@ void SystemConfigurations::overwrite_root_configs_with_config_file_configs()
         {
             this->configs.max_num_connections_queue = std::stoi(it->second);
         }
+        else if (it->first.compare("bind_ip") == 0)
+        {
+            this->configs.bind_ip = it->second;
+        }
         /*
          * Might add configs.strip_line_breaks handling here
          */
@@ -60,6 +65,7 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
         {
             {"port",              required_argument, 0, 'p'},
             {"buffer-size",       required_argument, 0, 'b'},
+            {"bind-ip",           required_argument, 0, 'i'},
             {"strip-line-breaks", no_argument,       0, 'n'}
         };
 
@@ -68,7 +74,7 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
 
         /* https://linux.die.net/man/3/getopt_long */
         option = getopt_long(
-            argc, argv, "p:b:n", long_options, &option_index
+            argc, argv, "p:b:i:n", long_options, &option_index
         );
 
         // End of options
@@ -84,6 +90,9 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
                 break;
             case 'b':
                 this->configs.tcp_buffer_size = atoi(optarg);
+                break;
+            case 'i':
+                this->configs.bind_ip = optarg;
                 break;
             case 'n':
                 this->configs.strip_line_breaks = true;
