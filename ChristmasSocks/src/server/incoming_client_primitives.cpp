@@ -85,14 +85,12 @@ bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_cl
 /* https://linux.die.net/man/3/send */
 bool IncomingClientPrimitives::write_data(std::string &message, int &socket_fd_client)
 {
-    message = message.c_str();
-
     if (this->strip_line_breaks)
     {
         message = message + '\n';
     }
 
-    int rv = send(socket_fd_client, message, message.size(), 0);
+    int rv = send(socket_fd_client, message.c_str(), message.size(), 0);
 
     if (rv == -1)
     {
