@@ -27,7 +27,7 @@ class TestLineBreakToggler:
         self.client.connect()
         assert self.client.send('foobar') == 'foobar'
 
-    def test_handle_line_breaks_2(self) -> None:
+    def test_handle_line_breaks_no_newline(self) -> None:
         self.server.start_server_in_background('--handle-line-breaks')
         self.client.connect()
         assert self.client.send('foobar') == 'fooba\n'

@@ -87,7 +87,7 @@ bool IncomingClientPrimitives::write_data(std::string &message, int &socket_fd_c
 {
     if (this->handle_line_breaks)
     {
-        message = message + '\n';
+        message = message + "\n";
     }
 
     int rv = send(socket_fd_client, message.c_str(), message.size(), 0);
