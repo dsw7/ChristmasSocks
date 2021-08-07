@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.8.1)
 project(ChristmasSocks)
 
+# UNIX variable is set TRUE for Cygwin and Apple systems
+# Unfortunately need to first check if UNIX then exit if Apple or Cygwin
 if(UNIX)
-    # UNIX variable is set TRUE for Cygwin and Apple systems
     message(STATUS "Detected *nix platform. Proceeding.")
     if (APPLE)
         message(FATAL_ERROR "Detected Apple *nix platform. Cannot proceed!")
@@ -13,6 +14,7 @@ if(UNIX)
 else()
     message(FATAL_ERROR "Cannot compile on non-*nix platform!")
 endif(UNIX)
+message(STATUS "Detected ${CMAKE_SYSTEM}")
 
 # Get the compile date
 string(TIMESTAMP COMPILE_DATE "%Y%m%d")
