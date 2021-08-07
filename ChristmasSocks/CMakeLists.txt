@@ -1,9 +1,15 @@
 cmake_minimum_required(VERSION 3.8.1)
 project(ChristmasSocks)
 
-# Maybe it works on Windows... I have no idea
 if(UNIX)
-    message(STATUS "Detecting *nix platform. Proceeding.")
+    # UNIX variable is set TRUE for Cygwin and Apple systems
+    message(STATUS "Detected *nix platform. Proceeding.")
+    if (APPLE)
+        message(FATAL_ERROR "Detected Apple *nix platform. Cannot proceed!")
+    endif(APPLE)
+    if (CYGWIN)
+        message(FATAL_ERROR "Detected Cygwin *nix platform. Cannot proceed!")
+    endif(CYGWIN)
 else()
     message(FATAL_ERROR "Cannot compile on non-*nix platform!")
 endif(UNIX)
