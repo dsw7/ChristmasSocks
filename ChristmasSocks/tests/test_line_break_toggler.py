@@ -17,12 +17,12 @@ class TestLineBreakToggler:
         self.client.disconnect()
         self.server.stop_server()
 
-    def test_strip_line_breaks(self) -> None:
+    def test_handle_line_breaks(self) -> None:
         self.server.start_server_in_background('--handle-line-breaks')
         self.client.connect()
-        assert self.client.send('foobar\n') == 'foobar'
+        assert self.client.send('foobar\n') == 'foobar\n'
 
-    def test_no_strip_line_breaks(self) -> None:
+    def test_no_handle_line_breaks(self) -> None:
         self.server.start_server_in_background()
         self.client.connect()
         assert self.client.send('foobar\n') == 'foobar\n'
