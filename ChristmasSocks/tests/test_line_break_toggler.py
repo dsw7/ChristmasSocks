@@ -25,4 +25,4 @@ class TestLineBreakToggler:
     def test_no_handle_line_breaks(self) -> None:
         self.server.start_server_in_background()
         self.client.connect()
-        assert self.client.send('foobar\n') == 'foobar\n'
+        assert self.client.send('foobar') == 'foobar'
