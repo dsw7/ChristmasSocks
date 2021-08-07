@@ -12,12 +12,12 @@ class IncomingClientPrimitives
 {
     private:
         unsigned int buffer_size;
-        bool strip_line_breaks;
+        bool handle_line_breaks;
 
     public:
         IncomingClientPrimitives(
             unsigned int &tcp_buffer_size,
-            bool &strip_line_breaks
+            bool &handle_line_breaks
         );
 
         bool is_valid_buffer_size();

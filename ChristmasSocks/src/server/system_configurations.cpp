@@ -5,7 +5,7 @@ SystemConfigurations::SystemConfigurations()
     this->configs.tcp_port = TCP_PORT;
     this->configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
     this->configs.tcp_buffer_size = TCP_BUFFER_SIZE;
-    this->configs.strip_line_breaks = STRIP_LINE_BREAK;
+    this->configs.handle_line_breaks = STRIP_LINE_BREAK;
     this->configs.bind_ip = DEFAULT_BIND_IP;
 }
 
@@ -46,7 +46,7 @@ void SystemConfigurations::overwrite_root_configs_with_config_file_configs()
             this->configs.bind_ip = it->second;
         }
         /*
-         * Might add configs.strip_line_breaks handling here
+         * Might add configs.handle_line_breaks handling here
          */
         else
         {
@@ -95,7 +95,7 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
                 this->configs.bind_ip = optarg;
                 break;
             case 'n':
-                this->configs.strip_line_breaks = true;
+                this->configs.handle_line_breaks = true;
                 break;
             default:
                 help_message(argv[0]);
