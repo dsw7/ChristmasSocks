@@ -8,6 +8,8 @@
 #include "logger.h"
 #include "constants.h"
 
+std::string get_line_break(std::string &message);
+
 class IncomingClientPrimitives
 {
     private:
