@@ -9,7 +9,7 @@
 extern unsigned int TCP_PORT;
 extern unsigned int MAX_NUM_CONNECTIONS_QUEUE;
 extern unsigned int TCP_BUFFER_SIZE;
-extern bool         STRIP_LINE_BREAK;
+extern bool         HANDLE_LINE_BREAKS;
 extern std::string  DEFAULT_BIND_IP;
 
 // --------------------------------------------------------------

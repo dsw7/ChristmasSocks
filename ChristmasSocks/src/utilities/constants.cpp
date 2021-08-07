@@ -14,7 +14,7 @@ unsigned int MAX_NUM_CONNECTIONS_QUEUE = 5;
 unsigned int TCP_BUFFER_SIZE = 1024;
 
 // Specify whether to strip newlines from end of incoming message
-bool STRIP_LINE_BREAK = false;
+bool HANDLE_LINE_BREAKS = false;
 
 // Specify which host to bind to
 std::string DEFAULT_BIND_IP = "127.0.0.1";
