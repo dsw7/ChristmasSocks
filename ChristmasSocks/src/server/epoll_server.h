@@ -16,8 +16,9 @@
 class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
     private:
-        struct epoll_event ev;
-        int    epoll_fd = -1; // -1 means not set
+        struct      epoll_event ev;
+        int         epoll_fd = -1; // -1 means not set
+        std::string message;
 
     public:
         ServerImplMain(configs_t &configs): ServerPrimitives(

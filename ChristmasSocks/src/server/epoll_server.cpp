@@ -73,7 +73,6 @@ void ServerImplMain::loop()
     int nfds, socket_fd_client_to_struct, socket_fd_client_from_struct;
     struct epoll_event events[MAX_EPOLL_EVENTS];
 
-    std::string message;
     EventLogger::info("Starting epoll event loop", this->epoll_fd);
 
     while (true)
@@ -108,23 +107,23 @@ void ServerImplMain::loop()
             }
             else
             {
-                message.clear();
+                this->message.clear();
                 socket_fd_client_from_struct = events[n].data.fd;
 
-                if (read_data(message, socket_fd_client_from_struct))
+                if (read_data(this->message, socket_fd_client_from_struct))
                 {
-                    if (message.compare("exit") == 0)
+                    if (this->message.compare("exit") == 0)
                     {
                         goto endloop;
                     }
-                    else if (message.compare("sleep") == 0)
+                    else if (this->message.compare("sleep") == 0)
                     {
                         usleep(MAX_SLEEP_DURATION_USEC);
-                        write_data(message, socket_fd_client_from_struct);
+                        write_data(this->message, socket_fd_client_from_struct);
                     }
                     else
                     {
-                        write_data(message, socket_fd_client_from_struct);
+                        write_data(this->message, socket_fd_client_from_struct);
                     }
                 }
             }
