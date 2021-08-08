@@ -11,6 +11,7 @@
 #include "system_configurations.h"
 #include "incoming_client_primitives.h"
 #include "constants.h"
+#include "commands.h"
 
 class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
