@@ -10,8 +10,8 @@ An experimental [epoll](https://linux.die.net/man/4/epoll) driven server that I 
     - [Running memory tests](#running-memory-tests)
     - [Testing with Docker](#testing-with-docker)
     - [Manual testing](#manual-testing)
-  - [Testing hardware](#testing-hardware)
   - [Shortcuts](#shortcuts)
+  - [Testing hardware](#testing-hardware)
 
 ## Static analysis
 To lint the C++ source, run:
@@ -93,10 +93,6 @@ echo  # echoed back from the server
 exit
 ```
 The `exit` command will shut down the server.
-## Testing hardware
-I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
-To make these mounts, I simply print out the `layout.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
-and cut out the shape according to the template. The circles are nothing than drill hole markers. Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
 ## Shortcuts
 _Compile and test release binary_:
 ```bash
@@ -110,3 +106,7 @@ _Run end to end Docker test_:
 ```bash
 docker build -t socks . && docker run -it --rm socks
 ```
+## Testing hardware
+I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
+To make these mounts, I simply print out the `layout.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
+and cut out the shape according to the template. The circles are nothing than drill hole markers. Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
