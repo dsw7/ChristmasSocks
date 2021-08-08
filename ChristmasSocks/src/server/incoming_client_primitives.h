@@ -13,13 +13,11 @@ class IncomingClientPrimitives
 {
     private:
         unsigned int buffer_size;
-        bool  handle_line_breaks;
         std::string      newline;
 
     public:
         IncomingClientPrimitives(
-            unsigned int &tcp_buffer_size,
-            bool &handle_line_breaks
+            unsigned int &tcp_buffer_size
         );
 
         bool is_valid_buffer_size();

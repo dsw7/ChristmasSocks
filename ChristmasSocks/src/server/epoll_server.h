@@ -26,8 +26,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
             configs.bind_ip
         ),
         IncomingClientPrimitives(
-            configs.tcp_buffer_size,
-            configs.handle_line_breaks
+            configs.tcp_buffer_size
         ) {}
 
         void incoming_client_setup();

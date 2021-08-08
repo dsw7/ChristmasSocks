@@ -5,7 +5,6 @@ SystemConfigurations::SystemConfigurations()
     this->configs.tcp_port = TCP_PORT;
     this->configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
     this->configs.tcp_buffer_size = TCP_BUFFER_SIZE;
-    this->configs.handle_line_breaks = HANDLE_LINE_BREAKS;
     this->configs.bind_ip = DEFAULT_BIND_IP;
 }
 
@@ -45,9 +44,6 @@ void SystemConfigurations::overwrite_root_configs_with_config_file_configs()
         {
             this->configs.bind_ip = it->second;
         }
-        /*
-         * Might add configs.handle_line_breaks handling here
-         */
         else
         {
             continue;
@@ -63,10 +59,9 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
     {
         static struct option long_options[] =
         {
-            {"port",               required_argument, 0, 'p'},
-            {"buffer-size",        required_argument, 0, 'b'},
-            {"bind-ip",            required_argument, 0, 'i'},
-            {"handle-line-breaks", no_argument,       0, 'n'}
+            {"port",        required_argument, 0, 'p'},
+            {"buffer-size", required_argument, 0, 'b'},
+            {"bind-ip",     required_argument, 0, 'i'},
         };
 
         // What's the point of this?
@@ -74,7 +69,7 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
 
         /* https://linux.die.net/man/3/getopt_long */
         option = getopt_long(
-            argc, argv, "p:b:i:n", long_options, &option_index
+            argc, argv, "p:b:i:", long_options, &option_index
         );
 
         // End of options
@@ -93,9 +88,6 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
                 break;
             case 'i':
                 this->configs.bind_ip = optarg;
-                break;
-            case 'n':
-                this->configs.handle_line_breaks = true;
                 break;
             default:
                 help_message(argv[0]);
