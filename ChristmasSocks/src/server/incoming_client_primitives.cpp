@@ -87,7 +87,7 @@ bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_cl
     if (this->handle_line_breaks)
     {
         this->newline = get_line_break(message);
-        message = message.substr(0, message.size() - 1);
+        message = message.substr(0, message.size() - this->newline.size());
     }
 
     if (rv < 0)
