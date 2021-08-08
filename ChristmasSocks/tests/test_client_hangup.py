@@ -13,7 +13,6 @@ class TestClientHangup:
 
     def setup_class(self) -> None:
         self.server = Server()
-        self.server.start_server_in_background()
         self.client = Client()
         self.client.connect()
 
