@@ -62,6 +62,7 @@ add_executable(${OUTPUT_NAME}
     "src/server/incoming_client_primitives.cpp"
     "src/server/server_primitives.cpp"
     "src/server/system_configurations.cpp"
+    "src/server/commands.cpp"
     "src/utilities/constants.cpp"
     "src/utilities/utilities.cpp"
     "src/utilities/ipc_signal_registers.cpp"
