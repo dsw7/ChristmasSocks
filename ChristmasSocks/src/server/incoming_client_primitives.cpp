@@ -1,9 +1,8 @@
 #include "incoming_client_primitives.h"
 
-IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size, bool &handle_line_breaks)
+IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size)
 {
     this->buffer_size = tcp_buffer_size;
-    this->handle_line_breaks = handle_line_breaks;
 }
 
 bool IncomingClientPrimitives::is_valid_buffer_size()
@@ -60,11 +59,8 @@ bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_cl
 
     if (message.size() > 0)
     {
-        if (this->handle_line_breaks)
-        {
-            this->newline = get_line_break(message);
-            message = message.substr(0, message.size() - this->newline.size());
-        }
+        this->newline = get_line_break(message);
+        message = message.substr(0, message.size() - this->newline.size());
     }
 
     if (rv < 0)
@@ -89,11 +85,8 @@ bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_cl
 /* https://linux.die.net/man/3/send */
 bool IncomingClientPrimitives::write_data(std::string &message, int &socket_fd_client)
 {
-    if (this->handle_line_breaks)
-    {
-        message = message + this->newline;
-        this->newline.clear();
-    }
+    message = message + this->newline;
+    this->newline.clear();
 
     int rv = send(socket_fd_client, message.c_str(), message.size(), 0);
 
