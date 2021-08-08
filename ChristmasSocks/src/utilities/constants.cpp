@@ -45,3 +45,12 @@ unsigned int MAX_SLEEP_DURATION_USEC = 1000000;
 
 // Bind to all available interfaces
 std::string BIND_IP_INADDR_ANY = "0.0.0.0";
+
+// Accept input from early Mac OSes
+std::string CHAR_CARRIAGE_RETURN = "\r";
+
+// Accept input from UNIX based systems (including modern Mac OS)
+std::string CHAR_LINE_FEED = "\n";
+
+// Accept input from Windows OSes
+std::string CHAR_END_OF_LINE = "\r\n";
