@@ -70,7 +70,11 @@ void ServerImplMain::register_server_fd_to_epoll_instance()
 
 void ServerImplMain::handle_incoming_message()
 {
-    if (this->message.compare("sleep") == 0)
+    if (this->message.compare("help") == 0)
+    {
+        this->message = Commands::command_help();
+    }
+    else if (this->message.compare("sleep") == 0)
     {
         Commands::command_sleep();
     }
