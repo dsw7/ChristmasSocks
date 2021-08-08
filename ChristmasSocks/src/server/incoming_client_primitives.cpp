@@ -58,10 +58,13 @@ bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_cl
     int rv = read(socket_fd_client, buffer, this->buffer_size);
     message = std::string(buffer);
 
-    if (this->handle_line_breaks)
+    if (message.size > 0)
     {
-        this->newline = get_line_break(message);
-        message = message.substr(0, message.size() - this->newline.size());
+        if (this->handle_line_breaks)
+        {
+            this->newline = get_line_break(message);
+            message = message.substr(0, message.size() - this->newline.size());
+        }
     }
 
     if (rv < 0)
