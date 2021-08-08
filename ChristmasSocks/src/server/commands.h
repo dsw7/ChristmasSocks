@@ -7,7 +7,8 @@
 #include "constants.h"
 
 namespace Commands {
-    void command_sleep();
+    std::string command_help();
+    void        command_sleep();
 }
 
 #endif
