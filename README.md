@@ -87,7 +87,15 @@ echo
 echo  # echoed back from the server
 exit
 ```
-The `exit` command will shut down the server.
+The `exit` command will shut down the server. The server accepts EOL line endings, and therefore can technically
+accept incoming Windows client connections, however support for this is poorly tested. First start the server as follows:
+```bash
+./bin/socks --bind-ip 0.0.0.0 --port 1234 # Or whatever port TCP port you wish to use
+```
+Then from a Windows machine:
+```
+curl telnet://<ipv4-addr-server>:1234
+```
 ## Shortcuts
 _Compile and test release binary_:
 ```bash
