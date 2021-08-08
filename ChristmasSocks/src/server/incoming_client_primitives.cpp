@@ -6,6 +6,7 @@ std::string get_line_break(std::string &message)
 
     if (message.compare(size - 2, 2, "\r\n") == 0)
     {
+        RootLogger::info("crlf");
         return "\r\n";
     }
 
