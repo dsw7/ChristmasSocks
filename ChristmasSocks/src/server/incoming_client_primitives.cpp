@@ -58,9 +58,13 @@ bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_cl
     int rv = read(socket_fd_client, buffer, this->buffer_size);
     message = std::string(buffer);
 
-    if (this->handle_line_breaks)
+    if (message.size() > 0)
     {
-        message = message.substr(0, message.size() - 1);
+        if (this->handle_line_breaks)
+        {
+            this->newline = get_line_break(message);
+            message = message.substr(0, message.size() - this->newline.size());
+        }
     }
 
     if (rv < 0)
@@ -87,7 +91,8 @@ bool IncomingClientPrimitives::write_data(std::string &message, int &socket_fd_c
 {
     if (this->handle_line_breaks)
     {
-        message = message + "\n";
+        message = message + this->newline;
+        this->newline.clear();
     }
 
     int rv = send(socket_fd_client, message.c_str(), message.size(), 0);

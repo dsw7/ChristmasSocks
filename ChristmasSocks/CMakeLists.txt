@@ -66,4 +66,5 @@ add_executable(${OUTPUT_NAME}
     "src/utilities/utilities.cpp"
     "src/utilities/ipc_signal_registers.cpp"
     "src/utilities/config_file_parser.cpp"
+    "src/utilities/get_line_breaks.cpp"
 )

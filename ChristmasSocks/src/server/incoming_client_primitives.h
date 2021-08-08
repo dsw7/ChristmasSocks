@@ -7,12 +7,14 @@
 #include <unistd.h>
 #include "logger.h"
 #include "constants.h"
+#include "get_line_breaks.h"
 
 class IncomingClientPrimitives
 {
     private:
         unsigned int buffer_size;
-        bool handle_line_breaks;
+        bool  handle_line_breaks;
+        std::string      newline;
 
     public:
         IncomingClientPrimitives(

@@ -17,17 +17,27 @@ class TestLineBreakToggler:
         self.client.disconnect()
         self.server.stop_server()
 
-    def test_handle_line_breaks(self) -> None:
-        self.server.start_server_in_background('--handle-line-breaks')
-        self.client.connect()
-        assert self.client.send('foobar\n') == 'foobar\n'
-
     def test_no_handle_line_breaks(self) -> None:
         self.server.start_server_in_background()
         self.client.connect()
         assert self.client.send('foobar') == 'foobar'
 
-    def test_handle_line_breaks_no_newline(self) -> None:
+    def test_handle_line_feed(self) -> None:
         self.server.start_server_in_background('--handle-line-breaks')
         self.client.connect()
-        assert self.client.send('foobar') == 'fooba\n'
+        assert self.client.send('foobar\n') == 'foobar\n'
+
+    def test_handle_carriage_return(self) -> None:
+        self.server.start_server_in_background('--handle-line-breaks')
+        self.client.connect()
+        assert self.client.send('foobar\r') == 'foobar\r'
+
+    def test_handle_carriage_return_line_feed(self) -> None:
+        self.server.start_server_in_background('--handle-line-breaks')
+        self.client.connect()
+        assert self.client.send('foobar\r\n') == 'foobar\r\n'
+
+    def test_handle_no_end_of_line(self) -> None:
+        self.server.start_server_in_background('--handle-line-breaks')
+        self.client.connect()
+        assert self.client.send('foobar') == 'foobar'
