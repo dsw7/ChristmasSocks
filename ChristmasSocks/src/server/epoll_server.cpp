@@ -76,7 +76,7 @@ void ServerImplMain::handle_incoming_message()
     }
     else if (this->message.compare("sleep") == 0)
     {
-        Commands::command_sleep();
+        this->message = Commands::command_sleep();
     }
 }
 

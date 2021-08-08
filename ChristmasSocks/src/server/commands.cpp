@@ -13,10 +13,11 @@ namespace Commands {
         "> Unknown commands will simply be echoed back to the client";
     }
 
-    void command_sleep()
+    std::string command_sleep()
     {
         RootLogger::info("Received sleep command. Sleeping for " + std::to_string(MAX_SLEEP_DURATION_USEC) + " microseconds");
         usleep(MAX_SLEEP_DURATION_USEC);
+        return "> Slept for " + std::string(MAX_SLEEP_DURATION_USEC) + " microseconds";
     }
 
 }

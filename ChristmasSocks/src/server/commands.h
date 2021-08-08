@@ -8,7 +8,7 @@
 
 namespace Commands {
     std::string command_help();
-    void        command_sleep();
+    std::string command_sleep();
 }
 
 #endif
