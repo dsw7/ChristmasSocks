@@ -15,9 +15,6 @@ void help_message(char *file)
     std::cout << "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n";
     std::cout << "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n";
     std::cout << "  -i, --bind-ip=<bind-ip>         Specify the bind IP (0.0.0.0 is equivalent to INADDR_ANY)\n";
-    std::cout << "  -n, --handle-line-breaks        Strip newlines from incoming client messages and\n";
-    std::cout << "                                  add newlines to outgoing messages\n";
-    std::cout << "                                  Useful for manual testing with netcat (nc) \n";
     std::cout << std::endl;
 }
 

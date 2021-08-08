@@ -63,10 +63,9 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
     {
         static struct option long_options[] =
         {
-            {"port",               required_argument, 0, 'p'},
-            {"buffer-size",        required_argument, 0, 'b'},
-            {"bind-ip",            required_argument, 0, 'i'},
-            {"handle-line-breaks", no_argument,       0, 'n'}
+            {"port",        required_argument, 0, 'p'},
+            {"buffer-size", required_argument, 0, 'b'},
+            {"bind-ip",     required_argument, 0, 'i'},
         };
 
         // What's the point of this?
@@ -74,7 +73,7 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
 
         /* https://linux.die.net/man/3/getopt_long */
         option = getopt_long(
-            argc, argv, "p:b:i:n", long_options, &option_index
+            argc, argv, "p:b:i:", long_options, &option_index
         );
 
         // End of options
