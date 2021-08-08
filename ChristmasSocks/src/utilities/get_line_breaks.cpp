@@ -1,8 +1,11 @@
 #include "get_line_breaks.h"
 
+#include <iostream>
+
 std::string get_line_break(std::string &message)
 {
     int size = message.size();
+    std::cout << size << std::endl;
 
     if (message.compare(size - 2, 2, CHAR_END_OF_LINE) == 0)
     {
