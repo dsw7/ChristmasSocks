@@ -68,6 +68,14 @@ void ServerImplMain::register_server_fd_to_epoll_instance()
     }
 }
 
+void ServerImplMain::handle_incoming_message()
+{
+    if (this->message.compare("sleep") == 0)
+    {
+        usleep(MAX_SLEEP_DURATION_USEC);
+    }
+}
+
 void ServerImplMain::loop()
 {
     int nfds, socket_fd_client_to_struct, socket_fd_client_from_struct;
@@ -116,15 +124,8 @@ void ServerImplMain::loop()
                     {
                         goto endloop;
                     }
-                    else if (this->message.compare("sleep") == 0)
-                    {
-                        usleep(MAX_SLEEP_DURATION_USEC);
-                        write_data(this->message, socket_fd_client_from_struct);
-                    }
-                    else
-                    {
-                        write_data(this->message, socket_fd_client_from_struct);
-                    }
+                    handle_incoming_message();
+                    write_data(this->message, socket_fd_client_from_struct);
                 }
             }
         }

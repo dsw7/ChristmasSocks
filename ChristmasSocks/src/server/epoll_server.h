@@ -34,6 +34,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
         void server_setup();
         void open_epoll_file_descriptor();
         void register_server_fd_to_epoll_instance();
+        void handle_incoming_message();
         void loop();
         void server_teardown();
 };
