@@ -7,7 +7,7 @@ namespace Commands {
         RootLogger::info("Received help command. Returning a list of internal commands to client");
         return "List of commands:\n"
         "help  - Get a list of commands\n"
-        "sleep - sleep for a short delay"
+        "sleep - sleep for a short delay";
     }
 
     void command_sleep()
