@@ -25,11 +25,12 @@ class TestClientHangup:
 
     def test_echo_3_connections(self) -> None:
         workers, results = [], []
+
         with futures.ThreadPoolExecutor() as executor:
             workers.append(executor.submit(self.start_server))
             workers.append(executor.submit(self.hangup_client))
 
-            if futures.wait(workers, return_when=futures.FIRST_COMPLETED):
+            if futures.wait(workers, return_when=futures.ALL_COMPLETED):
                 for worker in workers:
                     results.append(worker.result())
 
