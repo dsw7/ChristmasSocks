@@ -72,7 +72,7 @@ void ServerImplMain::handle_incoming_message()
 {
     if (this->message.compare("sleep") == 0)
     {
-        usleep(MAX_SLEEP_DURATION_USEC);
+        Commands::command_sleep();
     }
 }
 
