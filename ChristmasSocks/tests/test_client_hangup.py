@@ -14,12 +14,12 @@ class TestClientHangup:
     def setup_class(self) -> None:
         self.server = Server()
         self.client = Client()
-        self.client.connect()
 
     def start_server(self) -> int:
         return self.server.start_server_in_foreground()
 
     def hangup_client(self) -> int:
+        self.client.connect()
         self.client.disconnect()
         return EXIT_SUCCESS
 
