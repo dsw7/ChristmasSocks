@@ -28,6 +28,7 @@ class TestClientHangup:
 
         with futures.ThreadPoolExecutor() as executor:
             workers.append(executor.submit(self.start_server))
+            import sleep; sleep(2);
             workers.append(executor.submit(self.hangup_client))
 
             if futures.wait(workers, return_when=futures.ALL_COMPLETED):
