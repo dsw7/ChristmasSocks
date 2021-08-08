@@ -7,8 +7,7 @@
 #include <unistd.h>
 #include "logger.h"
 #include "constants.h"
-
-std::string get_line_break(std::string &message);
+#include "get_line_breaks.h"
 
 class IncomingClientPrimitives
 {
