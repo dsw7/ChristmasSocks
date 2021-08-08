@@ -80,14 +80,9 @@ Manual testing can be done using [netcat](https://linux.die.net/man/1/nc) (`nc`)
 ```bash
 ./bin/socks --port 1234 # Or whatever port TCP port you wish to use
 ```
-Then send a message in another terminal:
-```bash
-echo -n "exit" | nc localhost 1234
+Then start an `nc` interactive session:
 ```
-The `-n` flag is important as the server does not interpret trailing newlines. The server should now shut down.
-The server can also be started with the `--strip-line-breaks` or `-n` flag for running `nc` with `socks` interactively. For example:
-```
-$ nc localhost 8080
+$ nc localhost 1234
 echo
 echo  # echoed back from the server
 exit
