@@ -49,3 +49,17 @@ class TestMultipleConnections:
 
         for result in results:
             assert result['outgoing_message'] == result['returning_message']
+
+    def test_sleep_3_connections(self) -> None:
+        workers, results = [], []
+        with futures.ThreadPoolExecutor() as executor:
+            workers.append(executor.submit(self.wrap_send, 'sleep', self.client_a))
+            workers.append(executor.submit(self.wrap_send, 'sleep', self.client_b))
+            workers.append(executor.submit(self.wrap_send, 'sleep', self.client_c))
+
+            if futures.wait(workers, return_when=futures.FIRST_COMPLETED):
+                for worker in workers:
+                    results.append(worker.result())
+
+        for result in results:
+            assert result['outgoing_message'] == result['returning_message']
