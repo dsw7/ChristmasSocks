@@ -67,13 +67,9 @@ class Server:
         return call(command)
 
     def start_server_in_background(self, *args) -> None:
-        if len(args) > 0:
-            command = ()
-            command += (self.binary,)
-            command += args
-        else:
-            command = self.binary
-
+        command = ()
+        command += (self.binary,)
+        command += args
         self.process = Popen(command, stdout=DEVNULL)
         sleep(self.configs['server'].getfloat('startup-delay'))
 
