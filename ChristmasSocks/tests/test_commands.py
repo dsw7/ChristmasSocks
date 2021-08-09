@@ -43,4 +43,4 @@ class TestCommands:
         assert '> List of commands:' in self.client.send('help')
 
     def test_sleep(self) -> None:
-        assert 'Success' == self.client.send('sleep')
+        assert self.client.send('sleep') == 'Success'
