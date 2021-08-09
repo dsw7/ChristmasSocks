@@ -40,4 +40,4 @@ class TestCommands:
         self.client.disconnect()
 
     def test_sleep(self) -> None:
-        assert 'sleep' == self.client.send('sleep')
+        assert 'Success' == self.client.send('sleep')
