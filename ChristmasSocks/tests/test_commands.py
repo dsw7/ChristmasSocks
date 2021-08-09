@@ -39,5 +39,8 @@ class TestCommands:
     def teardown_class(self) -> None:
         self.client.disconnect()
 
+    def test_help(self) -> None:
+        assert '> List of commands:' in self.client.send('help')
+
     def test_sleep(self) -> None:
         assert 'Success' == self.client.send('sleep')
