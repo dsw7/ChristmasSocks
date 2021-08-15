@@ -13,7 +13,7 @@ class TestMultipleConnections:
 
     def setup_class(self) -> None:
         self.server = ServerBackground()
-        self.server.start_server(logfile='{}.log'.format(self.__name__))
+        self.server.start_server(logfile='{}.log'.format(self.__class__.__name__))
         self.client_a = Client()
         self.client_b = Client()
         self.client_c = Client()
