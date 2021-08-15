@@ -13,7 +13,7 @@ class TestProtocolRandomStrings:
 
     def setup_class(self) -> None:
         self.server = ServerBackground()
-        self.server.start_server(logfile='{}.log'.format(self.__class__))
+        self.server.start_server(logfile='{}.log'.format(self.__name__))
         self.client = Client()
         self.client.connect()
         self.buffer_size = self.client.configs['client'].getint('tcp_buffer_size') - 1
