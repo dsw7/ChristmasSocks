@@ -3,7 +3,7 @@
 from concurrent import futures
 from pytest import mark
 from utils import (
-    Server,
+    ServerBackground,
     Client,
     generate_random_string
 )
@@ -12,8 +12,8 @@ from utils import (
 class TestMultipleConnections:
 
     def setup_class(self) -> None:
-        self.server = Server()
-        self.server.start_server_in_background()
+        self.server = ServerBackground()
+        self.server.start_server(logfile='{}.log'.format(self.__name__))
         self.client_a = Client()
         self.client_b = Client()
         self.client_c = Client()
