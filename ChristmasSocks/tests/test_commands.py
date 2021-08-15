@@ -38,6 +38,7 @@ class TestCommands:
 
     def teardown_class(self) -> None:
         self.client.disconnect()
+        self.server.stop_server()
 
     def test_sleep(self) -> None:
         assert self.client.send('sleep') == 'Success'
