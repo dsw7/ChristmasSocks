@@ -3,15 +3,15 @@
 from pytest import mark
 from utils import (
     Client,
-    Server
+    ServerBackground
 )
 
 @mark.release_test
 class TestExitCommand:
 
     def setup_class(self) -> None:
-        self.server = Server()
-        self.server.start_server_in_background()
+        self.server = ServerBackground()
+        self.server.start_server(logfile='TestExitCommand.log')
         self.client = Client()
         self.client.connect()
 
@@ -31,8 +31,8 @@ class TestExitCommand:
 class TestCommands:
 
     def setup_class(self) -> None:
-        self.server = Server()
-        self.server.start_server_in_background()
+        self.server = ServerBackground()
+        self.server.start_server(logfile='TestCommands.log')
         self.client = Client()
         self.client.connect()
 
