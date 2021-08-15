@@ -1,5 +1,6 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 
+from inspect import stack
 from pytest import mark
 from utils import (
     ServerForeground,
@@ -12,14 +13,15 @@ from utils import (
 class TestHelpMenu:
 
     def setup_class(self) -> None:
-        logfile = '{}.log'.format(self.__name__)
-        self.server = ServerForeground(logfile=logfile)
+        self.server = ServerForeground()
 
     def test_help_long_option(self) -> None:
-        assert self.server.start_server('--help') == EXIT_SUCCESS
+        logfile = '{}.log'.format(stack()[0][3])
+        assert self.server.start_server('--help', logfile=logfile) == EXIT_SUCCESS
 
     def test_help_short_option(self) -> None:
-        assert self.server.start_server('-h') == EXIT_SUCCESS
+        logfile = '{}.log'.format(stack()[0][3])
+        assert self.server.start_server('-h', logfile=logfile) == EXIT_SUCCESS
 
 
 @mark.release_test
