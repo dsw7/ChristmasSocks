@@ -52,7 +52,7 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
     return result
 
 
-class Server:
+class ServerForeground:
 
     def __init__(self) -> None:
         self.configs = read_test_config_file()
@@ -66,6 +66,15 @@ class Server:
         command += args
         return call(command)
 
+
+class ServerBackground:
+
+    def __init__(self) -> None:
+        self.configs = read_test_config_file()
+        parent = path.dirname(PATH_THIS)
+        self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
+        self.process = None
+
     def start_server_in_background(self, *args) -> None:
         command = ()
         command += (self.binary,)
@@ -73,8 +82,22 @@ class Server:
         self.process = Popen(command, stdout=DEVNULL)
         sleep(self.configs['server'].getfloat('startup-delay'))
 
+    def stop_server(self) -> None:
+        sleep(self.configs['server'].getfloat('shutdown-delay'))
+        self.process.send_signal(SIGINT)
+
+
+class ServerValgrind:
+
+    def __init__(self) -> None:
+        self.configs = read_test_config_file()
+        parent = path.dirname(PATH_THIS)
+        self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
+        self.process = None
+
     def start_server_under_valgrind(self, log_file: str) -> None:
         log_file_dump = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
+
         if not path.exists(log_file_dump):
             makedirs(log_file_dump)
 
