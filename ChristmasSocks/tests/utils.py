@@ -155,7 +155,7 @@ class Client:
         if not host:
             host = self.configs['client']['ipv4_address_server']
 
-        for _ in self.configs['client'].getint('max_connection_attempts'):
+        for _ in range(self.configs['client'].getint('max_connection_attempts')):
             try:
                 sleep(0.02)
                 self.socket.connect((host, port))
