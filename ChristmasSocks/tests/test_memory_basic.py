@@ -1,18 +1,19 @@
 # pylint: disable=W0201  # Disable defined outside __init__
+# pylint: disable=E1101  # Disable has no '__name__' member
 
 from pytest import mark
 from utils import (
     Client,
-    Server
+    ServerValgrind
 )
 
 @mark.memory_test
 class TestMemoryBasic:
 
     def setup_class(self) -> None:
-        log_file = '{}.log'.format('test_simple_echo')
-        self.server = Server()
-        self.server.start_server_under_valgrind(log_file=log_file)
+        self.server = ServerValgrind()
+        logfile = '{}.log'.format(self.__name__)
+        self.server.start_server(logfile=logfile)
         self.client = Client()
         self.client.connect()
 
