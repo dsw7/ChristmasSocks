@@ -85,7 +85,7 @@ class Server(ABC):
             makedirs(self.logdir_valgrind)
 
     @abstractmethod
-    def start_server(self, *args) -> Union[int, None]:
+    def start_server(self, *args, **kwargs) -> Union[int, None]:
         pass
 
     @abstractmethod
@@ -95,13 +95,14 @@ class Server(ABC):
 
 class ServerForeground(Server):
 
-    def start_server(self, *args) -> int:
-        self.set_release_log()
+    def start_server(self, *args, **kwargs) -> int:
         command = ()
         command += (self.binary,)
         command += args
 
-        exit_code = Popen(command, stdout=self.log_handle, stderr=STDOUT).wait()
+        logfile = path.join(self.logdir_release, kwargs['logfile'])
+        with open(logfile, 'w') as log_handle:
+            exit_code = Popen(command, stdout=log_handle, stderr=STDOUT).wait()
         return exit_code
 
     def stop_server(self) -> None:
@@ -110,24 +111,28 @@ class ServerForeground(Server):
 
 class ServerBackground(Server):
 
-    def start_server(self, *args) -> None:
-        self.set_release_log()
+    def start_server(self, *args, **kwargs) -> None:
         command = ()
         command += (self.binary,)
         command += args
+
+        logfile = path.join(self.logdir_release, kwargs['logfile'])
+        self.log_handle = open(logfile, 'w')
+
         self.process = Popen(command, stdout=self.log_handle, stderr=STDOUT)
         sleep(self.configs['server'].getfloat('startup-delay'))
 
     def stop_server(self) -> None:
         sleep(self.configs['server'].getfloat('shutdown-delay'))
         self.process.send_signal(SIGINT)
+        self.log_handle.close()
 
 
 class ServerValgrind(Server):
 
-    def start_server(self, *args) -> None:
-        self.set_valgrind_log()
-        command = 'valgrind --leak-check=yes --log-file={} {}'.format(self.log_handle, self.binary)
+    def start_server(self, *args, **kwargs) -> None:
+        logfile = path.join(self.logdir_valgrind, kwargs['logfile'])
+        command = 'valgrind --leak-check=yes --log-file={} {}'.format(logfile, self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL, stderr=STDOUT)
         sleep(self.configs['server'].getfloat('startup-delay-valgrind'))
 
