@@ -118,9 +118,7 @@ class ServerBackground(Server):
 
         logfile = path.join(self.logdir_release, kwargs['logfile'])
         self.log_handle = open(logfile, 'w')
-
         self.process = Popen(command, stdout=self.log_handle, stderr=STDOUT)
-        sleep(self.configs['server'].getfloat('startup-delay'))
 
     def stop_server(self) -> None:
         sleep(self.configs['server'].getfloat('shutdown-delay'))
@@ -157,7 +155,16 @@ class Client:
         if not host:
             host = self.configs['client']['ipv4_address_server']
 
-        self.socket.connect((host, port))
+        attempts = 0
+        while attempts <= self.configs['client'].getfloat('max_connection_attempts'):
+            attempts += 1
+            try:
+                sleep(0.02)
+                self.socket.connect((host, port))
+            except ConnectionRefusedError:
+                continue
+            else:
+                break
 
     def disconnect(self) -> None:
         self.socket.close()
