@@ -11,7 +11,7 @@ class TestExitCommand:
 
     def setup_class(self) -> None:
         self.server = ServerBackground()
-        self.server.start_server(logfile='TestExitCommand.log')
+        self.server.start_server(logfile='{}.log'.format(self.__name__))
         self.client = Client()
         self.client.connect()
 
@@ -32,7 +32,7 @@ class TestCommands:
 
     def setup_class(self) -> None:
         self.server = ServerBackground()
-        self.server.start_server(logfile='TestCommands.log')
+        self.server.start_server(logfile='{}.log'.format(self.__name__))
         self.client = Client()
         self.client.connect()
 
