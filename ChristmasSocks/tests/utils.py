@@ -103,6 +103,10 @@ class ServerForeground(Server):
         self.teardown_log_handle()
         return exit_code
 
+    def stop_server(self) -> None:
+        pass
+
+
 class ServerBackground(Server):
 
     def start_server(self, *args) -> None:
