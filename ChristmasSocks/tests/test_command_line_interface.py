@@ -26,7 +26,8 @@ class TestHelpMenu:
 class TestCommandLineInterface:
 
     def setup_class(self) -> None:
-        self.server = ServerBackground()
+        logfile = '{}.log'.format(self.__name__)
+        self.server = ServerBackground(logfile=logfile)
         self.client = Client()
         self.test_string = 'foobar'
 
