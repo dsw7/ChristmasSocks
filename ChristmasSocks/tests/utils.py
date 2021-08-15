@@ -55,32 +55,34 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
 
 class Server(ABC):
 
-    def __init__(self, logfile: str) -> None:
+    def __init__(self) -> None:
         self.configs = read_test_config_file()
-        parent = path.dirname(PATH_THIS)
-        self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
+
+        self.binary = None
         self.process = None
-        self.logfile = logfile
+        self.logdir_valgrind = None
+        self.logdir_release = None
         self.log_handle = None
 
+        self.set_binary_path()
+        self.set_release_log()
+        self.set_valgrind_log()
+
+    def set_binary_path(self) -> None:
+        parent = path.dirname(PATH_THIS)
+        self.binary = path.join(
+            parent, self.configs['server']['output-dir'], self.configs['server']['output-name']
+        )
+
     def set_release_log(self) -> None:
-        logfile_dump = path.join(PATH_THIS, self.configs['server']['release-log-directory'])
-
-        if not path.exists(logfile_dump):
-            makedirs(logfile_dump)
-
-        self.log_handle = open(path.join(logfile_dump, self.logfile), 'w')
+        self.logdir_release = path.join(PATH_THIS, self.configs['server']['release-log-directory'])
+        if not path.exists(self.logdir_release):
+            makedirs(self.logdir_release)
 
     def set_valgrind_log(self) -> None:
-        logfile_dump = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
-
-        if not path.exists(logfile_dump):
-            makedirs(logfile_dump)
-
-        self.log_handle = open(path.join(logfile_dump, self.logfile), 'w')
-
-    def teardown_log_handle(self) -> None:
-        self.log_handle.close()
+        self.logdir_valgrind = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
+        if not path.exists(self.logdir_valgrind):
+            makedirs(self.logdir_valgrind)
 
     @abstractmethod
     def start_server(self, *args) -> Union[int, None]:
@@ -100,7 +102,6 @@ class ServerForeground(Server):
         command += args
 
         exit_code = Popen(command, stdout=self.log_handle, stderr=STDOUT).wait()
-        self.teardown_log_handle()
         return exit_code
 
     def stop_server(self) -> None:
@@ -120,7 +121,6 @@ class ServerBackground(Server):
     def stop_server(self) -> None:
         sleep(self.configs['server'].getfloat('shutdown-delay'))
         self.process.send_signal(SIGINT)
-        self.teardown_log_handle()
 
 
 class ServerValgrind(Server):
@@ -134,7 +134,6 @@ class ServerValgrind(Server):
     def stop_server(self) -> None:
         sleep(self.configs['server'].getfloat('shutdown-delay'))
         self.process.send_signal(SIGINT)
-        self.teardown_log_handle()
 
 
 class Client:
