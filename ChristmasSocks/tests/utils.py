@@ -1,13 +1,10 @@
 import sys
 from configparser import ConfigParser
+from abc import ABC, abstractmethod
 from os import path, makedirs
-from typing import Optional
+from typing import Optional, Union
 from time import sleep
-from subprocess import (
-    Popen,
-    DEVNULL,
-    call
-)
+from subprocess import Popen, DEVNULL
 from signal import SIGINT
 from string import (
     ascii_letters,
@@ -52,7 +49,7 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
     return result
 
 
-class ServerForeground:
+class Server(ABC):
 
     def __init__(self) -> None:
         self.configs = read_test_config_file()
@@ -60,22 +57,27 @@ class ServerForeground:
         self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
         self.process = None
 
-    def start_server_in_foreground(self, *args) -> int:
+    @abstractmethod
+    def start_server(self, *args) -> Union[int, None]:
+        pass
+
+    @abstractmethod
+    def stop_server(self) -> None:
+        pass
+
+
+class ServerForeground(Server):
+
+    def start_server(self, *args) -> int:
         command = ()
         command += (self.binary,)
         command += args
-        return call(command)
+        return Popen(command, stdout=DEVNULL).wait()
 
 
-class ServerBackground:
+class ServerBackground(Server):
 
-    def __init__(self) -> None:
-        self.configs = read_test_config_file()
-        parent = path.dirname(PATH_THIS)
-        self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
-        self.process = None
-
-    def start_server_in_background(self, *args) -> None:
+    def start_server(self, *args) -> None:
         command = ()
         command += (self.binary,)
         command += args
@@ -87,15 +89,9 @@ class ServerBackground:
         self.process.send_signal(SIGINT)
 
 
-class ServerValgrind:
+class ServerValgrind(Server):
 
-    def __init__(self) -> None:
-        self.configs = read_test_config_file()
-        parent = path.dirname(PATH_THIS)
-        self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
-        self.process = None
-
-    def start_server_under_valgrind(self, log_file: str) -> None:
+    def start_server(self, log_file: str) -> None:
         log_file_dump = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
 
         if not path.exists(log_file_dump):
