@@ -4,7 +4,11 @@ from abc import ABC, abstractmethod
 from os import path, makedirs
 from typing import Optional, Union
 from time import sleep
-from subprocess import Popen, DEVNULL
+from subprocess import (
+    Popen,
+    DEVNULL,
+    STDOUT
+)
 from signal import SIGINT
 from string import (
     ascii_letters,
@@ -72,7 +76,7 @@ class ServerForeground(Server):
         command = ()
         command += (self.binary,)
         command += args
-        return Popen(command, stdout=DEVNULL).wait()
+        return Popen(command, stdout=DEVNULL, stderr=STDOUT).wait()
 
 
 class ServerBackground(Server):
@@ -81,7 +85,7 @@ class ServerBackground(Server):
         command = ()
         command += (self.binary,)
         command += args
-        self.process = Popen(command, stdout=DEVNULL)
+        self.process = Popen(command, stdout=DEVNULL, stderr=STDOUT)
         sleep(self.configs['server'].getfloat('startup-delay'))
 
     def stop_server(self) -> None:
@@ -101,7 +105,7 @@ class ServerValgrind(Server):
         echo_message('Valgrind log file: {}'.format(path_log_file))
 
         command = 'valgrind --leak-check=yes --log-file={} {}'.format(path_log_file, self.binary)
-        self.process = Popen(command.split(), stdout=DEVNULL)
+        self.process = Popen(command.split(), stdout=DEVNULL, stderr=STDOUT)
         sleep(self.configs['server'].getfloat('startup-delay-valgrind'))
 
     def stop_server(self) -> None:
