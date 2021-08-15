@@ -12,7 +12,7 @@ from utils import (
 class TestHelpMenu:
 
     def setup_class(self) -> None:
-        logfile = '{}.log'.format(self.__class__.__name__)
+        logfile = '{}.log'.format(self.__class__)
         self.server = ServerForeground(logfile=logfile)
 
     def test_help_long_option(self) -> None:
@@ -26,7 +26,7 @@ class TestHelpMenu:
 class TestCommandLineInterface:
 
     def setup_class(self) -> None:
-        logfile = '{}.log'.format(self.__class__.__name__)
+        logfile = '{}.log'.format(self.__class__)
         self.server = ServerBackground(logfile=logfile)
         self.client = Client()
         self.test_string = 'foobar'
