@@ -12,7 +12,7 @@ from utils import (
 class TestHelpMenu:
 
     def setup_class(self) -> None:
-        logfile = '{}.log'.format(self.__class__.__name__)
+        logfile = '{}.log'.format(self.__name__)
         self.server = ServerForeground(logfile=logfile)
 
     def test_help_long_option(self) -> None:
