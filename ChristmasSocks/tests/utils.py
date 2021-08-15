@@ -55,11 +55,18 @@ def generate_random_punctuation(num_strings: int, len_strings: int) -> list:
 
 class Server(ABC):
 
-    def __init__(self) -> None:
+    def __init__(self, logfile: str) -> None:
         self.configs = read_test_config_file()
         parent = path.dirname(PATH_THIS)
         self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
         self.process = None
+        self.logfile = logfile
+
+    def make_release_log(self) -> None:
+        pass
+
+    def make_valgrind_log(self) -> None:
+        pass
 
     @abstractmethod
     def start_server(self, *args) -> Union[int, None]:
