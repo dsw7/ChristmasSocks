@@ -61,12 +61,17 @@ class Server(ABC):
         self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
         self.process = None
         self.logfile = logfile
+        self.log_filepath = None
 
     def make_release_log(self) -> None:
         pass
 
     def make_valgrind_log(self) -> None:
-        pass
+        logfile_dump = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
+        if not path.exists(logfile_dump):
+            makedirs(logfile_dump)
+
+        self.log_filepath = path.join(logfile_dump, self.logfile)
 
     @abstractmethod
     def start_server(self, *args) -> Union[int, None]:
@@ -102,16 +107,8 @@ class ServerBackground(Server):
 
 class ServerValgrind(Server):
 
-    def start_server(self, log_file: str) -> None:
-        log_file_dump = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
-
-        if not path.exists(log_file_dump):
-            makedirs(log_file_dump)
-
-        path_log_file = path.join(log_file_dump, log_file)
-        echo_message('Valgrind log file: {}'.format(path_log_file))
-
-        command = 'valgrind --leak-check=yes --log-file={} {}'.format(path_log_file, self.binary)
+    def start_server(self, *args) -> None:
+        command = 'valgrind --leak-check=yes --log-file={} {}'.format(self.log_filepath, self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL, stderr=STDOUT)
         sleep(self.configs['server'].getfloat('startup-delay-valgrind'))
 
