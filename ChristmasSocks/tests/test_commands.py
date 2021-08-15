@@ -1,4 +1,5 @@
 # pylint: disable=W0201  # Disable defined outside __init__
+# pylint: disable=E1101  # Disable has no '__name__' member
 
 from pytest import mark
 from utils import (
