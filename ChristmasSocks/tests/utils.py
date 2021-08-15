@@ -61,17 +61,26 @@ class Server(ABC):
         self.binary = path.join(parent, self.configs['server']['output-dir'], self.configs['server']['output-name'])
         self.process = None
         self.logfile = logfile
-        self.log_filepath = None
+        self.log_handle = None
 
-    def make_release_log(self) -> None:
-        pass
+    def set_release_log(self) -> None:
+        logfile_dump = path.join(PATH_THIS, self.configs['server']['release-log-directory'])
 
-    def make_valgrind_log(self) -> None:
-        logfile_dump = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
         if not path.exists(logfile_dump):
             makedirs(logfile_dump)
 
-        self.log_filepath = path.join(logfile_dump, self.logfile)
+        self.log_handle = open(path.join(logfile_dump, self.logfile), 'w')
+
+    def set_valgrind_log(self) -> None:
+        logfile_dump = path.join(PATH_THIS, self.configs['server']['valgrind-log-directory'])
+
+        if not path.exists(logfile_dump):
+            makedirs(logfile_dump)
+
+        self.log_handle = open(path.join(logfile_dump, self.logfile), 'w')
+
+    def teardown_log_handle(self) -> None:
+        self.log_handle.close()
 
     @abstractmethod
     def start_server(self, *args) -> Union[int, None]:
@@ -85,36 +94,43 @@ class Server(ABC):
 class ServerForeground(Server):
 
     def start_server(self, *args) -> int:
+        self.set_release_log()
         command = ()
         command += (self.binary,)
         command += args
-        return Popen(command, stdout=DEVNULL, stderr=STDOUT).wait()
 
+        exit_code = Popen(command, stdout=self.log_handle, stderr=STDOUT).wait()
+        self.teardown_log_handle()
+        return exit_code
 
 class ServerBackground(Server):
 
     def start_server(self, *args) -> None:
+        self.set_release_log()
         command = ()
         command += (self.binary,)
         command += args
-        self.process = Popen(command, stdout=DEVNULL, stderr=STDOUT)
+        self.process = Popen(command, stdout=self.log_handle, stderr=STDOUT)
         sleep(self.configs['server'].getfloat('startup-delay'))
 
     def stop_server(self) -> None:
         sleep(self.configs['server'].getfloat('shutdown-delay'))
         self.process.send_signal(SIGINT)
+        self.teardown_log_handle()
 
 
 class ServerValgrind(Server):
 
     def start_server(self, *args) -> None:
-        command = 'valgrind --leak-check=yes --log-file={} {}'.format(self.log_filepath, self.binary)
+        self.set_valgrind_log()
+        command = 'valgrind --leak-check=yes --log-file={} {}'.format(self.log_handle, self.binary)
         self.process = Popen(command.split(), stdout=DEVNULL, stderr=STDOUT)
         sleep(self.configs['server'].getfloat('startup-delay-valgrind'))
 
     def stop_server(self) -> None:
         sleep(self.configs['server'].getfloat('shutdown-delay'))
         self.process.send_signal(SIGINT)
+        self.teardown_log_handle()
 
 
 class Client:
