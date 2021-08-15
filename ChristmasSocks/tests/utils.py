@@ -155,9 +155,7 @@ class Client:
         if not host:
             host = self.configs['client']['ipv4_address_server']
 
-        attempts = 0
-        while attempts <= self.configs['client'].getfloat('max_connection_attempts'):
-            attempts += 1
+        for _ in self.configs['client'].getint('max_connection_attempts'):
             try:
                 sleep(0.02)
                 self.socket.connect((host, port))
@@ -165,6 +163,8 @@ class Client:
                 continue
             else:
                 break
+        else:
+            raise ConnectionRefusedError
 
     def disconnect(self) -> None:
         self.socket.close()
