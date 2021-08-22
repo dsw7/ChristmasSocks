@@ -12,7 +12,7 @@
 class IncomingClientPrimitives
 {
     private:
-        int         buffer_size;
+        int         tcp_buffer_size;
         std::string newline;
 
     public:
