@@ -23,7 +23,7 @@ extern std::string  BIND_IP_INADDR_ANY;
 extern std::string  CHAR_CARRIAGE_RETURN;
 extern std::string  CHAR_LINE_FEED;
 extern std::string  CHAR_END_OF_LINE;
+extern unsigned int MINIMUM_TCP_PORT;
 extern int          MINIMUM_TCP_BUFFER_SIZE;
-extern int          MINIMUM_TCP_PORT;
 
 #endif
