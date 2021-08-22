@@ -2,5 +2,4 @@
 
 void log_system_configs(configs_t &sysconfigs)
 {
-    void;
 }
