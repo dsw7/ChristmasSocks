@@ -21,3 +21,7 @@ class TestInvalidParameters:
     def test_invalid_tcp_buffer_size(self) -> None:
         logfile = '{}.log'.format(stack()[0][3])
         assert self.server.start_server('--buffer-size=4', logfile=logfile) == EXIT_FAILURE
+
+    def test_invalid_tcp_buffer_size_negative(self) -> None:
+        logfile = '{}.log'.format(stack()[0][3])
+        assert self.server.start_server('--buffer-size=-100', logfile=logfile) == EXIT_FAILURE
