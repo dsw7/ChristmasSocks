@@ -8,7 +8,9 @@ IncomingClientPrimitives::IncomingClientPrimitives(int &tcp_buffer_size)
 bool IncomingClientPrimitives::is_valid_buffer_size()
 {
     RootLogger::info("The TCP buffer size is " + std::to_string(this->tcp_buffer_size) + " bytes");
-    if (this->tcp_buffer_size < MINIMUM_TCP_BUFFER_SIZE)
+    //if (this->tcp_buffer_size < MINIMUM_TCP_BUFFER_SIZE)
+    int x = 4;
+    if (this->tcp_buffer_size < x)
     {
         RootLogger::error("Invalid buffer size. Minimum buffer size is " + std::to_string(MINIMUM_TCP_BUFFER_SIZE) + " bytes");
         return false;
