@@ -14,7 +14,7 @@ struct configs_t
 {
     unsigned int tcp_port;
     unsigned int max_num_connections_queue;
-    unsigned int tcp_buffer_size;
+    int          tcp_buffer_size;
     std::string  bind_ip;
 };
 

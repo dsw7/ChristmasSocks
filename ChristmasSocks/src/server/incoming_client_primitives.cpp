@@ -1,13 +1,14 @@
 #include "incoming_client_primitives.h"
 
-IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size)
+IncomingClientPrimitives::IncomingClientPrimitives(int &tcp_buffer_size)
 {
-    this->buffer_size = tcp_buffer_size;
+    this->tcp_buffer_size = tcp_buffer_size;
 }
 
 bool IncomingClientPrimitives::is_valid_buffer_size()
 {
-    if (this->buffer_size < MINIMUM_TCP_BUFFER_SIZE)
+    RootLogger::info("The TCP buffer size is " + std::to_string(this->tcp_buffer_size) + " bytes");
+    if (this->tcp_buffer_size < MINIMUM_TCP_BUFFER_SIZE)
     {
         RootLogger::error("Invalid buffer size. Minimum buffer size is " + std::to_string(MINIMUM_TCP_BUFFER_SIZE) + " bytes");
         return false;
@@ -52,9 +53,9 @@ bool IncomingClientPrimitives::close_client_socket_file_descriptor(int &socket_f
 /* https://linux.die.net/man/3/read */
 bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_client)
 {
-    char buffer[this->buffer_size] = {0};
+    char buffer[this->tcp_buffer_size] = {0};
 
-    int rv = read(socket_fd_client, buffer, this->buffer_size);
+    int rv = read(socket_fd_client, buffer, this->tcp_buffer_size);
     message = std::string(buffer);
 
     if (message.size() > 0)

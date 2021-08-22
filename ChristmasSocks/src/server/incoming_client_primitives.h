@@ -12,12 +12,12 @@
 class IncomingClientPrimitives
 {
     private:
-        unsigned int buffer_size;
-        std::string      newline;
+        int         tcp_buffer_size;
+        std::string newline;
 
     public:
         IncomingClientPrimitives(
-            unsigned int &tcp_buffer_size
+            int &tcp_buffer_size
         );
 
         bool is_valid_buffer_size();
