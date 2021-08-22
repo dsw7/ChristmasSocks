@@ -1,6 +1,6 @@
 #include "incoming_client_primitives.h"
 
-IncomingClientPrimitives::IncomingClientPrimitives(unsigned int &tcp_buffer_size)
+IncomingClientPrimitives::IncomingClientPrimitives(int &tcp_buffer_size)
 {
     this->buffer_size = tcp_buffer_size;
 }
