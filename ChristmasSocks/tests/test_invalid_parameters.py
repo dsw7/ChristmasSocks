@@ -10,6 +10,10 @@ class TestInvalidParameters:
     def setup_class(self) -> None:
         self.server = ServerForeground()
 
+    def test_invalid_tcp_port_negative(self) -> None:
+        logfile = '{}.log'.format(stack()[0][3])
+        assert self.server.start_server('--port=-100', logfile=logfile) == EXIT_FAILURE
+
     def test_invalid_tcp_port_low(self) -> None:
         logfile = '{}.log'.format(stack()[0][3])
         assert self.server.start_server('--port=22', logfile=logfile) == EXIT_FAILURE
