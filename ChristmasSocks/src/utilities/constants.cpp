@@ -11,7 +11,7 @@ unsigned int TCP_PORT = 8080;
 unsigned int MAX_NUM_CONNECTIONS_QUEUE = 5;
 
 // Specify the TCP buffer size for incoming connections (bytes)
-unsigned int TCP_BUFFER_SIZE = 1024;
+int TCP_BUFFER_SIZE = 1024;
 
 // Specify which host to bind to
 std::string DEFAULT_BIND_IP = "127.0.0.1";
@@ -25,7 +25,7 @@ std::string DEFAULT_BIND_IP = "127.0.0.1";
 std::string CONFIG_FILEPATH = "/etc/socks.ini";
 
 // Minimum TCP buffer size
-unsigned int MINIMUM_TCP_BUFFER_SIZE = 16;
+int MINIMUM_TCP_BUFFER_SIZE = 16;
 
 // Cutoff for reserved TCP ports
 unsigned int MINIMUM_TCP_PORT = 1024;
