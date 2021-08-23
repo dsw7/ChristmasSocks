@@ -8,6 +8,7 @@ void get_command_line_arguments(int argc, char **argv, Configs_cli &configs)
     {
         static struct option long_options[] =
         {
+            {"help",        no_argument,       0, 'h'},
             {"port",        required_argument, 0, 'p'},
             {"buffer-size", required_argument, 0, 'b'},
             {"bind-ip",     required_argument, 0, 'i'},
@@ -29,6 +30,9 @@ void get_command_line_arguments(int argc, char **argv, Configs_cli &configs)
 
         switch (option)
         {
+            case 'h':
+                help_message(argv[0]);
+                exit(EXIT_FAILURE);
             case 'p':
                 configs.tcp_port = atoi(optarg);
                 break;

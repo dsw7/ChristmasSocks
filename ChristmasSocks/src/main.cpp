@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "command_line_interface.h"
 #include "help_menu.h"
 #include "logger.h"
 #include "ipc_signal_registers.h"
@@ -10,6 +11,10 @@
 
 int main(int argc, char **argv)
 {
+    Configs_cli configs_cli;
+    get_command_line_arguments(argc, argv, configs_cli);
+    exit(1);
+ 
     if (help_message_lazy_runner(argc, argv))
     {
         std::cout << "Exiting..." << std::endl;

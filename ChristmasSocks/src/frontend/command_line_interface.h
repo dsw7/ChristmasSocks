@@ -7,7 +7,6 @@
 
 struct Configs_cli
 {
-    bool         help;
     unsigned int tcp_port;
     int          tcp_buffer_size;
     std::string  bind_ip;
