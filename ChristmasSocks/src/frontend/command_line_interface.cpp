@@ -19,7 +19,7 @@ void get_command_line_arguments(int argc, char **argv, Configs_cli &configs)
 
         /* https://linux.die.net/man/3/getopt_long */
         option = getopt_long(
-            argc, argv, "p:b:i:", long_options, &option_index
+            argc, argv, "hp:b:i:", long_options, &option_index
         );
 
         // End of options
