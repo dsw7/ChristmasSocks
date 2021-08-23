@@ -4,13 +4,14 @@
 #include <string>
 #include <getopt.h>
 #include <iostream>
+#include "constants.h"
 
 struct Configs_cli
 {
-    std::string  config_file;
-    unsigned int tcp_port;
-    int          tcp_buffer_size;
-    std::string  bind_ip;
+    std::string  config_file = CONFIG_FILEPATH;
+    unsigned int tcp_port = TCP_PORT;
+    int          tcp_buffer_size = TCP_BUFFER_SIZE;
+    std::string  bind_ip = DEFAULT_BIND_IP;
 };
 
 void help_message(
