@@ -3,6 +3,7 @@
 
 #include <string>
 #include <getopt.h>
+#include <iostream>
 #include "help_menu.h"
 
 struct Configs_cli
@@ -11,6 +12,10 @@ struct Configs_cli
     int          tcp_buffer_size;
     std::string  bind_ip;
 };
+
+void help_message(
+    char *file
+);
 
 void get_command_line_arguments(
     int argc, char **argv, Configs_cli &configs
