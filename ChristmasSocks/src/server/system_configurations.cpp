@@ -1,14 +1,6 @@
 #include "system_configurations.h"
 
-SystemConfigurations::SystemConfigurations()
-{
-    this->configs.tcp_port = TCP_PORT;
-    this->configs.max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
-    this->configs.tcp_buffer_size = TCP_BUFFER_SIZE;
-    this->configs.bind_ip = DEFAULT_BIND_IP;
-}
-
-void SystemConfigurations::overwrite_root_configs_with_config_file_configs()
+void overwrite_root_configs_with_config_file_configs()
 {
     if (!file_exists(CONFIG_FILEPATH))
     {
@@ -49,50 +41,4 @@ void SystemConfigurations::overwrite_root_configs_with_config_file_configs()
             continue;
         }
     }
-}
-
-configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int argc, char **argv)
-{
-    int option;
-
-    while (1)
-    {
-        static struct option long_options[] =
-        {
-            {"port",        required_argument, 0, 'p'},
-            {"buffer-size", required_argument, 0, 'b'},
-            {"bind-ip",     required_argument, 0, 'i'},
-        };
-
-        // What's the point of this?
-        int option_index = 0;
-
-        /* https://linux.die.net/man/3/getopt_long */
-        option = getopt_long(
-            argc, argv, "p:b:i:", long_options, &option_index
-        );
-
-        // End of options
-        if (option == -1)
-        {
-            break;
-        }
-
-        switch (option)
-        {
-            case 'p':
-                this->configs.tcp_port = atoi(optarg);
-                break;
-            case 'b':
-                this->configs.tcp_buffer_size = atoi(optarg);
-                break;
-            case 'i':
-                this->configs.bind_ip = optarg;
-                break;
-            default:
-                exit(EXIT_FAILURE);
-        }
-    };
-
-    return this->configs;
 }
