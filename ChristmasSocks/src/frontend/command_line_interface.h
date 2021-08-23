@@ -3,6 +3,7 @@
 
 #include <string>
 #include <getopt.h>
+#include "help_menu.h"
 
 struct Configs_cli
 {
