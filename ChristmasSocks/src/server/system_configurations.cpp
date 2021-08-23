@@ -90,7 +90,6 @@ configs_t SystemConfigurations::overwrite_config_file_configs_with_cli_args(int 
                 this->configs.bind_ip = optarg;
                 break;
             default:
-                help_message(argv[0]);
                 exit(EXIT_FAILURE);
         }
     };

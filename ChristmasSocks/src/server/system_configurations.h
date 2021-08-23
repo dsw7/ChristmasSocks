@@ -7,7 +7,6 @@
 #include "utilities.h"
 #include "constants.h"
 #include "logger.h"
-#include "help_menu.h"
 #include "config_file_parser.h"
 
 struct configs_t
