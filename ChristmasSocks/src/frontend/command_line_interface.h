@@ -12,4 +12,8 @@ struct Configs_cli
     std::string  bind_ip;
 };
 
+void get_command_line_arguments(
+    int argc, char **argv, Configs_cli &configs
+);
+
 #endif
