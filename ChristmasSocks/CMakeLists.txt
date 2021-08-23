@@ -56,7 +56,6 @@ include_directories(
 add_executable(${OUTPUT_NAME}
     "src/main.cpp"
     "src/frontend/header_footer.cpp"
-    "src/frontend/help_menu.cpp"
     "src/frontend/command_line_interface.cpp"
     "src/logging/logger.cpp"
     "src/server/epoll_server.cpp"
