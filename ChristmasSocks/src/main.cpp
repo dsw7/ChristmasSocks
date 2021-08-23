@@ -10,12 +10,14 @@
 
 int main(int argc, char **argv)
 {
-    Configs_cli configs_cli;
+    Configs configs_cli;
     get_command_line_arguments(argc, argv, configs_cli);
     exit(1);
 
     display_header();
     register_ipc_signals();
+
+    // continue here
 
     SystemConfigurations sysconfig_handle;
     sysconfig_handle.overwrite_root_configs_with_config_file_configs();

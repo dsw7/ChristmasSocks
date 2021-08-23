@@ -6,7 +6,7 @@
 #include <iostream>
 #include "constants.h"
 
-struct Configs_cli
+struct Configs
 {
     std::string  config_file = CONFIG_FILEPATH;
     unsigned int tcp_port = TCP_PORT;
@@ -20,7 +20,7 @@ void help_message(
 );
 
 void get_command_line_arguments(
-    int argc, char **argv, Configs_cli &configs
+    int argc, char **argv, Configs &configs
 );
 
 #endif

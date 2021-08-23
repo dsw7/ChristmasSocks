@@ -19,7 +19,7 @@ void help_message(char *file)
     std::cout << std::endl;
 }
 
-void get_command_line_arguments(int argc, char **argv, Configs_cli &configs)
+void get_command_line_arguments(int argc, char **argv, Configs &configs)
 {
     int option;
 
