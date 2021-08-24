@@ -9,7 +9,7 @@
 struct Configs
 {
     unsigned int tcp_port = TCP_PORT;
-    unsigned int max_num_connections_queue = BACKLOG;
+    unsigned int backlog = BACKLOG;
     int          tcp_buffer_size = TCP_BUFFER_SIZE;
     std::string  bind_ip = DEFAULT_BIND_IP;
 };
