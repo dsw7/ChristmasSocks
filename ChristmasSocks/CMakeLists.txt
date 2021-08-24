@@ -61,12 +61,10 @@ add_executable(${OUTPUT_NAME}
     "src/server/epoll_server.cpp"
     "src/server/incoming_client_primitives.cpp"
     "src/server/server_primitives.cpp"
-    "src/server/system_configurations.cpp"
     "src/server/log_system_configs.cpp"
     "src/server/commands.cpp"
     "src/utilities/constants.cpp"
     "src/utilities/utilities.cpp"
     "src/utilities/ipc_signal_registers.cpp"
-    "src/utilities/config_file_parser.cpp"
     "src/utilities/get_line_breaks.cpp"
 )
