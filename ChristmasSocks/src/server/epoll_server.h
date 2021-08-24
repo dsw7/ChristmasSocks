@@ -8,7 +8,6 @@
 
 #include "logger.h"
 #include "server_primitives.h"
-#include "system_configurations.h"
 #include "incoming_client_primitives.h"
 #include "constants.h"
 #include "commands.h"
