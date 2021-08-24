@@ -8,12 +8,14 @@ void help_message(char *file)
     std::cout << " [-p <tcp-port>]";
     std::cout << " [-b <buffer-size>]";
     std::cout << " [-i <bind-ip>]";
+    std::cout << " [-u <backlog>]";
     std::cout << "\n\n";
     std::cout << "Options:\n\n";
     std::cout << "  -h, --help                      Print help information and exit\n";
     std::cout << "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n";
     std::cout << "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n";
     std::cout << "  -i, --bind-ip=<bind-ip>         Specify the bind IP (0.0.0.0 is equivalent to INADDR_ANY)\n";
+    std::cout << "  -u, --backlog=<backlog>         Number of connections that listener will queue\n";
     std::cout << std::endl;
 }
 
@@ -29,6 +31,7 @@ void get_command_line_arguments(int argc, char **argv, Configs &configs)
             {"port",        required_argument, 0, 'p'},
             {"buffer-size", required_argument, 0, 'b'},
             {"bind-ip",     required_argument, 0, 'i'}
+            {"backlog",     required_argument, 0, 'u'}
         };
 
         // What's the point of this?
@@ -36,7 +39,7 @@ void get_command_line_arguments(int argc, char **argv, Configs &configs)
 
         /* https://linux.die.net/man/3/getopt_long */
         option = getopt_long(
-            argc, argv, "hp:b:i:", long_options, &option_index
+            argc, argv, "hp:b:i:u:", long_options, &option_index
         );
 
         // End of options
@@ -58,6 +61,9 @@ void get_command_line_arguments(int argc, char **argv, Configs &configs)
                 break;
             case 'i':
                 configs.bind_ip = optarg;
+                break;
+            case 'u':
+                configs.backlog = atoi(optarg);
                 break;
             default:
                 help_message(argv[0]);
