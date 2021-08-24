@@ -30,7 +30,7 @@ void get_command_line_arguments(int argc, char **argv, Configs &configs)
             {"help",        no_argument,       0, 'h'},
             {"port",        required_argument, 0, 'p'},
             {"buffer-size", required_argument, 0, 'b'},
-            {"bind-ip",     required_argument, 0, 'i'}
+            {"bind-ip",     required_argument, 0, 'i'},
             {"backlog",     required_argument, 0, 'u'}
         };
 
