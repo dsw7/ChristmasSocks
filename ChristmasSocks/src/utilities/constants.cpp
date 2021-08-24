@@ -16,10 +16,6 @@ int TCP_BUFFER_SIZE = 1024;
 // Specify which host to bind to
 std::string DEFAULT_BIND_IP = "127.0.0.1";
 
-// Specify path to system configuration file
-// This file can be used to override all the following downstream global variables
-std::string CONFIG_FILEPATH = "/etc/socks.ini";
-
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS
 // --------------------------------------------------------------
