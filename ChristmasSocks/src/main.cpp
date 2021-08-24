@@ -12,7 +12,6 @@ int main(int argc, char **argv)
 {
     Configs configs_cli;
     get_command_line_arguments(argc, argv, configs_cli);
-    exit(1);
 
     display_header();
     register_ipc_signals();
