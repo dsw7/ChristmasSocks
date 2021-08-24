@@ -49,7 +49,7 @@ void get_command_line_arguments(int argc, char **argv, Configs &configs)
         {
             case 'h':
                 help_message(argv[0]);
-                exit(EXIT_FAILURE);
+                exit(EXIT_SUCCESS);
             case 'p':
                 configs.tcp_port = atoi(optarg);
                 break;
@@ -61,7 +61,7 @@ void get_command_line_arguments(int argc, char **argv, Configs &configs)
                 break;
             default:
                 help_message(argv[0]);
-                exit(EXIT_FAILURE);
+                exit(EXIT_SUCCESS);
         }
     };
 }
