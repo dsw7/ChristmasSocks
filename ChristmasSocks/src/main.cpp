@@ -10,21 +10,15 @@
 
 int main(int argc, char **argv)
 {
-    Configs configs_cli;
-    get_command_line_arguments(argc, argv, configs_cli);
+    Configs configs;
+    get_command_line_arguments(argc, argv, configs);
 
     display_header();
     register_ipc_signals();
 
-    // continue here
+    log_system_configs(configs);
 
-    SystemConfigurations sysconfig_handle;
-    sysconfig_handle.overwrite_root_configs_with_config_file_configs();
-    configs_t sysconfigs = sysconfig_handle.overwrite_config_file_configs_with_cli_args(argc, argv);
-
-    log_system_configs(sysconfigs);
-
-    ServerImplMain server(sysconfigs);
+    ServerImplMain server(configs);
     server.incoming_client_setup();
     server.server_setup();
     server.open_epoll_file_descriptor();
