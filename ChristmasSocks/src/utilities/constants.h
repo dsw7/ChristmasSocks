@@ -7,7 +7,7 @@
 // CONSTANTS TO BE OVERRIDDEN VIA CONFIG FILE OR COMMAND LINE ARGUMENT
 // --------------------------------------------------------------
 extern unsigned int TCP_PORT;
-extern unsigned int MAX_NUM_CONNECTIONS_QUEUE;
+extern unsigned int BACKLOG;
 extern std::string  DEFAULT_BIND_IP;
 extern bool         HANDLE_LINE_BREAKS;
 extern int          TCP_BUFFER_SIZE;
