@@ -50,9 +50,6 @@ void get_command_line_arguments(int argc, char **argv, Configs &configs)
             case 'h':
                 help_message(argv[0]);
                 exit(EXIT_FAILURE);
-            case 'f':
-                configs.config_file = optarg;
-                break;
             case 'p':
                 configs.tcp_port = atoi(optarg);
                 break;
