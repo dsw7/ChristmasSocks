@@ -8,7 +8,6 @@
 
 struct Configs
 {
-    std::string  config_file = CONFIG_FILEPATH;
     unsigned int tcp_port = TCP_PORT;
     unsigned int max_num_connections_queue = MAX_NUM_CONNECTIONS_QUEUE;
     int          tcp_buffer_size = TCP_BUFFER_SIZE;
