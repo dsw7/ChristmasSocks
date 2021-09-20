@@ -8,7 +8,7 @@
 unsigned int TCP_PORT = 8080;
 
 // The maximum number of connections to queue in socket listener (i.e. the 'backlog')
-unsigned int MAX_NUM_CONNECTIONS_QUEUE = 5;
+unsigned int BACKLOG = 5;
 
 // Specify the TCP buffer size for incoming connections (bytes)
 int TCP_BUFFER_SIZE = 1024;
@@ -19,10 +19,6 @@ std::string DEFAULT_BIND_IP = "127.0.0.1";
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS
 // --------------------------------------------------------------
-
-// Specify path to system configuration file
-// This file can be used to override all the following downstream global variables
-std::string CONFIG_FILEPATH = "/etc/socks.ini";
 
 // Minimum TCP buffer size
 int MINIMUM_TCP_BUFFER_SIZE = 16;

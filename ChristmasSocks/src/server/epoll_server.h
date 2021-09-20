@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <sys/epoll.h>
 
+#include "command_line_interface.h"
 #include "logger.h"
 #include "server_primitives.h"
-#include "system_configurations.h"
 #include "incoming_client_primitives.h"
 #include "constants.h"
 #include "commands.h"
@@ -21,9 +21,9 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
         std::string message;
 
     public:
-        ServerImplMain(configs_t &configs): ServerPrimitives(
+        ServerImplMain(Configs &configs): ServerPrimitives(
             configs.tcp_port,
-            configs.max_num_connections_queue,
+            configs.backlog,
             configs.bind_ip
         ),
         IncomingClientPrimitives(

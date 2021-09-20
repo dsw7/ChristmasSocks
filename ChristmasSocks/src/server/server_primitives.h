@@ -16,7 +16,7 @@ class ServerPrimitives
 {
     private:
         unsigned int tcp_port;
-        unsigned int max_num_connections_queue;
+        unsigned int backlog;
         std::string  bind_ip;
 
     public:
@@ -25,7 +25,7 @@ class ServerPrimitives
 
         ServerPrimitives(
             unsigned int &tcp_port,
-            unsigned int &max_num_connections_queue,
+            unsigned int &backlog,
             std::string bind_ip
         );
 
