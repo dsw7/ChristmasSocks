@@ -35,7 +35,7 @@ bool IncomingClientPrimitives::accept_incoming_connection(int &socket_fd_server,
     std::string incoming_ipv4_address = std::string(inet_ntoa(address.sin_addr));
     ClientLogger::info("The kernel has allocated a new client socket file descriptor", socket_fd_client);
 
-    if (incoming_ipv4_address.compare(INADDR_LOOPBACK) != 0)
+    if (incoming_ipv4_address.compare(std::string(INADDR_LOOPBACK)) != 0)
     {
         ClientLogger::info("Rejected connection from IPv4 address " + incoming_ipv4_address, socket_fd_client);
         close_client_socket_file_descriptor(socket_fd_client);
