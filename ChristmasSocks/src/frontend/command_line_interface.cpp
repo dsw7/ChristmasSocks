@@ -34,7 +34,7 @@ void get_command_line_arguments(int argc, char **argv, Configs &configs)
             {"buffer-size", required_argument, 0, 'b'},
             {"bind-ip",     required_argument, 0, 'i'},
             {"backlog",     required_argument, 0, 'u'},
-            {"whitelist",   required_argument, 0, 'w'},
+            {"whitelist",   required_argument, 0, 'w'}
         };
 
         // What's the point of this?
