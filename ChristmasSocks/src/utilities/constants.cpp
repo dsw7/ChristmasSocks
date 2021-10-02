@@ -16,6 +16,9 @@ int TCP_BUFFER_SIZE = 1024;
 // Specify which host to bind to
 std::string DEFAULT_BIND_IP = "127.0.0.1";
 
+// Specify which host to bind to
+std::string DEFAULT_WHITELIST_IP = "127.0.0.1";
+
 // --------------------------------------------------------------
 // HARD CODED INTERNAL CONSTANTS
 // --------------------------------------------------------------
