@@ -14,10 +14,12 @@ class IncomingClientPrimitives
     private:
         int         tcp_buffer_size;
         std::string newline;
+        std::string whitelist;
 
     public:
         IncomingClientPrimitives(
-            int &tcp_buffer_size
+            int &tcp_buffer_size,
+            std::string &whitelist
         );
 
         bool is_valid_buffer_size();
