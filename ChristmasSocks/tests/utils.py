@@ -172,7 +172,11 @@ class Client:
     def send(self, command: str) -> str:
         self.socket.sendall(command.encode())
         buffer_size = self.configs['client'].getint('tcp_buffer_size')
-        bytes_recv = self.socket.recv(buffer_size)
+
+        try:
+            bytes_recv = self.socket.recv(buffer_size)
+        except ConnectionResetError:
+            return ''
         return bytes_recv.decode()
 
     def stop_server(self) -> None:
