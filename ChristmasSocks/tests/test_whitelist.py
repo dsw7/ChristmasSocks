@@ -32,5 +32,5 @@ class TestWhitelist:
         self.server.start_server('-w', str(whitelist), logfile=logfile)
         self.client.connect()
 
-        with raises(ConnectionResetError):
+        with raises(ConnectionError):
             self.client.send(self.test_string)
