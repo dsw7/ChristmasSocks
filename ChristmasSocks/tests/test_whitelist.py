@@ -31,6 +31,4 @@ class TestWhitelist:
         whitelist = '127.0.0.2'
         self.server.start_server('-w', str(whitelist), logfile=logfile)
         self.client.connect()
-
-        with raises(ConnectionError):
-            self.client.send(self.test_string)
+        assert not self.client.send(self.test_string)
