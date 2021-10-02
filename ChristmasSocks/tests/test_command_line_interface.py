@@ -91,3 +91,10 @@ class TestCommandLineInterface:
         self.server.start_server('-w', str(whitelist), logfile=logfile)
         self.client.connect()
         assert self.test_string == self.client.send(self.test_string)
+
+    def test_blacklist(self) -> None:
+        logfile = '{}.log'.format(stack()[0][3])
+        whitelist = '127.0.0.2'
+        self.server.start_server('-w', str(whitelist), logfile=logfile)
+        self.client.connect()
+        assert self.test_string == self.client.send(self.test_string)
