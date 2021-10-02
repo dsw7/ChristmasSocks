@@ -1,7 +1,7 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 
 from inspect import stack
-from pytest import mark
+from pytest import mark, raises
 from utils import (
     ServerBackground,
     Client
@@ -31,4 +31,6 @@ class TestWhitelist:
         whitelist = '127.0.0.2'
         self.server.start_server('-w', str(whitelist), logfile=logfile)
         self.client.connect()
-        assert self.test_string == self.client.send(self.test_string)
+
+        with raises(ConnectionResetError):
+            self.client.send(self.test_string)
