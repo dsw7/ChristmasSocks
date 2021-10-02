@@ -7,4 +7,5 @@ void log_system_configs(Configs &configs)
     RootLogger::info("+ bind_ip  =        " + configs.bind_ip);
     RootLogger::info("+ tcp_buffer_size = " + std::to_string(configs.tcp_buffer_size));
     RootLogger::info("+ backlog =         " + std::to_string(configs.backlog));
+    RootLogger::info("+ whitelist =       " + std::to_string(configs.whitelist));
 }
