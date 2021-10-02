@@ -14,6 +14,7 @@ class IncomingClientPrimitives
     private:
         int         tcp_buffer_size;
         std::string newline;
+        std::string whitelist;
 
     public:
         IncomingClientPrimitives(
