@@ -3,6 +3,7 @@
 IncomingClientPrimitives::IncomingClientPrimitives(int &tcp_buffer_size, std::string &whitelist)
 {
     this->tcp_buffer_size = tcp_buffer_size;
+    this->whitelist = whitelist;
 }
 
 bool IncomingClientPrimitives::is_valid_buffer_size()
