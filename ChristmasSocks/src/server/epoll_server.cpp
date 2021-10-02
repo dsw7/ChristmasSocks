@@ -102,9 +102,10 @@ void ServerImplMain::loop()
             if (events[n].data.fd == socket_fd_server)
             {
 
-                accept_incoming_connection(
-                    socket_fd_server, address, socket_fd_client_to_struct
-                );
+                if (!accept_incoming_connection(socket_fd_server, address, socket_fd_client_to_struct))
+                {
+                    continue;
+                }
 
                 //setnonblocking(socket_fd_client_to_struct);
                 this->ev.events = EPOLLIN | EPOLLET;

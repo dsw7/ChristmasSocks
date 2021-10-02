@@ -31,9 +31,18 @@ bool IncomingClientPrimitives::accept_incoming_connection(int &socket_fd_server,
         return false;
     }
 
-    char *incoming_ipv4_address = inet_ntoa(address.sin_addr);
+    //char *incoming_ipv4_address = inet_ntoa(address.sin_addr);
+    std::string incoming_ipv4_address = std::string(inet_ntoa(address.sin_addr));
     ClientLogger::info("The kernel has allocated a new client socket file descriptor", socket_fd_client);
-    ClientLogger::info("Accepted connection from IPv4 address " + std::string(incoming_ipv4_address), socket_fd_client);
+
+    if (incoming_ipv4_address.compare("127.0.0.1") != 0)
+    {
+        ClientLogger::info("Rejected connection from IPv4 address " + incoming_ipv4_address, socket_fd_client);
+        close_client_socket_file_descriptor(socket_fd_client);
+        return false;
+    }
+
+    ClientLogger::info("Accepted connection from IPv4 address " + incoming_ipv4_address, socket_fd_client);
     return true;
 }
 
