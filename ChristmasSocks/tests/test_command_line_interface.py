@@ -77,3 +77,17 @@ class TestCommandLineInterface:
         self.server.start_server('-i', str(bind_ip), logfile=logfile)
         self.client.connect()
         assert self.test_string == self.client.send(self.test_string)
+
+    def test_whitelist_long_option(self) -> None:
+        logfile = '{}.log'.format(stack()[0][3])
+        whitelist = '127.0.0.1'
+        self.server.start_server('--whitelist={}'.format(whitelist), logfile=logfile)
+        self.client.connect()
+        assert self.test_string == self.client.send(self.test_string)
+
+    def test_whitelist_short_option(self) -> None:
+        logfile = '{}.log'.format(stack()[0][3])
+        whitelist = '127.0.0.1'
+        self.server.start_server('-w', str(whitelist), logfile=logfile)
+        self.client.connect()
+        assert self.test_string == self.client.send(self.test_string)
