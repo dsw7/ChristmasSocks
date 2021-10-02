@@ -18,7 +18,7 @@ class IncomingClientPrimitives
     public:
         IncomingClientPrimitives(
             int &tcp_buffer_size,
-            std::string whitelist
+            std::string &whitelist
         );
 
         bool is_valid_buffer_size();
