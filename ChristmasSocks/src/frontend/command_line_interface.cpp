@@ -4,21 +4,28 @@ void help_message(char *file)
 {
     std::cout << "Usage:\n\n";
     std::cout << "  $ " << file;
-    std::cout << " [-h]";
-    std::cout << " [-p <tcp-port>]";
-    std::cout << " [-b <buffer-size>]";
-    std::cout << " [-i <bind-ip>]";
-    std::cout << " [-u <backlog>]";
-    std::cout << " [-w <whitelisted-ip>]";
-    std::cout << "\n\n";
-    std::cout << "Options:\n\n";
-    std::cout << "  -h, --help                      Print help information and exit\n";
-    std::cout << "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n";
-    std::cout << "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n";
-    std::cout << "  -i, --bind-ip=<bind-ip>         Specify the bind IP (0.0.0.0 is equivalent to INADDR_ANY)\n";
-    std::cout << "  -u, --backlog=<backlog>         Number of connections that listener will queue\n";
-    std::cout << "  -w, --whitelist=<ip-addr>       Accept connection from this IP only\n";
-    std::cout << std::endl;
+
+    std::string usage =
+    " [-h]"
+    " [-p <tcp-port>]"
+    " [-b <buffer-size>]"
+    " [-i <bind-ip>]"
+    " [-u <backlog>]"
+    " [-w <whitelisted-ip>]"
+    "\n\n";
+
+    std::cout << usage;
+
+    std::string options =
+    "Options:\n\n"
+    "  -h, --help                      Print help information and exit\n"
+    "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n"
+    "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n"
+    "  -i, --bind-ip=<bind-ip>         Specify the bind IP (0.0.0.0 is equivalent to INADDR_ANY)\n"
+    "  -u, --backlog=<backlog>         Number of connections that listener will queue\n"
+    "  -w, --whitelist=<ip-addr>       Accept connection from this IP only\n";
+
+    std::cout << options << std::endl;
 }
 
 void get_command_line_arguments(int argc, char **argv, Configs &configs)
