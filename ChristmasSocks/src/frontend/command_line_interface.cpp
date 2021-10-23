@@ -40,7 +40,15 @@ void help_options()
     "  -b, --buffer-size=<buffer-size> \e[1mSpecify the size of the TCP buffer.\e[0m This essentially refers\n"
     "                                  to the maximum size of the message (in bytes) being passed from the\n"
     "                                  master machine to the slave machines.\n"
-    "  -i, --bind-ip=<bind-ip>         Specify the bind IP (0.0.0.0 is equivalent to INADDR_ANY)\n"
+    "  -i, --bind-ip=<bind-ip>         \e[1mSpecify the bind IP.\e[0m If a value for the bind IP is not passed,\n"
+    "                                  the server will default to binding to localhost (127.0.0.1). This\n"
+    "                                  is mainly for security reasons and unit testing.\n\n"
+    "                                  A live installation should be configured as follows:\n"
+    "                                    1. Set --bind-ip=0.0.0.0 (i.e. INADDR_ANY)\n"
+    "                                    2. Set --whitelist=<IPv4 of master machine>\n"
+    "                                  This configuration will allow the server to accept connections from\n"
+    "                                  all interfaces and then block out any addresses not matching the\n"
+    "                                  the whitelist address.\n"
     "  -u, --backlog=<backlog>         Number of connections that listener will queue\n"
     "  -w, --whitelist=<ip-addr>       Accept connection from this IP only\n";
 
