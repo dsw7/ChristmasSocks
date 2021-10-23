@@ -4,6 +4,7 @@ void help_general()
 {
     std::string general =
     "\033[1m\033[4m--- ChristmasSocks Remote Server Management Software ---\033[0m\n\n"
+    "\033[1mSynopsis:\033[0m\n\n"
     "This software is used to manage remote servers used for all DSW testing and development. For\n"
     "more information about the project and/or licensing information, please visit:\n\n"
     "  https://github.com/dsw7/ChristmasSocks\n";
@@ -13,7 +14,7 @@ void help_general()
 
 void help_usage(char *file)
 {
-    std::cout << "Usage:\n\n";
+    std::cout << "\033[1mUsage:\033[0m\n\n";
     std::cout << "  $ " << file;
 
     std::string usage =
@@ -31,7 +32,7 @@ void help_usage(char *file)
 void help_options()
 {
     std::string options =
-    "Options:\n\n"
+    "\033[1mOptions:\033[0m\n\n"
     "  -h, --help                      Print help information and exit\n"
     "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n"
     "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n"
