@@ -1,6 +1,6 @@
 #include "command_line_interface.h"
 
-void help_message(char *file)
+void help_usage(char *file)
 {
     std::cout << "Usage:\n\n";
     std::cout << "  $ " << file;
@@ -15,7 +15,10 @@ void help_message(char *file)
     "\n\n";
 
     std::cout << usage;
+}
 
+void help_options()
+{
     std::string options =
     "Options:\n\n"
     "  -h, --help                      Print help information and exit\n"
@@ -26,6 +29,12 @@ void help_message(char *file)
     "  -w, --whitelist=<ip-addr>       Accept connection from this IP only\n";
 
     std::cout << options << std::endl;
+}
+
+void help_message(char *file)
+{
+    help_usage(file);
+    help_options();
 }
 
 void get_command_line_arguments(int argc, char **argv, Configs &configs)
