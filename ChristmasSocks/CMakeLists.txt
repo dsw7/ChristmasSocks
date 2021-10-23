@@ -46,25 +46,25 @@ set(FULL_PATH_BINARY "${CMAKE_BINARY_DIR}/${OUTPUT_NAME}")
 message(STATUS "Compiled binary will be ${FULL_PATH_BINARY}")
 
 include_directories(
-    "src/logging"
-    "src/frontend"
-    "src/server"
-    "src/utilities"
+    "src/server/logging"
+    "src/server/frontend"
+    "src/server/server"
+    "src/server/utilities"
 )
 
 # Avoid using glob patterns
 add_executable(${OUTPUT_NAME}
-    "src/main.cpp"
-    "src/frontend/header_footer.cpp"
-    "src/frontend/command_line_interface.cpp"
-    "src/logging/logger.cpp"
-    "src/server/epoll_server.cpp"
-    "src/server/incoming_client_primitives.cpp"
-    "src/server/server_primitives.cpp"
-    "src/server/log_system_configs.cpp"
-    "src/server/commands.cpp"
-    "src/utilities/constants.cpp"
-    "src/utilities/utilities.cpp"
-    "src/utilities/ipc_signal_registers.cpp"
-    "src/utilities/get_line_breaks.cpp"
+    "src/server/main.cpp"
+    "src/server/frontend/header_footer.cpp"
+    "src/server/frontend/command_line_interface.cpp"
+    "src/server/logging/logger.cpp"
+    "src/server/server/epoll_server.cpp"
+    "src/server/server/incoming_client_primitives.cpp"
+    "src/server/server/server_primitives.cpp"
+    "src/server/server/log_system_configs.cpp"
+    "src/server/server/commands.cpp"
+    "src/server/utilities/constants.cpp"
+    "src/server/utilities/utilities.cpp"
+    "src/server/utilities/ipc_signal_registers.cpp"
+    "src/server/utilities/get_line_breaks.cpp"
 )
