@@ -34,10 +34,12 @@ void help_options()
     std::string options =
     "\e[1m\e[4mOptions:\e[0m\n\n"
     "  -h, --help                      \e[1mPrint help information and exit.\e[0m\n"
-    "  -p, --port=<tcp-port>           \e[1mSpecify which TCP port to listen on.\e[0m. This TCP\n"
+    "  -p, --port=<tcp-port>           \e[1mSpecify which TCP port to listen on.\e[0m This TCP\n"
     "                                  port must not be blocked by a firewall and must not be a\n"
     "                                  a reserved port.\n"
-    "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n"
+    "  -b, --buffer-size=<buffer-size> \e[1mSpecify the size of the TCP buffer.\e[0m This essentially refers\n"
+    "                                  to the maximum size of the message (in bytes) being passed from the\n"
+    "                                  master machine to the slave machines.\n"
     "  -i, --bind-ip=<bind-ip>         Specify the bind IP (0.0.0.0 is equivalent to INADDR_ANY)\n"
     "  -u, --backlog=<backlog>         Number of connections that listener will queue\n"
     "  -w, --whitelist=<ip-addr>       Accept connection from this IP only\n";
