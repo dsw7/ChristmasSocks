@@ -3,18 +3,18 @@
 void help_general()
 {
     std::string general =
-    "\033[1m\033[4m--- ChristmasSocks Remote Server Management Software ---\033[0m\n\n"
-    "\033[1mSynopsis:\033[0m\n\n"
+    "\e[1m\e[4m--- ChristmasSocks Remote Server Management Software ---\e[0m\n\n"
+    "\e[1mSynopsis:\e[0m\n\n"
     "  This software is used to manage remote servers used for all DSW testing and development. For\n"
     "  more information about the project and/or licensing information, please visit:\n\n"
-    "    \033[4mhttps://github.com/dsw7/ChristmasSocks\033[0m\n";
+    "    \e[4mhttps://github.com/dsw7/ChristmasSocks\e[0m\n";
 
     std::cout << general << std::endl;
 }
 
 void help_usage(char *file)
 {
-    std::cout << "\033[1mUsage:\033[0m\n\n";
+    std::cout << "\e[1mUsage:\e[0m\n\n";
     std::cout << "  $ " << file;
 
     std::string usage =
@@ -32,8 +32,8 @@ void help_usage(char *file)
 void help_options()
 {
     std::string options =
-    "\033[1mOptions:\033[0m\n\n"
-    "  -h, --help                      Print help information and exit\n"
+    "\e[1mOptions:\e[0m\n\n"
+    "  -h, --help                      \e[1mPrint help information and exit\e[0m\n"
     "  -p, --port=<tcp-port>           Specify which TCP port to listen on\n"
     "  -b, --buffer-size=<buffer-size> Specify the size of the TCP buffer\n"
     "  -i, --bind-ip=<bind-ip>         Specify the bind IP (0.0.0.0 is equivalent to INADDR_ANY)\n"
