@@ -69,7 +69,7 @@ class Server(ABC):
         self.set_valgrind_log()
 
     def set_binary_path(self) -> None:
-        parent = path.dirname(PATH_THIS)
+        parent = path.dirname(path.dirname(PATH_THIS))
         self.binary = path.join(
             parent, self.configs['server']['output-dir'], self.configs['server']['output-name']
         )
