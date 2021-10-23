@@ -1,5 +1,13 @@
 #include "command_line_interface.h"
 
+void help_general()
+{
+    std::string general =
+    "\033[1m\033[4mChristmasSocks Remote Server Management Software\033[0m\n"
+
+    std::cout << general << std::endl;
+}
+
 void help_usage(char *file)
 {
     std::cout << "Usage:\n\n";
@@ -33,6 +41,7 @@ void help_options()
 
 void help_message(char *file)
 {
+    help_general();
     help_usage(file);
     help_options();
 }

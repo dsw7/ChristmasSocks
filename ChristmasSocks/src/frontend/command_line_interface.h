@@ -15,6 +15,7 @@ struct Configs
     std::string  whitelist = DEFAULT_WHITELIST_IP;
 };
 
+void help_general();
 void help_usage(char *file);
 void help_options();
 void help_message(char *file);
