@@ -3,7 +3,7 @@
 void help_general()
 {
     std::string general =
-    "\033[1m\033[4mChristmasSocks Remote Server Management Software\033[0m\n"
+    "\033[1m\033[4mChristmasSocks Remote Server Management Software\033[0m\n";
 
     std::cout << general << std::endl;
 }
