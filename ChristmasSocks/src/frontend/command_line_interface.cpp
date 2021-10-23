@@ -5,9 +5,9 @@ void help_general()
     std::string general =
     "\033[1m\033[4m--- ChristmasSocks Remote Server Management Software ---\033[0m\n\n"
     "\033[1mSynopsis:\033[0m\n\n"
-    "This software is used to manage remote servers used for all DSW testing and development. For\n"
-    "more information about the project and/or licensing information, please visit:\n\n"
-    "  https://github.com/dsw7/ChristmasSocks\n";
+    "  This software is used to manage remote servers used for all DSW testing and development. For\n"
+    "  more information about the project and/or licensing information, please visit:\n\n"
+    "    \033[4mhttps://github.com/dsw7/ChristmasSocks\033[0m\n";
 
     std::cout << general << std::endl;
 }
