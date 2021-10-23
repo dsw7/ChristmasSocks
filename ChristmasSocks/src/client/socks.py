@@ -3,19 +3,22 @@
 from click import (
     group,
     pass_context,
-    pass_obj
+    pass_obj,
+    secho
 )
+from client import Client
 
 @group()
 @pass_context
-def main(context):
-    context.obj = 'Handle to ChristmasSocks adapter'
+def main(context) -> None:
+    context.obj = Client()
 
 @main.command(help='Ping all machines')
 @pass_obj
 def ping(obj):
-    # TODO Start filling this out with commands for socks server
-    pass
+    obj.connect()
+    secho(obj.send('echo'))
+    obj.disconnect()
 
 if __name__ == '__main__':
     main()
