@@ -51,7 +51,10 @@ void help_options()
     "                                  the whitelist address.\n"
     "  -u, --backlog=<backlog>         \e[1mNumber of connections that listener will queue.\e[0m\n"
     "  -w, --whitelist=<ip-addr>       \e[1mAccept connection from this address only.\e[0m. This option\n"
-    "                                  is to be used in conjunction with the \e[1m--bind-ip\e[0m option.";
+    "                                  is to be used in conjunction with the \e[1m--bind-ip\e[0m option.\n\n"
+    "                                  A live installation should be configured as follows:\n"
+    "                                    1. Set \e[1m--bind-ip\e[0m=0.0.0.0 (i.e. INADDR_ANY)\n"
+    "                                    2. Set --whitelist=<IPv4 of master machine>\n\n";
 
     std::cout << options << std::endl;
 }
