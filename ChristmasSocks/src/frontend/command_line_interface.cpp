@@ -45,11 +45,11 @@ void help_options()
     "                                  is mainly for security reasons and unit testing.\n\n"
     "                                  A live installation should be configured as follows:\n"
     "                                    1. Set --bind-ip=0.0.0.0 (i.e. INADDR_ANY)\n"
-    "                                    2. Set --whitelist=<IPv4 of master machine>\n"
+    "                                    2. Set --whitelist=<IPv4 of master machine>\n\n"
     "                                  This configuration will allow the server to accept connections from\n"
     "                                  all interfaces and then block out any addresses not matching the\n"
     "                                  the whitelist address.\n"
-    "  -u, --backlog=<backlog>         Number of connections that listener will queue\n"
+    "  -u, --backlog=<backlog>         \e[1mNumber of connections that listener will queue.\e[0m\n"
     "  -w, --whitelist=<ip-addr>       Accept connection from this IP only\n";
 
     std::cout << options << std::endl;
