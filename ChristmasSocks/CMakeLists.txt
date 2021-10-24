@@ -57,6 +57,7 @@ add_executable(${OUTPUT_NAME}
     "src/server/main.cpp"
     "src/server/frontend/header_footer.cpp"
     "src/server/frontend/command_line_interface.cpp"
+    "src/server/frontend/help_messages.cpp"
     "src/server/logging/logger.cpp"
     "src/server/server/epoll_server.cpp"
     "src/server/server/incoming_client_primitives.cpp"
