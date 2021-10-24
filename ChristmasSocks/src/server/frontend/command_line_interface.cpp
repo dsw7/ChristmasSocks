@@ -3,7 +3,7 @@
 void help_general()
 {
     render_separator();
-    std::cout << "\e[1m--- ChristmasSocks Remote Server Management Software ---\e[0m\n\n";
+    std::cout << "\e[1m--- ChristmasSocks Remote Server Management Software ---\e[0m\n";
     render_separator();
 
     std::string general =
