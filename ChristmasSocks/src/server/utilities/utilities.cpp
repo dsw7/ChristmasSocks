@@ -43,7 +43,7 @@ void render_separator()
     std::cout << std::string(window_size.ws_col, '=') << std::endl;
 }
 
-void render_centered_text(std::string &text)
+void render_centered_text(const std::string &text)
 {
     struct winsize window_size;
     window_size.ws_col = 0; // handle 'Conditional jump or move depends on uninitialized value(s)'
