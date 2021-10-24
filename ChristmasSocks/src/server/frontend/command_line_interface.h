@@ -5,6 +5,7 @@
 #include <getopt.h>
 #include <iostream>
 #include "constants.h"
+#include "utilities.h"
 
 struct Configs
 {

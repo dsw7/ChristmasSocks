@@ -2,8 +2,11 @@
 
 void help_general()
 {
+    render_separator();
+    std::cout << "\e[1m--- ChristmasSocks Remote Server Management Software ---\e[0m\n\n";
+    render_separator();
+
     std::string general =
-    "\e[1m\e[4m--- ChristmasSocks Remote Server Management Software ---\e[0m\n\n"
     "\e[1m\e[4mSynopsis:\e[0m\n\n"
     "  This software is used to manage remote servers used for all DSW testing and development. For\n"
     "  more information about the project and/or licensing information, please visit:\n\n"
