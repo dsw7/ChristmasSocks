@@ -19,16 +19,16 @@ class TestWhitelist:
         self.server.stop_server()
         self.client.disconnect()
 
-    def test_whitelist(self) -> None:
+    def test_master(self) -> None:
         logfile = '{}.log'.format(stack()[0][3])
-        whitelist = '127.0.0.1'
-        self.server.start_server('-w', str(whitelist), logfile=logfile)
+        master = '127.0.0.1'
+        self.server.start_server('-w', str(master), logfile=logfile)
         self.client.connect()
         assert self.test_string == self.client.send(self.test_string)
 
     def test_blacklist(self) -> None:
         logfile = '{}.log'.format(stack()[0][3])
-        whitelist = '127.0.0.2'
-        self.server.start_server('-w', str(whitelist), logfile=logfile)
+        master = '127.0.0.2'
+        self.server.start_server('-w', str(master), logfile=logfile)
         self.client.connect()
         assert not self.client.send(self.test_string)

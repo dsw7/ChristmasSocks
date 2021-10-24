@@ -13,7 +13,7 @@ struct Configs
     unsigned int backlog = BACKLOG;
     int          tcp_buffer_size = TCP_BUFFER_SIZE;
     std::string  bind_ip = DEFAULT_BIND_IP;
-    std::string  whitelist = DEFAULT_WHITELIST_IP;
+    std::string  master = DEFAULT_MASTER_IP;
 };
 
 void get_command_line_arguments(

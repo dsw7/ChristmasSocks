@@ -28,7 +28,7 @@ void help_usage(char *file)
     " [-b <buffer-size>]"
     " [-i <bind-ip>]"
     " [-u <backlog>]"
-    " [-w <whitelisted-ip>]"
+    " [-w <master-ip>]"
     "\n\n";
 
     std::cout << usage;
@@ -50,16 +50,16 @@ void help_options()
     "                                  is mainly for security reasons and unit testing.\n\n"
     "                                  A live installation should be configured as follows:\n"
     "                                    1. Set --bind-ip=0.0.0.0 (i.e. INADDR_ANY)\n"
-    "                                    2. Set \e[1m--whitelist\e[0m=<IPv4 of master machine>\n\n"
+    "                                    2. Set \e[1m--master\e[0m=<IPv4 of master machine>\n\n"
     "                                  This configuration will allow the server to accept connections from\n"
     "                                  all interfaces and then block out any addresses not matching the\n"
-    "                                  the whitelist address.\n"
+    "                                  the master address.\n"
     "  -u, --backlog=<backlog>         \e[1mNumber of connections that listener will queue.\e[0m\n"
-    "  -w, --whitelist=<ip-addr>       \e[1mAccept connection from this address only.\e[0m This option\n"
+    "  -w, --master=<ip-addr>          \e[1mAccept connection from this address only.\e[0m This option\n"
     "                                  is to be used in conjunction with the \e[1m--bind-ip\e[0m option.\n\n"
     "                                  A live installation should be configured as follows:\n"
     "                                    1. Set \e[1m--bind-ip\e[0m=0.0.0.0 (i.e. INADDR_ANY)\n"
-    "                                    2. Set --whitelist=<IPv4 of master machine>";
+    "                                    2. Set --master=<IPv4 of master machine>";
 
     std::cout << options << std::endl;
 }

@@ -29,7 +29,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
         ),
         IncomingClientPrimitives(
             configs.tcp_buffer_size,
-            configs.whitelist
+            configs.master
         ) {}
 
         void incoming_client_setup();

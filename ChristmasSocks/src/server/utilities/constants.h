@@ -9,7 +9,7 @@
 extern unsigned int TCP_PORT;
 extern unsigned int BACKLOG;
 extern std::string  DEFAULT_BIND_IP;
-extern std::string  DEFAULT_WHITELIST_IP;
+extern std::string  DEFAULT_MASTER_IP;
 extern bool         HANDLE_LINE_BREAKS;
 extern int          TCP_BUFFER_SIZE;
 
