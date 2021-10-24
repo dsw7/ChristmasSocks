@@ -72,6 +72,7 @@ void ServerImplMain::handle_incoming_message()
 {
     if (this->message.compare("exit") == 0)
     {
+        EventLogger::info("Server received graceful shutdown command", this->epoll_fd);
         this->message = "Shutting down server";
         this->exit_loop = true;
     }
@@ -82,6 +83,10 @@ void ServerImplMain::handle_incoming_message()
     else if (this->message.compare("sleep") == 0)
     {
         this->message = Commands::command_sleep();
+    }
+    else
+    {
+        EventLogger::info("Server received unrecognized command: " + this->message, this->epoll_fd);
     }
 }
 
