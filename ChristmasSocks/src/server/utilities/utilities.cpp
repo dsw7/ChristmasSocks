@@ -42,3 +42,14 @@ void render_separator()
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
     std::cout << std::string(window_size.ws_col, '=') << std::endl;
 }
+
+void render_centered_text(std::string &text)
+{
+    struct winsize window_size;
+    window_size.ws_col = 0; // handle 'Conditional jump or move depends on uninitialized value(s)'
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
+
+    int offset = (window_size.ws_col / 2) - (text.size() / 2);
+    std::cout << std::string(offset, ' ');
+    std::cout << text << std::endl;
+}

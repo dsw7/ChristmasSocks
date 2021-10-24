@@ -13,5 +13,6 @@ std::string get_current_datetime_string();
 bool file_exists(std::string &pathname);
 void read_file(std::string &filepath, std::string &file_contents);
 void render_separator();
+void render_centered_text(std::string &text);
 
 #endif
