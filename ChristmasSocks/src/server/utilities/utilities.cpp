@@ -40,6 +40,7 @@ void render_separator()
     struct winsize window_size;
     window_size.ws_col = 0; // handle 'Conditional jump or move depends on uninitialized value(s)'
 
+    // https://man7.org/linux/man-pages/man2/ioctl.2.html
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) == 0)
     {
         std::cout << std::string(window_size.ws_col, '=') << std::endl;
