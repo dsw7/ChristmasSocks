@@ -84,11 +84,6 @@ bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_cl
         close_client_socket_file_descriptor(socket_fd_client);
         return false;
     }
-    else
-    {
-        ClientLogger::info("Read in message '" + message + "'", socket_fd_client);
-    }
-
     return true;
 }
 
@@ -105,7 +100,5 @@ bool IncomingClientPrimitives::write_data(std::string &message, int &socket_fd_c
         ClientLogger::error(strerror(errno), socket_fd_client);
         return false;
     }
-
-    ClientLogger::info("Wrote out message '" + message + "'", socket_fd_client);
     return true;
 }

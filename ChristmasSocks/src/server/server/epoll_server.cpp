@@ -86,7 +86,7 @@ void ServerImplMain::handle_incoming_message()
     }
     else
     {
-        EventLogger::info("Server received unrecognized command: " + this->message, this->epoll_fd);
+        EventLogger::info("Server received unrecognized command: '" + this->message + "'", this->epoll_fd);
     }
 }
 
