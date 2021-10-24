@@ -19,6 +19,7 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
         struct      epoll_event ev;
         int         epoll_fd = -1; // -1 means not set
         std::string message;
+        bool        exit_loop = false;
 
     public:
         ServerImplMain(Configs &configs): ServerPrimitives(

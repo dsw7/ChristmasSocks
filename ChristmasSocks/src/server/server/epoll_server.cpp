@@ -70,7 +70,12 @@ void ServerImplMain::register_server_fd_to_epoll_instance()
 
 void ServerImplMain::handle_incoming_message()
 {
-    if (this->message.compare("help") == 0)
+    if (this->message.compare("exit") == 0)
+    {
+        this->message = "Shutting down server";
+        this->exit_loop = true;
+    }
+    else if (this->message.compare("help") == 0)
     {
         this->message = Commands::command_help();
     }
@@ -125,12 +130,13 @@ void ServerImplMain::loop()
 
                 if (read_data(this->message, socket_fd_client_from_struct))
                 {
-                    if (this->message.compare("exit") == 0)
+                    handle_incoming_message();
+                    write_data(this->message, socket_fd_client_from_struct);
+
+                    if (this->exit_loop)
                     {
                         goto endloop;
                     }
-                    handle_incoming_message();
-                    write_data(this->message, socket_fd_client_from_struct);
                 }
             }
         }
