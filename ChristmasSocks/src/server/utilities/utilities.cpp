@@ -47,9 +47,18 @@ void render_centered_text(const std::string &text)
 {
     struct winsize window_size;
     window_size.ws_col = 0; // handle 'Conditional jump or move depends on uninitialized value(s)'
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
+    int offset;
 
-    int offset = (window_size.ws_col / 2) - (text.size() / 2);
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) == 0)
+    {
+        offset = (window_size.ws_col / 2) - (text.size() / 2);
+    }
+    else
+    {
+        // Set some dummy offset if output is redirected (i.e. inappropriate ioctl for device)
+        offset = 1;
+    }
+
     std::cout << std::string(offset, ' ');
     std::cout << text << std::endl;
 }
