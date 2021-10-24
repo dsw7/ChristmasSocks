@@ -39,14 +39,22 @@ void render_separator()
 {
     struct winsize window_size;
     window_size.ws_col = 0; // handle 'Conditional jump or move depends on uninitialized value(s)'
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
-    std::cout << std::string(window_size.ws_col, '=') << std::endl;
+
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) == 0)
+    {
+        std::cout << std::string(window_size.ws_col, '=') << std::endl;
+    }
+    else
+    {
+        // Render separator to some dummy length if output is redirected (i.e. inappropriate ioctl for device)
+        std::cout << std::string(20, '=') << std::endl;
+    }
 }
 
 void render_centered_text(const std::string &text)
 {
     struct winsize window_size;
-    window_size.ws_col = 0; // handle 'Conditional jump or move depends on uninitialized value(s)'
+    window_size.ws_col = 0;
     int offset;
 
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) == 0)
@@ -55,7 +63,6 @@ void render_centered_text(const std::string &text)
     }
     else
     {
-        // Set some dummy offset if output is redirected (i.e. inappropriate ioctl for device)
         offset = 1;
     }
 
