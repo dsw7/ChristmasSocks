@@ -1,0 +1,12 @@
+[Unit]
+Description=ChristmasSocks Remote Server Management Software
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=$(whoami)
+ExecStart=/usr/bin/socks
+
+[Install]
+WantedBy=multi-user.target
