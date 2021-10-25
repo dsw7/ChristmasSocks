@@ -5,7 +5,7 @@ Description=ChristmasSocks Remote Server Management Software
 Type=simple
 Restart=always
 RestartSec=1
-User=$(whoami)
+User=username
 ExecStart=/usr/bin/socks
 
 [Install]
