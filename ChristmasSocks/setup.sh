@@ -16,4 +16,11 @@ echo -n "Please enter a valid Linux user: "
 read USER
 
 chmod +x ${CONFIGURE_SCRIPT}
+
+echo -e "Compiling binary..."
 su $USER --command "${CONFIGURE_SCRIPT} compile"
+
+if [ $? -ne 0 ];
+    then echo "Failed to compile binary!"
+    exit 1
+fi
