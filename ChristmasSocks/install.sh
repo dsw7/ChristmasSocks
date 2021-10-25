@@ -11,7 +11,6 @@ PATH_SERVICE_FILE=$(dirname $0)/systemd/${SERVICE_FILE}
 PATH_SYSTEMCTL=/etc/systemd/system/
 
 echo -e "\e[1m\e[4mChristmasSocks Remote Server Management Software\e[0m"
-echo
 
 if [ $(id --user) -ne 0 ];
     then echo "Please run as root!"
@@ -21,7 +20,6 @@ fi
 echo "Starting installation..."
 echo -n "Please enter a valid Linux user: "
 read USER
-echo
 
 chmod +x ${CONFIGURE_SCRIPT}
 if [ $? -ne 0 ];
@@ -35,7 +33,6 @@ if [ $? -ne 0 ];
     then echo "Failed to compile binary!"
     exit 1
 fi
-echo
 
 echo "Copying binary into system bin directory..."
 cp -v ${FILEPATH_BINARY} ${DIR_BIN}
@@ -49,7 +46,6 @@ if [ $? -ne 0 ];
     then echo "Failed to change ownership of binary!"
     exit 1
 fi
-echo
 
 echo "Preparing ChristmasSocks service..."
 cp -v ${PATH_SERVICE_FILE} ${PATH_SYSTEMCTL}
@@ -64,7 +60,6 @@ if [ $? -ne 0 ];
     then echo "Failed to update ${SERVICE_FILE}!"
     exit 1
 fi
-echo
 
 systemctl daemon-reload
 

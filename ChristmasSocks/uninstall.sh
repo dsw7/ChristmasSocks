@@ -8,7 +8,6 @@ SERVICE_NAME=socks.service
 PATH_SERVICE_FILE=/etc/systemd/system/${SERVICE_FILE}
 
 echo -e "\e[1m\e[4mChristmasSocks Remote Server Management Software\e[0m"
-echo
 
 if [ $(id --user) -ne 0 ];
     then echo "Please run as root!"
@@ -17,7 +16,6 @@ fi
 
 echo -n "Please enter a valid Linux user: "
 read USER
-echo
 
 echo "Stopping ${SERVICE_NAME} service..."
 systemctl stop ${SERVICE_NAME}
