@@ -58,9 +58,12 @@ if [ $? -ne 0 ];
 fi
 
 echo "Updating ${SERVICE_FILE} to match specified user..."
-sed "s/username/${USER}/" ${PATH_SYSTEMCTL}/${SERVICE_FILE}
+sed "s/username/${USER}/" ${PATH_SYSTEMCTL}/${SERVICE_FILE} > /dev/null
 if [ $? -ne 0 ];
     then echo "Failed to update ${SERVICE_FILE}!"
     exit 1
 fi
 echo
+
+echo "Starting up service"
+systemctl start socks.service
