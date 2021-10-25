@@ -5,6 +5,9 @@
 CONFIGURE_SCRIPT=$(dirname $0)/configure.py
 FILEPATH_BINARY=$(dirname $0)/bin/socks
 DIR_BIN=/usr/bin/
+SERVICE_FILE=socks.service
+PATH_SERVICE_FILE=$(dirname $0)/systemd/${SERVICE_FILE}
+PATH_SYSTEMCTL=/etc/systemd/system/
 
 echo -e "\e[1m\e[4mChristmasSocks Remote Server Management Software\e[0m"
 echo
@@ -20,6 +23,10 @@ read USER
 echo
 
 chmod +x ${CONFIGURE_SCRIPT}
+if [ $? -ne 0 ];
+    then echo "Could not make ${CONFIGURE_SCRIPT} executable!"
+    exit 1
+fi
 
 echo "Compiling binary..."
 su $USER --command "${CONFIGURE_SCRIPT} compile"
@@ -39,3 +46,16 @@ fi
 echo
 
 chown $USER ${FILEPATH_BINARY}
+if [ $? -ne 0 ];
+    then echo "Failed to change ownership of binary!"
+    exit 1
+fi
+
+echo "Preparing ChristmasSocks service..."
+echo "${PATH_SERVICE_FILE} -> ${PATH_SYSTEMCTL}"
+cp -v ${PATH_SERVICE_FILE} ${PATH_SYSTEMCTL}
+if [ $? -ne 0 ];
+    then echo "Failed to copy binary!"
+    exit 1
+fi
+echo
