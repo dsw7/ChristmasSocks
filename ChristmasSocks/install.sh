@@ -68,7 +68,9 @@ echo
 
 systemctl daemon-reload
 
-echo "Starting up service!"
+echo "Starting up ${SERVICE_NAME}!"
 systemctl start ${SERVICE_NAME}
+
+echo "Enabling ${SERVICE_NAME}!"
 systemctl enable ${SERVICE_NAME}
 echo "Please run 'sudo systemctl status ${SERVICE_NAME} to ensure the installation succeeded'"

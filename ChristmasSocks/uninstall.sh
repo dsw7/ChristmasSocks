@@ -21,6 +21,8 @@ echo
 
 echo "Stopping ${SERVICE_NAME} service..."
 systemctl stop ${SERVICE_NAME}
+
+echo "Disabling ${SERVICE_NAME} service..."
 systemctl disable ${SERVICE_NAME}
 
 echo "Removing binary from system bin directory..."
