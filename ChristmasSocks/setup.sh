@@ -37,25 +37,23 @@ fi
 echo
 
 echo "Copying binary into system bin directory..."
-echo "${FILEPATH_BINARY} -> ${DIR_BIN}"
-cp ${FILEPATH_BINARY} ${DIR_BIN}
+cp -v ${FILEPATH_BINARY} ${DIR_BIN}
 if [ $? -ne 0 ];
     then echo "Failed to copy binary!"
     exit 1
 fi
 echo
 
-chown $USER ${FILEPATH_BINARY}
+chown -v $USER ${FILEPATH_BINARY}
 if [ $? -ne 0 ];
     then echo "Failed to change ownership of binary!"
     exit 1
 fi
 
 echo "Preparing ChristmasSocks service..."
-echo "${PATH_SERVICE_FILE} -> ${PATH_SYSTEMCTL}"
 cp -v ${PATH_SERVICE_FILE} ${PATH_SYSTEMCTL}
 if [ $? -ne 0 ];
-    then echo "Failed to copy binary!"
+    then echo "Failed to copy service file!"
     exit 1
 fi
 echo
