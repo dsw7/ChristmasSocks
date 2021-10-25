@@ -6,6 +6,7 @@ CONFIGURE_SCRIPT=$(dirname $0)/configure.py
 FILEPATH_BINARY=$(dirname $0)/bin/socks
 DIR_BIN=/usr/bin/
 SERVICE_FILE=socks.service
+SERVICE_NAME=socks.service
 PATH_SERVICE_FILE=$(dirname $0)/systemd/${SERVICE_FILE}
 PATH_SYSTEMCTL=/etc/systemd/system/
 
@@ -65,5 +66,7 @@ if [ $? -ne 0 ];
 fi
 echo
 
-echo "Starting up service"
-systemctl start socks.service
+echo "Starting up service!"
+systemctl start ${SERVICE_NAME}
+systemctl daemon-reload
+systemctl enable ${SERVICE_NAME}
