@@ -59,7 +59,7 @@ if [ $? -ne 0 ];
 fi
 
 echo "Updating ${SERVICE_FILE} to match specified user..."
-sed "s/username/${USER}/" ${PATH_SYSTEMCTL}/${SERVICE_FILE} > /dev/null
+sed -i "s/username/${USER}/" ${PATH_SYSTEMCTL}/${SERVICE_FILE}
 if [ $? -ne 0 ];
     then echo "Failed to update ${SERVICE_FILE}!"
     exit 1
