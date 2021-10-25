@@ -42,18 +42,25 @@ if [ $? -ne 0 ];
     then echo "Failed to copy binary!"
     exit 1
 fi
-echo
 
 chown -v $USER ${FILEPATH_BINARY}
 if [ $? -ne 0 ];
     then echo "Failed to change ownership of binary!"
     exit 1
 fi
+echo
 
 echo "Preparing ChristmasSocks service..."
 cp -v ${PATH_SERVICE_FILE} ${PATH_SYSTEMCTL}
 if [ $? -ne 0 ];
     then echo "Failed to copy service file!"
+    exit 1
+fi
+
+echo "Updating ${SERVICE_FILE} to match specified user..."
+sed "s/username/${USER}/" ${PATH_SYSTEMCTL}/${SERVICE_FILE}
+if [ $? -ne 0 ];
+    then echo "Failed to update ${SERVICE_FILE}!"
     exit 1
 fi
 echo
