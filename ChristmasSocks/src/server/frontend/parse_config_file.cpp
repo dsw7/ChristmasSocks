@@ -8,5 +8,10 @@ bool read_configs_from_file(std::string path_config_file, Configs &configs)
         return false;
     }
 
+    std::string file_contents;
+    read_file(path_config_file, file_contents);
+
+    std::cout << file_contents << std::endl;
+
     return true;
 }
