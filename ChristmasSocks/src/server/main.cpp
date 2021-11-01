@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "command_line_interface.h"
+#include "parse_config_file.h"
 #include "logger.h"
 #include "ipc_signal_registers.h"
 #include "log_system_configs.h"
@@ -10,7 +11,11 @@
 int main(int argc, char **argv)
 {
     Configs configs;
-    get_command_line_arguments(argc, argv, configs);
+
+    if (!read_configs_from_file(argc, argv))
+    {
+        get_command_line_arguments(argc, argv, configs);
+    }
 
     display_header();
     register_ipc_signals();
