@@ -15,7 +15,10 @@ int main(int argc, char **argv)
 
     if (argc == 3 and std::string(argv[1]) == "--config")
     {
-        read_configs_from_file(std::string(argv[2]), configs);
+        if (!read_configs_from_file(std::string(argv[2]), configs))
+        {
+            exit(EXIT_FAILURE);
+        }
     }
     else
     {
