@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <string>
 #include "command_line_interface.h"
 #include "parse_config_file.h"
 #include "logger.h"
@@ -12,7 +13,11 @@ int main(int argc, char **argv)
 {
     Configs configs;
 
-    if (!read_configs_from_file(argc, argv))
+    if (argc == 3 and std::string(argv[1]) == "--config")
+    {
+        read_configs_from_file(std::string(argv[2]), configs);
+    }
+    else
     {
         get_command_line_arguments(argc, argv, configs);
     }

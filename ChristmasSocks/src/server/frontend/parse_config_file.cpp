@@ -1,12 +1,6 @@
 #include "parse_config_file.h"
 
-bool read_configs_from_file(int argc, char **argv)
+bool read_configs_from_file(std::string path_config_file, Configs &configs)
 {
-    if (argc < 2)
-    {
-        RootLogger::info("No arguments provided. Using system defaults");
-        return false;
-    }
-
     return true;
 }

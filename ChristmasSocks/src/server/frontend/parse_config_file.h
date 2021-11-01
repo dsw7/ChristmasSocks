@@ -1,8 +1,9 @@
 #ifndef PARSE_CONFIG_FILE_H
 #define PARSE_CONFIG_FILE_H
 
-#include "logger.h"
+#include <string>
+#include "command_line_interface.h" // access Configs struct
 
-bool read_configs_from_file(int argc, char **argv);
+bool read_configs_from_file(std::string path_config_file, Configs &configs)
 
 #endif
