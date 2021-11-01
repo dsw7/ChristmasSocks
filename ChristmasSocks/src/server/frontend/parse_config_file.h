@@ -3,6 +3,9 @@
 
 #include <string>
 #include <iostream>
+#include <map>
+#include <sstream>
+#include <fstream>
 #include "command_line_interface.h" // access Configs struct
 #include "utilities.h"
 
