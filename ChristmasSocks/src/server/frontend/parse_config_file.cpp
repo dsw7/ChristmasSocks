@@ -1,26 +1,15 @@
 #include "parse_config_file.h"
 
-bool read_configs_from_file(std::string path_config_file, Configs &configs)
+void parse_configs(std::string &file_contents, std::map<std::string, std::string> &raw_configs);
 {
-    if (!file_exists(path_config_file))
-    {
-        std::cerr << "Path " + path_config_file + " does not exist!" << std::endl;
-        return false;
-    }
-
-    std::string file_contents;
-    read_file(path_config_file, file_contents);
-
     std::istringstream is_file(file_contents);
     std::string line;
-    std::map<std::string, std::string> raw_configs;
 
     while (std::getline(is_file, line))  // we read line by line - up to \n in this case
     {
         std::istringstream is_line(line);
 
         std::size_t is_comment = line.find("#");
-
         if (is_comment != std::string::npos)
         {
             continue;
@@ -41,7 +30,23 @@ bool read_configs_from_file(std::string path_config_file, Configs &configs)
             }
         }
     }
+}
 
+bool read_configs_from_file(std::string path_config_file, Configs &configs)
+{
+    if (!file_exists(path_config_file))
+    {
+        std::cerr << "Path " + path_config_file + " does not exist!" << std::endl;
+        return false;
+    }
+
+    std::string file_contents;
+    read_file(path_config_file, file_contents);
+
+    std::map<std::string, std::string> raw_configs;
+    parse_configs(file_contents, raw_configs);
+
+    // XXX overwrite Configs struct here
     std::map<std::string, std::string>::iterator it;
     for (it = raw_configs.begin(); it != raw_configs.end(); it++)
     {
