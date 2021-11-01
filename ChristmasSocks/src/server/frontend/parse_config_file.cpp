@@ -1,6 +1,6 @@
 #include "parse_config_file.h"
 
-void parse_configs(std::string &file_contents, std::map<std::string, std::string> &raw_configs);
+void parse_configs(std::string &file_contents, std::map<std::string, std::string> &raw_configs)
 {
     std::istringstream is_file(file_contents);
     std::string line;
