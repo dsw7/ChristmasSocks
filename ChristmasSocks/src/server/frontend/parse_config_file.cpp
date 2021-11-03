@@ -52,11 +52,11 @@ bool read_configs_from_file(std::string path_config_file, Configs &configs)
     {
         if (it->first.compare("port") == 0)
         {
-            configs.tcp_port = atoi(it->second);
+            configs.tcp_port = atoi(it->second.c_str());
         }
         else if (it->first.compare("buffer-size") == 0)
         {
-            configs.tcp_buffer_size = atoi(it->second);
+            configs.tcp_buffer_size = atoi(it->second.c_str());
         }
         else if (it->first.compare("bind-ip") == 0)
         {
@@ -64,7 +64,7 @@ bool read_configs_from_file(std::string path_config_file, Configs &configs)
         }
         else if (it->first.compare("backlog") == 0)
         {
-            configs.backlog = atoi(it->second);
+            configs.backlog = atoi(it->second.c_str());
         }
         else if (it->first.compare("master") == 0)
         {
