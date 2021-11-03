@@ -6,8 +6,10 @@ CONFIGURE_SCRIPT=$(dirname $0)/configure.py
 FILEPATH_BINARY=$(dirname $0)/bin/socks
 DIR_BIN=/usr/bin/
 SERVICE_FILE=socks.service
+CONFIG_FILE=socks.ini
 SERVICE_NAME=socks.service
 PATH_SERVICE_FILE=$(dirname $0)/systemd/${SERVICE_FILE}
+PATH_CONFIG_FILE=$(dirname $0)/configs/${CONFIG_FILE}
 PATH_SYSTEMCTL=/etc/systemd/system/
 
 echo -e "\e[1m\e[4mChristmasSocks Remote Server Management Software\e[0m"
@@ -44,6 +46,13 @@ fi
 chown -v $USER ${FILEPATH_BINARY}
 if [ $? -ne 0 ];
     then echo "Failed to change ownership of binary!"
+    exit 1
+fi
+
+echo "Copying ${CONFIG_FILE} to /etc/"
+cp -v ${PATH_CONFIG_FILE} /etc/
+if [ $? -ne 0 ];
+    then echo "Failed to copy configuration file!"
     exit 1
 fi
 
