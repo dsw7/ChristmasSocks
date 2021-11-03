@@ -72,6 +72,12 @@ void help_options()
     "                                    1. Set \e[1m--bind-ip\e[0m=0.0.0.0 (i.e. INADDR_ANY)\n"
     "                                    2. Set --master=<IPv4 of master machine>";
     std::cout << options << std::endl;
+
+    std::string options =
+    "\e[1m\e[4mOptions\e[0m [for starting server via configuration file]:\n\n"
+    "     --config=</path/to/config>   \e[1mSpecify path to configuration file.\e[0m Server will not\n"
+    "                                  start if the path is invalid or the file does not exist.\n";
+    std::cout << options << std::endl;
 }
 
 void help_message(char *file)
