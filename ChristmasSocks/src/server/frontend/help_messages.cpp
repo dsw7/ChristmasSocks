@@ -37,10 +37,12 @@ void help_usage(char *file)
 
     std::cout << "  2. To start the server via configuration, pass:\n";
     std::cout << "    $ " << file << " [--config </path/to/config/file>]\n\n";
-    std::cout << "  The above two streams are mutually exclusive. That is, a user cannot specify\n";
-    std::cout << "  a path to a configuration file using --config and then override a particular\n";
-    std::cout << "  a parameter defined within the configuration file using a command line option.\n";
-    std::endl;
+
+    std::string additional_info =
+    "  The above two streams are mutually exclusive. That is, a user cannot specify\n";
+    "  a path to a configuration file using --config and then override a particular\n";
+    "  a parameter defined within the configuration file using a command line option.\n";
+    std::cout << additional_info << std::endl;
 }
 
 void help_options()
