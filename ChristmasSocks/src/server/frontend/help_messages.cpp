@@ -47,7 +47,7 @@ void help_usage(char *file)
 
 void help_options()
 {
-    std::string options =
+    std::string options_manual =
     "\e[1m\e[4mOptions\e[0m [for manually starting server]:\n\n"
     "  -h, --help                      \e[1mPrint help information and exit.\e[0m\n"
     "  -p, --port=<tcp-port>           \e[1mSpecify which TCP port to listen on.\e[0m This TCP\n"
@@ -71,13 +71,13 @@ void help_options()
     "                                  A live installation should be configured as follows:\n"
     "                                    1. Set \e[1m--bind-ip\e[0m=0.0.0.0 (i.e. INADDR_ANY)\n"
     "                                    2. Set --master=<IPv4 of master machine>";
-    std::cout << options << std::endl;
+    std::cout << options_manual << std::endl;
 
-    std::string options =
+    std::string options_config =
     "\e[1m\e[4mOptions\e[0m [for starting server via configuration file]:\n\n"
     "     --config=</path/to/config>   \e[1mSpecify path to configuration file.\e[0m Server will not\n"
     "                                  start if the path is invalid or the file does not exist.\n";
-    std::cout << options << std::endl;
+    std::cout << options_config << std::endl;
 }
 
 void help_message(char *file)
