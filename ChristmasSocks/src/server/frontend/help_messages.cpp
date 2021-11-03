@@ -48,7 +48,7 @@ void help_usage(char *file)
 void help_options()
 {
     std::string options =
-    "\e[1m\e[4mOptions:\e[0m\n\n"
+    "\e[1m\e[4mOptions\e[0m [for manually starting server]:\n\n"
     "  -h, --help                      \e[1mPrint help information and exit.\e[0m\n"
     "  -p, --port=<tcp-port>           \e[1mSpecify which TCP port to listen on.\e[0m This TCP\n"
     "                                  port must not be blocked by a firewall and must not be a\n"
@@ -71,7 +71,6 @@ void help_options()
     "                                  A live installation should be configured as follows:\n"
     "                                    1. Set \e[1m--bind-ip\e[0m=0.0.0.0 (i.e. INADDR_ANY)\n"
     "                                    2. Set --master=<IPv4 of master machine>";
-
     std::cout << options << std::endl;
 }
 
