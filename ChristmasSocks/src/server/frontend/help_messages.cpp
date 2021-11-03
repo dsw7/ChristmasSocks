@@ -20,6 +20,7 @@ void help_general()
 void help_usage(char *file)
 {
     std::cout << "\e[1m\e[4mUsage:\e[0m\n\n";
+    std::cout << "Two options are available for starting up server:\n  1. Manual\n  2. Via configuration file\n";
     std::cout << "  $ " << file;
 
     std::string usage =
