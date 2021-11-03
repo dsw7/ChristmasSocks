@@ -6,7 +6,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=username
-ExecStart=/usr/bin/socks
+ExecStart=execstart
 
 [Install]
 WantedBy=multi-user.target
