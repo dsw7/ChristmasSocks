@@ -83,10 +83,20 @@ void help_options_config_file()
     std::cout << options << std::endl;
 }
 
+void config_file_syntax()
+{
+    std::string info =
+    "\e[1m\e[4mConfiguration File Syntax:\e[0m\n\n"
+    "  The configuration file is essentially a means of reading the options specified in the\n";
+    "  \e\1m\e[4mOptions\e[0m section from a file. The mapping follows:\n";
+    std::cout << info << std::endl;
+}
+
 void help_message(char *file)
 {
     help_general();
     help_usage(file);
     help_options_manual();
     help_options_config_file();
+    config_file_syntax();
 }
