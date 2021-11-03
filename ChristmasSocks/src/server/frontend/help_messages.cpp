@@ -39,8 +39,8 @@ void help_usage(char *file)
     std::cout << "    $ " << file << " [--config </path/to/config/file>]\n\n";
 
     std::string additional_info =
-    "  The above two streams are mutually exclusive. That is, a user cannot specify\n";
-    "  a path to a configuration file using --config and then override a particular\n";
+    "  The above two streams are mutually exclusive. That is, a user cannot specify\n"
+    "  a path to a configuration file using --config and then override a particular\n"
     "  a parameter defined within the configuration file using a command line option.\n";
     std::cout << additional_info << std::endl;
 }
