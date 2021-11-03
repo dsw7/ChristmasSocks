@@ -92,7 +92,7 @@ void config_file_syntax()
     std::cout << info << std::endl;
 
     std::string mapping =
-    "  \e[4mCommand line parameter\e[0m    \e[4mConfiguration file equivalent\e[0m"
+    "  \e[4mCommand line parameter\e[0m    \e[4mConfiguration file equivalent\e[0m\n"
     "  --port                              port\n"
     "  --buffer-size                       buffer-size\n"
     "  --bind-ip                           bind-ip\n"
