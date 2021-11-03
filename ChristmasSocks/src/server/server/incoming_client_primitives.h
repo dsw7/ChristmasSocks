@@ -12,15 +12,11 @@
 class IncomingClientPrimitives
 {
     private:
-        int         tcp_buffer_size;
         std::string newline;
-        std::string master;
+        Configs configs;
 
     public:
-        IncomingClientPrimitives(
-            int &tcp_buffer_size,
-            std::string &master
-        );
+        IncomingClientPrimitives(Configs &configs);
 
         bool is_valid_buffer_size();
         bool accept_incoming_connection(int &socket_fd_server, struct sockaddr_in &address, int &socket_fd_client);

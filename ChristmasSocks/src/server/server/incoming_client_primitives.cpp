@@ -1,15 +1,14 @@
 #include "incoming_client_primitives.h"
 
-IncomingClientPrimitives::IncomingClientPrimitives(int &tcp_buffer_size, std::string &master)
+IncomingClientPrimitives::IncomingClientPrimitives(Configs &configs)
 {
-    this->tcp_buffer_size = tcp_buffer_size;
-    this->master = master;
+    this->configs = configs;
 }
 
 bool IncomingClientPrimitives::is_valid_buffer_size()
 {
-    RootLogger::info("The TCP buffer size is " + std::to_string(this->tcp_buffer_size) + " bytes");
-    if (this->tcp_buffer_size < MINIMUM_TCP_BUFFER_SIZE)
+    RootLogger::info("The TCP buffer size is " + std::to_string(this->configs.tcp_buffer_size) + " bytes");
+    if (this->configs.tcp_buffer_size < MINIMUM_TCP_BUFFER_SIZE)
     {
         RootLogger::error("Invalid buffer size. Minimum buffer size is " + std::to_string(MINIMUM_TCP_BUFFER_SIZE) + " bytes");
         return false;
@@ -35,7 +34,7 @@ bool IncomingClientPrimitives::accept_incoming_connection(int &socket_fd_server,
     std::string incoming_ipv4_address = std::string(inet_ntoa(address.sin_addr));
     ClientLogger::info("The kernel has allocated a new client socket file descriptor", socket_fd_client);
 
-    if (incoming_ipv4_address.compare(this->master) != 0)
+    if (incoming_ipv4_address.compare(this->configs.master) != 0)
     {
         ClientLogger::info("Rejected connection from IPv4 address " + incoming_ipv4_address, socket_fd_client);
         close_client_socket_file_descriptor(socket_fd_client);
@@ -62,9 +61,9 @@ bool IncomingClientPrimitives::close_client_socket_file_descriptor(int &socket_f
 /* https://linux.die.net/man/3/read */
 bool IncomingClientPrimitives::read_data(std::string &message, int &socket_fd_client)
 {
-    char buffer[this->tcp_buffer_size] = {0};
+    char buffer[this->configs.tcp_buffer_size] = {0};
 
-    int rv = read(socket_fd_client, buffer, this->tcp_buffer_size);
+    int rv = read(socket_fd_client, buffer, this->configs.tcp_buffer_size);
     message = std::string(buffer);
 
     if (message.size() > 0)

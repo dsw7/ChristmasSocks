@@ -15,19 +15,13 @@
 class ServerPrimitives
 {
     private:
-        unsigned int tcp_port;
-        unsigned int backlog;
-        std::string  bind_ip;
+        Configs configs;
 
     public:
-        int          socket_fd_server; // must be public - used in epoll class
-        struct       sockaddr_in address;
+        int socket_fd_server; // must be public - used in epoll class
+        struct sockaddr_in address;
 
-        ServerPrimitives(
-            unsigned int &tcp_port,
-            unsigned int &backlog,
-            std::string bind_ip
-        );
+        ServerPrimitives(Configs &configs);
 
         bool open_server_socket_file_descriptor();
         bool close_server_socket_file_descriptor();

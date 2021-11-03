@@ -23,13 +23,10 @@ class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 
     public:
         ServerImplMain(Configs &configs): ServerPrimitives(
-            configs.tcp_port,
-            configs.backlog,
-            configs.bind_ip
+            configs
         ),
         IncomingClientPrimitives(
-            configs.tcp_buffer_size,
-            configs.master
+            configs
         ) {}
 
         void incoming_client_setup();

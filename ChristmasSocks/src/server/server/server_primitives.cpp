@@ -1,10 +1,8 @@
 #include "server_primitives.h"
 
-ServerPrimitives::ServerPrimitives(unsigned int &tcp_port, unsigned int &backlog, std::string bind_ip)
+ServerPrimitives::ServerPrimitives(Configs &configs)
 {
-    this->tcp_port = tcp_port;
-    this->backlog = backlog;
-    this->bind_ip = bind_ip;
+    this->configs = configs;
     this->socket_fd_server = -1;
 }
 
@@ -44,7 +42,7 @@ bool ServerPrimitives::close_server_socket_file_descriptor()
 /* https://linux.die.net/man/3/setsockopt */
 bool ServerPrimitives::attach_socket_file_descriptor_to_port()
 {
-    ServerLogger::info("Attaching socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
+    ServerLogger::info("Attaching socket file descriptor to TCP port " + std::to_string(this->configs.tcp_port), this->socket_fd_server);
 
     int optval = 1;
 
@@ -66,31 +64,31 @@ bool ServerPrimitives::attach_socket_file_descriptor_to_port()
 /* https://linux.die.net/man/3/bind */
 bool ServerPrimitives::bind_socket_file_descriptor_to_port()
 {
-    if (this->tcp_port <= MINIMUM_TCP_PORT)
+    if (this->configs.tcp_port <= MINIMUM_TCP_PORT)
     {
         ServerLogger::error("All TCP ports below " + std::to_string(MINIMUM_TCP_PORT) + " are reserved!", this->socket_fd_server);
         return false;
     }
-    else if (this->tcp_port > MAXIMUM_TCP_PORT)
+    else if (this->configs.tcp_port > MAXIMUM_TCP_PORT)
     {
         ServerLogger::error("Cannot bind to a TCP port exceeding " + std::to_string(MAXIMUM_TCP_PORT), this->socket_fd_server);
         return false;
     }
 
     this->address.sin_family = AF_INET;
-    this->address.sin_addr.s_addr = inet_addr(this->bind_ip.c_str());
-    this->address.sin_port = htons(this->tcp_port);
+    this->address.sin_addr.s_addr = inet_addr(this->configs.bind_ip.c_str());
+    this->address.sin_port = htons(this->configs.tcp_port);
 
-    ServerLogger::info("Binding socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
+    ServerLogger::info("Binding socket file descriptor to TCP port " + std::to_string(this->configs.tcp_port), this->socket_fd_server);
 
-    if (this->bind_ip.compare(BIND_IP_INADDR_ANY) == 0)
+    if (this->configs.bind_ip.compare(BIND_IP_INADDR_ANY) == 0)
     {
-        ServerLogger::warning("Binding socket file descriptor to IPv4 address " + this->bind_ip, this->socket_fd_server);
+        ServerLogger::warning("Binding socket file descriptor to IPv4 address " + this->configs.bind_ip, this->socket_fd_server);
         ServerLogger::warning("The listening socket will bind to all available interfaces!", this->socket_fd_server);
     }
     else
     {
-        ServerLogger::info("Binding socket file descriptor to IPv4 address " + this->bind_ip, this->socket_fd_server);
+        ServerLogger::info("Binding socket file descriptor to IPv4 address " + this->configs.bind_ip, this->socket_fd_server);
     }
 
     int rv = bind(this->socket_fd_server, (struct sockaddr *)&this->address, sizeof(this->address));
@@ -101,7 +99,7 @@ bool ServerPrimitives::bind_socket_file_descriptor_to_port()
     }
 
     ServerLogger::error(strerror(errno), this->socket_fd_server);
-    ServerLogger::error("Failed to bind socket file descriptor to TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
+    ServerLogger::error("Failed to bind socket file descriptor to TCP port " + std::to_string(this->configs.tcp_port), this->socket_fd_server);
 
     return false;
 }
@@ -109,17 +107,17 @@ bool ServerPrimitives::bind_socket_file_descriptor_to_port()
 /* https://linux.die.net/man/3/listen */
 bool ServerPrimitives::listen_on_bound_tcp_port()
 {
-    int rv = listen(this->socket_fd_server, this->backlog);
+    int rv = listen(this->socket_fd_server, this->configs.backlog);
 
     if (rv == 0)
     {
-        ServerLogger::info("Listening on TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
-        ServerLogger::info("Will queue a maximum of " + std::to_string(this->backlog) + " connections", this->socket_fd_server);
+        ServerLogger::info("Listening on TCP port " + std::to_string(this->configs.tcp_port), this->socket_fd_server);
+        ServerLogger::info("Will queue a maximum of " + std::to_string(this->configs.backlog) + " connections", this->socket_fd_server);
         return true;
     }
 
     ServerLogger::error(strerror(errno), this->socket_fd_server);
-    ServerLogger::error("Cannot listen on TCP port " + std::to_string(this->tcp_port), this->socket_fd_server);
+    ServerLogger::error("Cannot listen on TCP port " + std::to_string(this->configs.tcp_port), this->socket_fd_server);
 
     return false;
 }
