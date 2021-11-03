@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <sys/epoll.h>
 
-#include "command_line_interface.h"
 #include "logger.h"
 #include "server_primitives.h"
 #include "incoming_client_primitives.h"
@@ -16,10 +15,10 @@
 class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
     private:
-        struct      epoll_event ev;
-        int         epoll_fd = -1; // -1 means not set
+        struct epoll_event ev;
+        int epoll_fd = -1; // -1 means not set
         std::string message;
-        bool        exit_loop = false;
+        bool exit_loop = false;
 
     public:
         ServerImplMain(Configs &configs): ServerPrimitives(
