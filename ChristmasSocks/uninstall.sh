@@ -6,6 +6,7 @@ FILEPATH_BINARY=/usr/bin/socks
 SERVICE_FILE=socks.service
 SERVICE_NAME=socks.service
 PATH_SERVICE_FILE=/etc/systemd/system/${SERVICE_FILE}
+PATH_INI_FILE=/etc/socks.ini
 
 echo -e "\e[1m\e[4mChristmasSocks Remote Server Management Software\e[0m"
 
@@ -31,9 +32,16 @@ if [ $? -ne 0 ];
 fi
 
 echo "Cleaning up service files..."
-rm -v ${PATH_SERVICE_FILE} ${PATH_SYSTEMCTL}
+rm -v ${PATH_SERVICE_FILE}
 if [ $? -ne 0 ];
     then echo "Failed to remove service file!"
+    exit 1
+fi
+
+echo "Removing configuration file..."
+rm -v ${PATH_INI_FILE}
+if [ $? -ne 0 ];
+    then echo "Failed to remove configuration file!"
     exit 1
 fi
 
