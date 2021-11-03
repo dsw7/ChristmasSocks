@@ -70,7 +70,7 @@ void help_options()
     "                                  is to be used in conjunction with the \e[1m--bind-ip\e[0m option.\n\n"
     "                                  A live installation should be configured as follows:\n"
     "                                    1. Set \e[1m--bind-ip\e[0m=0.0.0.0 (i.e. INADDR_ANY)\n"
-    "                                    2. Set --master=<IPv4 of master machine>";
+    "                                    2. Set --master=<IPv4 of master machine>\n\n";
     std::cout << options_manual << std::endl;
 
     std::string options_config =
