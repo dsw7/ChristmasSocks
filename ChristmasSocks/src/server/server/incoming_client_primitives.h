@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "logger.h"
 #include "constants.h"
+#include "configs.h"
 #include "get_line_breaks.h"
 
 class IncomingClientPrimitives

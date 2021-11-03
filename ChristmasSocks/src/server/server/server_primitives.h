@@ -11,6 +11,7 @@
 #include <arpa/inet.h> // inet_addr
 #include "logger.h"
 #include "constants.h"
+#include "configs.h"
 
 class ServerPrimitives
 {
