@@ -20,12 +20,12 @@ void help_general()
 void help_usage(char *file)
 {
     std::cout << "\e[1m\e[4mUsage:\e[0m\n\n";
-    std::cout << "  Server can be started up two different ways:\n";
-    std::cout << "    1. Manually\n";
-    std::cout << "    2. Via configuration file\n\n";
+    std::cout << "  Server can be started up two different ways:\n\n";
+    std::cout << "    1. \e[1mManually\e[0m\n";
+    std::cout << "    2. \e[1mVia configuration file\e[0m\n\n";
 
     std::cout << "  1. To start the server manually and override default configurations, pass:\n";
-    std::cout << "  $ " << file;
+    std::cout << "    $ " << file;
     std::string usage =
     " [-p <tcp-port>]"
     " [-b <buffer-size>]"
@@ -36,7 +36,7 @@ void help_usage(char *file)
     std::cout << usage;
 
     std::cout << "  2. To start the server via configuration, pass:\n";
-    std::cout << "  $ " << file << " [--config </path/to/config/file>];\n\n";
+    std::cout << "    $ " << file << " [--config </path/to/config/file>];\n\n";
 }
 
 void help_options()
