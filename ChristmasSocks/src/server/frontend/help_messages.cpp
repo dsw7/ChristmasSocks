@@ -24,7 +24,7 @@ void help_usage(char *file)
     std::cout << "    1. Manually\n";
     std::cout << "    2. Via configuration file\n\n";
 
-    std::cout << "  1. To start the server manually and override default configurations, pass:\n"
+    std::cout << "  1. To start the server manually and override default configurations, pass:\n";
     std::cout << "  $ " << file;
     std::string usage =
     " [-p <tcp-port>]"
@@ -33,8 +33,10 @@ void help_usage(char *file)
     " [-u <backlog>]"
     " [-w <master-ip>]"
     "\n\n";
-
     std::cout << usage;
+
+    std::cout << "  2. To start the server via configuration, pass:\n";
+    std::cout << "  $ " << file << " [--config </path/to/config/file>];\n\n";
 }
 
 void help_options()
