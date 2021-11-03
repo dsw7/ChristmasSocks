@@ -89,10 +89,11 @@ void config_file_syntax()
     "\e[1m\e[4mConfiguration File Syntax:\e[0m\n\n"
     "  The configuration file is essentially a means of reading the options specified in the\n"
     "  \e[1m\e[4mOptions\e[0m section from a file. The syntax should follow:\n\n\e[2m"
-    "    # Parameter 1\n"
-    "    parameter_1=foo\n\n"
-    "    # Parameter 2\n"
-    "    parameter_2=bar\n\n\e[0m"
+    "    1 # Parameter 1\n"
+    "    2 parameter_1=foo\n"
+    "    3 \n"
+    "    4 # Parameter 2\n"
+    "    5 parameter_2=bar\e[0m\n\n"
     "  The command line option to file key mappings follow:\n";
     std::cout << info << std::endl;
 
