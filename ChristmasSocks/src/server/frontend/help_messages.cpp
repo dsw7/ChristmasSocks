@@ -87,9 +87,14 @@ void config_file_syntax()
 {
     std::string info =
     "\e[1m\e[4mConfiguration File Syntax:\e[0m\n\n"
-    "  The configuration file is essentially a means of reading the options specified in the\n";
+    "  The configuration file is essentially a means of reading the options specified in the\n"
     "  \e\1m\e[4mOptions\e[0m section from a file. The mapping follows:\n";
     std::cout << info << std::endl;
+
+    std::string mapping =
+    "  \e[4mCommand line parameter:\e[0m \e[4mConfiguration file equivalent:\e[0m";
+    std::cout << mapping << std::endl;
+
 }
 
 void help_message(char *file)
