@@ -46,7 +46,6 @@ bool read_configs_from_file(std::string path_config_file, Configs &configs)
     std::map<std::string, std::string> raw_configs;
     parse_configs(file_contents, raw_configs);
 
-    // XXX overwrite Configs struct here
     std::map<std::string, std::string>::iterator it;
     for (it = raw_configs.begin(); it != raw_configs.end(); it++)
     {
