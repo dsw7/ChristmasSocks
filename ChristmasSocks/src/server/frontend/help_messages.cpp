@@ -93,7 +93,7 @@ void config_file_syntax()
     "    parameter_1=foo\n\n"
     "    # Parameter 2\n"
     "    parameter_2=bar\n\n"
-    "  The command line options to file keys mapping follows:\n";
+    "  The command line option to file key mappings follow:\n";
     std::cout << info << std::endl;
 
     std::string mapping =
