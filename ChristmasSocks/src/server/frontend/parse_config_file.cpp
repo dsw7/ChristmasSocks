@@ -50,7 +50,23 @@ bool read_configs_from_file(std::string path_config_file, Configs &configs)
     std::map<std::string, std::string>::iterator it;
     for (it = raw_configs.begin(); it != raw_configs.end(); it++)
     {
-        if (it->first.compare("master") == 0)
+        if (it->first.compare("port") == 0)
+        {
+            configs.tcp_port = atoi(it->second);
+        }
+        else if (it->first.compare("buffer-size") == 0)
+        {
+            configs.tcp_buffer_size = atoi(it->second);
+        }
+        else if (it->first.compare("bind-ip") == 0)
+        {
+            configs.bind_ip = it->second;
+        }
+        else if (it->first.compare("backlog") == 0)
+        {
+            configs.backlog = atoi(it->second);
+        }
+        else if (it->first.compare("master") == 0)
         {
             configs.master = it->second;
         }
