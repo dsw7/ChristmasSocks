@@ -78,7 +78,7 @@ void help_options_config_file()
 {
     std::string options =
     "\e[1m\e[4mOptions\e[0m [for starting server via configuration file]:\n\n"
-    "     --config=</path/to/config>   \e[1mSpecify path to configuration file.\e[0m Server will not\n"
+    "  --config=</path/to/config>      \e[1mSpecify path to configuration file.\e[0m Server will not\n"
     "                                  start if the path is invalid or the file does not exist.\n";
     std::cout << options << std::endl;
 }
