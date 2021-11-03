@@ -50,7 +50,10 @@ bool read_configs_from_file(std::string path_config_file, Configs &configs)
     std::map<std::string, std::string>::iterator it;
     for (it = raw_configs.begin(); it != raw_configs.end(); it++)
     {
-        std::cout << it->first << ": " << it->second << std::endl;
+        if (it->first.compare("master") == 0)
+        {
+            configs.master = it->second;
+        }
     }
 
     return true;
