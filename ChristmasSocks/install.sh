@@ -9,7 +9,7 @@ SERVICE_FILE=socks.service
 CONFIG_FILE=socks.ini
 SERVICE_NAME=socks.service
 PATH_SERVICE_FILE=$(dirname $0)/systemd/${SERVICE_FILE}
-PATH_CONFIG_FILE=$(dirname $0)/configs/${CONFIG_FILE}
+PATH_CONFIG_FILE=$(dirname $0)/src/server/configs/${CONFIG_FILE}
 PATH_SYSTEMCTL=/etc/systemd/system/
 
 echo -e "\e[1m\e[4mChristmasSocks Remote Server Management Software\e[0m"
