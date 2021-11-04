@@ -44,6 +44,15 @@ copy_binary()
     fi
 }
 
+remove_binary()
+{
+    echo "Removing ${BINARY_NAME} binary from ${DST_BINARY}/"
+    rm -v ${DST_BINARY}/${BINARY_NAME}
+    if [ $? -ne 0 ];
+        then exit 1
+    fi
+}
+
 copy_config_file()
 {
     echo "Copying ${CONFIG_FILE} to ${DST_CONFIG}/"
@@ -53,10 +62,28 @@ copy_config_file()
     fi
 }
 
+remove_config_file()
+{
+    echo "Removing ${CONFIG_FILE} from ${DST_CONFIG}/"
+    rm -v ${DST_CONFIG}/${CONFIG_FILE}
+    if [ $? -ne 0 ];
+        then exit 1
+    fi
+}
+
 copy_service_file()
 {
     echo "Preparing ChristmasSocks service"
     cp -v ${SRC_SERVICE_FILE}/${SERVICE_FILE} ${DST_SERVICE_FILE}/
+    if [ $? -ne 0 ];
+        then exit 1
+    fi
+}
+
+remove_service_file()
+{
+    echo "Removing ${SERVICE_FILE} from ${DST_SERVICE_FILE}"
+    rm -v ${DST_SERVICE_FILE}/${SERVICE_FILE}
     if [ $? -ne 0 ];
         then exit 1
     fi
@@ -89,6 +116,15 @@ setup_service()
     echo "Please run 'sudo systemctl status ${SERVICE_NAME}' to ensure the installation succeeded"
 }
 
+teardown_service()
+{
+    echo "Stopping ${SERVICE_NAME} service"
+    systemctl stop ${SERVICE_NAME}
+
+    echo "Disabling ${SERVICE_NAME}!"
+    systemctl disable ${SERVICE_NAME}
+}
+
 install()
 {
     compile_binary
@@ -97,6 +133,15 @@ install()
     copy_service_file
     update_service_file
     setup_service
+}
+
+uninstall()
+{
+    teardown_service
+    remove_binary
+    remove_service_file
+    remove_config_file
+    systemctl daemon-reload
 }
 
 install
