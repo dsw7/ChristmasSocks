@@ -22,10 +22,6 @@ if [ $(id --user) -ne 0 ];
     exit 1
 fi
 
-echo "Starting installation"
-echo -n "Please enter a valid Linux user: "
-read USER
-
 compile_binary()
 {
     echo "Compiling binary"
@@ -127,6 +123,11 @@ teardown_service()
 
 install()
 {
+    echo "Starting installation"
+    echo -n "Please enter a valid Linux user: "
+    read USER
+    echo
+
     compile_binary
     copy_binary
     copy_config_file
@@ -144,4 +145,19 @@ uninstall()
     systemctl daemon-reload
 }
 
-install
+echo "Select setup type:"
+echo "[1] -> Install product"
+echo "[2] -> Uninstall product"
+echo -n "> "
+read SETUP_TYPE
+
+if [ $SETUP_TYPE = 1 ]
+then
+    install
+elif [ $SETUP_TYPE = 2 ]
+then
+    uninstall
+else
+    echo "Unrecognized setup option!"
+    exit 1
+fi
