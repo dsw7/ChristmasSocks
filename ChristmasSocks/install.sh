@@ -2,8 +2,9 @@
 # ChristmasSocks Remote Server Management Software
 # ----------------------------------------
 
-FILEPATH_BINARY=$(dirname $0)/bin/socks
-DIR_BIN=/usr/bin
+SRC_BINARY=$(dirname $0)/bin
+BINARY_NAME=socks
+DST_BINARY=/usr/bin
 SERVICE_FILE=socks.service
 CONFIG_FILE=socks.ini
 SERVICE_NAME=socks.service
@@ -19,18 +20,18 @@ if [ $(id --user) -ne 0 ];
     exit 1
 fi
 
-echo "Starting installation..."
+echo "Starting installation"
 echo -n "Please enter a valid Linux user: "
 read USER
 
-echo "Compiling binary..."
-su ${USER} -c "cmake -S $(dirname $0) -B $(dirname $0)/bin && make --jobs=12 -C $(dirname $0)/bin"
+echo "Compiling binary"
+su ${USER} -c "cmake -S $(dirname $0) -B ${SRC_BINARY} && make --jobs=12 -C ${SRC_BINARY}"
 if [ $? -ne 0 ];
     then exit 1
 fi
 
-echo "Copying binary into system bin directory..."
-cp -v ${FILEPATH_BINARY} ${DIR_BIN}/
+echo "Copying binary into system bin directory"
+cp -v ${SRC_BINARY}/${BINARY_NAME} ${DST_BINARY}/
 if [ $? -ne 0 ];
     then exit 1
 fi
@@ -41,20 +42,20 @@ if [ $? -ne 0 ];
     then exit 1
 fi
 
-echo "Preparing ChristmasSocks service..."
+echo "Preparing ChristmasSocks service"
 cp -v ${PATH_SERVICE_FILE} ${PATH_SYSTEMCTL}/
 if [ $? -ne 0 ];
     then exit 1
 fi
 
-echo "Updating ${SERVICE_FILE} User field..."
+echo "Updating ${SERVICE_FILE} User field"
 sed -i "s/username/${USER}/" ${PATH_SYSTEMCTL}/${SERVICE_FILE}
 if [ $? -ne 0 ];
     then exit 1
 fi
 
 echo "Updating ${SERVICE_FILE} ExecStart command"
-sed -i "s@execstart@${DIR_BIN}\/socks --config ${DIR_CONFIG}\/${CONFIG_FILE}@" ${PATH_SYSTEMCTL}/${SERVICE_FILE}
+sed -i "s@execstart@${DST_BINARY}\/${BINARY_NAME} --config ${DIR_CONFIG}\/${CONFIG_FILE}@" ${PATH_SYSTEMCTL}/${SERVICE_FILE}
 if [ $? -ne 0 ];
     then exit 1
 fi
