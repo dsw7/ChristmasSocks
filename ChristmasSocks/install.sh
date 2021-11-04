@@ -24,14 +24,9 @@ echo "Starting installation..."
 echo -n "Please enter a valid Linux user: "
 read USER
 
-chmod +x ${CONFIGURE_SCRIPT}
-if [ $? -ne 0 ];
-    then echo "Could not make ${CONFIGURE_SCRIPT} executable!"
-    exit 1
-fi
-
 echo "Compiling binary..."
-su $USER --command "${CONFIGURE_SCRIPT} compile"
+#su $USER --command "${CONFIGURE_SCRIPT} compile"
+cmake -B $(dirname $0) -S $(dirname $0)/bin && make --jobs=12 -C $(dirname $0)/bin
 if [ $? -ne 0 ];
     then echo "Failed to compile binary!"
     exit 1
