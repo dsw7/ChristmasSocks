@@ -26,7 +26,7 @@ read USER
 
 echo "Compiling binary..."
 #su $USER --command "${CONFIGURE_SCRIPT} compile"
-cmake -B $(dirname $0) -S $(dirname $0)/bin && make --jobs=12 -C $(dirname $0)/bin
+cmake -S $(dirname $0) -B $(dirname $0)/bin && make --jobs=12 -C $(dirname $0)/bin
 if [ $? -ne 0 ];
     then echo "Failed to compile binary!"
     exit 1
