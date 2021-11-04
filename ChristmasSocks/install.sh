@@ -24,7 +24,7 @@ echo -n "Please enter a valid Linux user: "
 read USER
 
 echo "Compiling binary..."
-cmake -S $(dirname $0) -B $(dirname $0)/bin && make --jobs=12 -C $(dirname $0)/bin
+su ${USER} cmake -S $(dirname $0) -B $(dirname $0)/bin && su ${USER} make --jobs=12 -C $(dirname $0)/bin
 if [ $? -ne 0 ];
     then echo "Failed to compile binary!"
     exit 1
