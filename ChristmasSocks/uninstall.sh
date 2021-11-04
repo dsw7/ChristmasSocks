@@ -15,9 +15,6 @@ if [ $(id --user) -ne 0 ];
     exit 1
 fi
 
-echo -n "Please enter a valid Linux user: "
-read USER
-
 echo "Stopping ${SERVICE_NAME} service..."
 systemctl stop ${SERVICE_NAME}
 
