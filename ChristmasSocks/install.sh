@@ -2,7 +2,6 @@
 # ChristmasSocks Remote Server Management Software
 # ----------------------------------------
 
-CONFIGURE_SCRIPT=$(dirname $0)/configure.py
 FILEPATH_BINARY=$(dirname $0)/bin/socks
 DIR_BIN=/usr/bin
 SERVICE_FILE=socks.service
@@ -25,7 +24,6 @@ echo -n "Please enter a valid Linux user: "
 read USER
 
 echo "Compiling binary..."
-#su $USER --command "${CONFIGURE_SCRIPT} compile"
 cmake -S $(dirname $0) -B $(dirname $0)/bin && make --jobs=12 -C $(dirname $0)/bin
 if [ $? -ne 0 ];
     then echo "Failed to compile binary!"
@@ -36,12 +34,6 @@ echo "Copying binary into system bin directory..."
 cp -v ${FILEPATH_BINARY} ${DIR_BIN}/
 if [ $? -ne 0 ];
     then echo "Failed to copy binary!"
-    exit 1
-fi
-
-chown -v $USER ${FILEPATH_BINARY}
-if [ $? -ne 0 ];
-    then echo "Failed to change ownership of binary!"
     exit 1
 fi
 
