@@ -67,6 +67,16 @@ remove_config_file()
     fi
 }
 
+update_config_file()
+{
+    read -p "Specify a TCP port [default: 8080]: " tcp_port
+    local tcp_port=${tcp_port:-8080}
+    sed -i "s/<port>/${USER}/" ${DST_CONFIG}/${CONFIG_FILE}
+    if [ $? -ne 0 ];
+        then exit 1
+    fi
+}
+
 copy_service_file()
 {
     echo "Preparing ChristmasSocks service"
@@ -132,6 +142,7 @@ install()
     compile_binary
     copy_binary
     copy_config_file
+    update_config_file
     copy_service_file
     update_service_file
     setup_service
