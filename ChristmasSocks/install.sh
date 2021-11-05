@@ -69,9 +69,10 @@ remove_config_file()
 
 update_config_file()
 {
+    echo
     read -p "Specify a TCP port [default: 8080]: " tcp_port
     local tcp_port=${tcp_port:-8080}
-    sed -i "s/<port>/${USER}/" ${DST_CONFIG}/${CONFIG_FILE}
+    sed -i "s/<port>/${tcp_port}/" ${DST_CONFIG}/${CONFIG_FILE}
     if [ $? -ne 0 ];
         then exit 1
     fi
