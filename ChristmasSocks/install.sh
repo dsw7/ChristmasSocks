@@ -70,12 +70,16 @@ remove_config_file()
 update_config_file()
 {
     echo
+    local tcp_port
     read -p "Specify a TCP port [default: 8080]: " tcp_port
     local tcp_port=${tcp_port:-8080}
     sed -i "s/<port>/${tcp_port}/" ${DST_CONFIG}/${CONFIG_FILE}
+
     if [ $? -ne 0 ];
         then exit 1
     fi
+    echo "Service will listen on port ${tcp_port}"
+
 }
 
 copy_service_file()
