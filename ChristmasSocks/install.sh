@@ -69,11 +69,12 @@ remove_config_file()
 
 update_config_file()
 {
+    echo
     echo "The following parameters must be entered by a human:"
     echo
 
     local master_host
-    read -p "Specify the master host [default: 127.0.0.1]: " master_host
+    read -p "1. Specify the master host [default: 127.0.0.1]: " master_host
     local master_host=${master_host:-127.0.0.1}
     sed -i "s/<master>/${master_host}/" ${DST_CONFIG}/${CONFIG_FILE}
 
@@ -82,6 +83,15 @@ update_config_file()
     fi
     echo "Service will only accept acceptions from ${master_host}"
 
+    local bind_ip
+    read -p "2. Specify the bind IP [default: 127.0.0.1]: " bind_ip
+    local bind_ip=${bind_ip:-127.0.0.1}
+    sed -i "s/<bind-ip>/${bind_ip}/" ${DST_CONFIG}/${CONFIG_FILE}
+
+    if [ $? -ne 0 ];
+        then exit 1
+    fi
+    echo "The bind IP was set to ${bind_ip}"
 }
 
 copy_service_file()
