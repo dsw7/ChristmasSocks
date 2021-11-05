@@ -34,7 +34,7 @@ compile_binary()
 copy_binary()
 {
     echo "Copying ${BINARY_NAME} binary to ${DST_BINARY}/"
-    cp -v ${SRC_BINARY}/${BINARY_NAME} ${DST_BINARY}/
+    cp ${SRC_BINARY}/${BINARY_NAME} ${DST_BINARY}/
     if [ $? -ne 0 ];
         then exit 1
     fi
@@ -43,7 +43,7 @@ copy_binary()
 remove_binary()
 {
     echo "Removing ${BINARY_NAME} binary from ${DST_BINARY}/"
-    rm -v ${DST_BINARY}/${BINARY_NAME}
+    rm ${DST_BINARY}/${BINARY_NAME}
     if [ $? -ne 0 ];
         then exit 1
     fi
@@ -52,7 +52,7 @@ remove_binary()
 copy_config_file()
 {
     echo "Copying ${CONFIG_FILE} to ${DST_CONFIG}/"
-    cp -v ${SRC_CONFIG}/${CONFIG_FILE} ${DST_CONFIG}/
+    cp ${SRC_CONFIG}/${CONFIG_FILE} ${DST_CONFIG}/
     if [ $? -ne 0 ];
         then exit 1
     fi
@@ -61,7 +61,7 @@ copy_config_file()
 remove_config_file()
 {
     echo "Removing ${CONFIG_FILE} from ${DST_CONFIG}/"
-    rm -v ${DST_CONFIG}/${CONFIG_FILE}
+    rm ${DST_CONFIG}/${CONFIG_FILE}
     if [ $? -ne 0 ];
         then exit 1
     fi
@@ -70,7 +70,7 @@ remove_config_file()
 copy_service_file()
 {
     echo "Preparing ChristmasSocks service"
-    cp -v ${SRC_SERVICE_FILE}/${SERVICE_FILE} ${DST_SERVICE_FILE}/
+    cp ${SRC_SERVICE_FILE}/${SERVICE_FILE} ${DST_SERVICE_FILE}/
     if [ $? -ne 0 ];
         then exit 1
     fi
@@ -79,7 +79,7 @@ copy_service_file()
 remove_service_file()
 {
     echo "Removing ${SERVICE_FILE} from ${DST_SERVICE_FILE}"
-    rm -v ${DST_SERVICE_FILE}/${SERVICE_FILE}
+    rm ${DST_SERVICE_FILE}/${SERVICE_FILE}
     if [ $? -ne 0 ];
         then exit 1
     fi
