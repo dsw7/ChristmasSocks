@@ -140,10 +140,10 @@ install()
 uninstall()
 {
     teardown_service
-    remove_binary
     remove_service_file
-    remove_config_file
     systemctl daemon-reload
+    remove_config_file
+    remove_binary
 }
 
 echo "Select setup type:"
