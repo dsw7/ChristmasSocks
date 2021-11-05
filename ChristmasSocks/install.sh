@@ -109,7 +109,7 @@ setup_service()
 
     echo "Enabling ${SERVICE_NAME}!"
     systemctl enable ${SERVICE_NAME}
-    echo "Please run 'sudo systemctl status ${SERVICE_NAME}' to ensure the installation succeeded"
+    systemctl status ${SERVICE_NAME}
 }
 
 teardown_service()
@@ -124,6 +124,7 @@ teardown_service()
 install()
 {
     echo "Starting installation"
+    echo
     echo -n "Please enter a valid Linux user: "
     read USER
     echo
