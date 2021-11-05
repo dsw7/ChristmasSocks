@@ -109,6 +109,8 @@ setup_service()
 
     echo "Enabling ${SERVICE_NAME}!"
     systemctl enable ${SERVICE_NAME}
+
+    echo
     systemctl status ${SERVICE_NAME}
 }
 
@@ -123,8 +125,6 @@ teardown_service()
 
 install()
 {
-    echo "Starting installation"
-    echo
     echo -n "Please enter a valid Linux user: "
     read USER
     echo
@@ -151,6 +151,7 @@ echo "[1] -> Install product"
 echo "[2] -> Uninstall product"
 echo -n "> "
 read SETUP_TYPE
+echo
 
 if [ $SETUP_TYPE = 1 ]
 then
