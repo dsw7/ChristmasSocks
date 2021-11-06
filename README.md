@@ -97,7 +97,14 @@ To uninstall the server, first follows steps [1](#step-1) and [2](#step-2) then 
 ```bash
 sudo ./install.sh
 ```
-
+When prompted, specify to uninstall product:
+```
+Select setup type:
+[1] -> Install product
+[2] -> Uninstall product
+> 2
+```
+The server should now be uninstalled.
 ## Client side development
 _Section to be completed soon!_
 ## Server side development
