@@ -4,6 +4,7 @@ personal interest and for accelerating my workflow. This project essentially con
 [epoll](https://linux.die.net/man/4/epoll) driven servers whom receive commands from a master client.
 ## Table of Contents
   - [Synopsis](#synopsis)
+  - [Client side development](#client-side-development)
   - [Server side development](#server-side-development)
     - [Static analysis](#static-analysis)
     - [Compiling a test binary](#compiling-a-test-binary)
@@ -27,6 +28,8 @@ The architecture consists of the following components:
 | --------- | ----------- |
 | **Master** | This node queries all the worker nodes. Information returned from the nodes is then neatly displayed on the master node for analysis |
 | **Worker** | These nodes accept commands from the master node. Commands can then return information about each node, for example whether the node is up, the CPU temperature, among others |
+## Client side development
+_Section to be completed_
 ## Server side development
 All instructions are to be carried out relative to the following directory:
 ```
