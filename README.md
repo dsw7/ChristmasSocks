@@ -7,6 +7,8 @@ personal interest and for accelerating my workflow. This project essentially con
   - [Installation](#installation)
     - [Setting up the client](#setting-up-the-client)
     - [Setting up the server](#setting-up-the-server)
+      - [Step 1](#step-1)
+      - [Step 2](#step-2)
   - [Client side development](#client-side-development)
   - [Server side development](#server-side-development)
     - [Static analysis](#static-analysis)
@@ -35,7 +37,20 @@ The architecture consists of the following components:
 ### Setting up the client
 _Section to be completed soon!_
 ### Setting up the server
-_Section to be completed soon!_
+#### Step 1
+Change directories into `/tmp` and download the product:
+```bash
+cd /tmp && git clone https://github.com/dsw7/ChristmasSocks.git
+```
+#### Step 2
+Change directories into the project:
+```bash
+cd ChristmasSocks/ChristmasSocks
+```
+Then render the installation script executable:
+```bash
+chmod +x install.sh
+```
 ## Client side development
 _Section to be completed soon!_
 ## Server side development
