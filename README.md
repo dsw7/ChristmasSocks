@@ -3,6 +3,7 @@ Another one of the many remote server management utilities available out there. 
 personal interest and for accelerating my workflow. This project essentially consists of several
 [epoll](https://linux.die.net/man/4/epoll) driven servers that whom receive commands from a master client.
 ## Table of Contents
+  - [Synopsis](#synopsis)
   - [Static analysis](#static-analysis)
   - [Compiling a test binary](#compiling-a-test-binary)
     - [To compile a `CMAKE_BUILD_TYPE=Release` binary](#to-compile-a-cmake_build_typerelease-binary)
@@ -14,6 +15,9 @@ personal interest and for accelerating my workflow. This project essentially con
     - [Manual testing](#manual-testing)
   - [Shortcuts](#shortcuts)
   - [Testing hardware](#testing-hardware)
+
+## Synopsis
+The following block diagram summarizes the distributed architecture underpinning this software:
 
 ## Static analysis
 To lint the C++ source, run:
