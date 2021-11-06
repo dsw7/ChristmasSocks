@@ -22,6 +22,11 @@ The following block diagram summarizes the distributed architecture underpinning
   <img src="./docs/socks_architecture.svg"
 </p>
 
+The architecture consists of the following components:
+| Component | Description |
+| --------- | ----------- |
+| **Master** | This node queries all the worker nodes |
+| **Worker** | These nodes accept commands from the **master** |
 ## Static analysis
 To lint the C++ source, run:
 ```bash
