@@ -2,8 +2,6 @@
 Another one of the many remote server management utilities available out there. I build this mainly out of
 personal interest and for accelerating my workflow. This project essentially consists of several
 [epoll](https://linux.die.net/man/4/epoll) driven servers that whom receive commands from a master client.
-Unless otherwise noted, all instructions are to be carried out relative to the
-`/path/to/ChristmasSocks/ChristmasSocks` directory. Ensure that the `configure.py` script is executable.
 ## Table of Contents
   - [Static analysis](#static-analysis)
   - [Compiling a test binary](#compiling-a-test-binary)
