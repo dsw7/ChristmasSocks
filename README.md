@@ -18,6 +18,9 @@ personal interest and for accelerating my workflow. This project essentially con
 
 ## Synopsis
 The following block diagram summarizes the distributed architecture underpinning this software:
+<p align="center">
+  <img src="./docs/socks_architecture.svg"
+</p>
 
 ## Static analysis
 To lint the C++ source, run:
