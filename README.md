@@ -11,6 +11,7 @@ personal interest and for accelerating my workflow. This project essentially con
       - [Step 2](#step-2)
       - [Step 3](#step-3)
       - [Step 4](#step-4)
+    - [Uninstalling the server](#uninstalling-the-server)
   - [Client side development](#client-side-development)
   - [Server side development](#server-side-development)
     - [Static analysis](#static-analysis)
@@ -81,7 +82,7 @@ The server **will only accept** connections from this host. Next set the bind IP
 ```
 Note that `0.0.0.0` typically translates to "accept connections from all interfaces," however this software
 will block any hosts other than the master host.
-### Step 4
+#### Step 4
 Ensure that the installation succeeded. A successful installation will be indicated by:
 ```
 ● socks.service - ChristmasSocks Remote Server Management Software
@@ -91,6 +92,12 @@ Ensure that the installation succeeded. A successful installation will be indica
    CGroup: /system.slice/socks.service
            └─<pid> /usr/bin/socks --config /etc/socks.ini
 ```
+### Uninstalling the server
+To uninstall the server, first follows steps [1](#step-1) and [2](#step-2) then run:
+```bash
+sudo ./install.sh
+```
+
 ## Client side development
 _Section to be completed soon!_
 ## Server side development
