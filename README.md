@@ -1,5 +1,5 @@
 # ChristmasSocks Remote Server Management Software
-Another one of the many remote server management utilities available out there. I build this mainly out of
+Another one of the many available remote server management utilities. I built this mainly out of
 personal interest and for accelerating my workflow. This project essentially consists of several
 [epoll](https://linux.die.net/man/4/epoll) driven servers that whom receive commands from a master client.
 ## Table of Contents
