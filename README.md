@@ -28,6 +28,11 @@ The architecture consists of the following components:
 | **Master** | This node queries all the worker nodes. Information returned from the nodes is then neatly displayed on the master node for analysis |
 | **Worker** | These nodes accept commands from the master node. Commands can then return information about each node, for example whether the node is up, the CPU temperature, among others |
 ## Server side development
+All instructions are to be carried out relative to the following directory:
+```
+/path/to/ChristmasSocks/ChristmasSocks
+```
+Ensure that the `configure.py` script is executable.
 ### Static analysis
 To lint the C++ source, run:
 ```bash
