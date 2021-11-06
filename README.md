@@ -9,6 +9,7 @@ personal interest and for accelerating my workflow. This project essentially con
     - [Setting up the server](#setting-up-the-server)
       - [Step 1](#step-1)
       - [Step 2](#step-2)
+      - [Step 3](#step-3)
   - [Client side development](#client-side-development)
   - [Server side development](#server-side-development)
     - [Static analysis](#static-analysis)
@@ -51,6 +52,34 @@ Then render the installation script executable:
 ```bash
 chmod +x install.sh
 ```
+#### Step 3
+Run the installer as root:
+```bash
+sudo ./install.sh
+```
+Specify to install product:
+```bash
+Select setup type:
+[1] -> Install product
+[2] -> Uninstall product
+> 1
+```
+Next specify under which Linux user this program will run:
+```bash
+Please enter a valid Linux user:
+```
+When prompted, enter the IPv4 address of the master host:
+```bash
+The following parameters must be entered by a human:
+
+1. Specify the master host [default: 127.0.0.1]:
+```
+The server **will only accept** connections from this host. Next set the bind IP:
+```bash
+2. Specify the bind IP [default: 127.0.0.1]: 0.0.0.0
+```
+Note that `0.0.0.0` typically translates to "accept connections from all interfaces," however this software
+will block any hosts other than the master host.
 ## Client side development
 _Section to be completed soon!_
 ## Server side development
