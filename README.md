@@ -15,7 +15,6 @@ personal interest and for accelerating my workflow. This project essentially con
       - [Testing with Docker](#testing-with-docker)
       - [Manual testing](#manual-testing)
     - [Shortcuts](#shortcuts)
-    - [Testing hardware](#testing-hardware)
 
 ## Synopsis
 The following block diagram summarizes the distributed architecture underpinning this software:
@@ -128,9 +127,3 @@ _Run end to end Docker test_:
 ```bash
 docker build -t socks . && docker run -it --rm socks
 ```
-### Testing hardware
-I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table
-using a plexiglass mount.  To make these mounts, I simply print out the `layout.pages` document under the
-`docs` folder, paste the printout onto a plexiglass sheet and cut out the shape according to the template.
-The circles are nothing than drill hole markers. Unsurprisingly, this section is completely optional, but this
-happens to be a convenient place to keep these diagrams.
