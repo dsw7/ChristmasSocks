@@ -11,7 +11,7 @@ from socket import (
 PATH_THIS = path.dirname(__file__)
 
 def read_socks_config_file() -> ConfigParser:
-    ini_file = path.join(PATH_THIS, 'socks.ini')
+    ini_file = path.join(PATH_THIS, 'configs', 'socks.ini')
     if not path.exists(ini_file):
         sys.exit('Could not open {}'.format(ini_file))
 
