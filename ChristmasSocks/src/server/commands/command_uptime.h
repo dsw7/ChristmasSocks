@@ -1,0 +1,15 @@
+#ifndef COMMAND_UPDATE_H
+#define COMMAND_UPDATE_H
+
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <linux/kernel.h> // Access the sysinfo struct
+#include <linux/unistd.h> // For making the system calls
+#include <sys/sysinfo.h>
+#include "logging.h"
+
+std::string get_hhmmss_from_secs(long &seconds);
+std::string get_system_update();
+
+#endif
