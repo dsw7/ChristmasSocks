@@ -2,7 +2,6 @@
 
 import sys
 from os import path, get_terminal_size
-from uuid import uuid4
 from functools import lru_cache
 from configparser import ConfigParser
 from click import (
@@ -50,25 +49,22 @@ def ping(obj) -> None:
 
         if not client_handle.connect():
             status['status'] = 'DEAD'
-            status['send'] = 'X'
-            status['recv'] = 'X'
+            status['uptime'] = '-'
             statuses[server] = status
             continue
 
-        msg = uuid4().__str__()[0:13]
         status['status'] = 'ALIVE'
-        status['send'] = msg
-        status['recv'] = client_handle.send(msg)
+        status['uptime'] = client_handle.send('uptime')
 
         client_handle.disconnect()
         statuses[server] = status
 
     secho(get_separator(TERMINAL_SIZE))
-    secho(' {:<20} {:<20} {:<20} {:<20}'.format('HOST', 'STATUS', 'SEND', 'RECV'))
+    secho(' {:<20} {:<20} {:<20}'.format('HOST', 'STATUS', 'UPTIME (HH:MM:SS)'))
     secho(get_separator(TERMINAL_SIZE))
 
     for server, status in statuses.items():
-        secho(' {:<20} {:<20} {:<20} {:<20}'.format(server, status['status'], status['send'], status['recv']))
+        secho(' {:<20} {:<20} {:<20}'.format(server, status['status'], status['uptime']))
 
     secho(get_separator(TERMINAL_SIZE))
 
