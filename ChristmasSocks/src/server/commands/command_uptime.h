@@ -10,6 +10,9 @@
 #include "logger.h"
 
 std::string get_hhmmss_from_secs(long &seconds);
-std::string get_system_update();
+
+namespace Commands {
+    std::string get_system_update();
+}
 
 #endif

@@ -12,18 +12,22 @@ std::string get_hhmmss_from_secs(long &net_seconds)
     return hours + ":" + minutes + ";" + seconds;
 }
 
-/* https://linux.die.net/man/2/sysinfo */
-std::string get_system_uptime()
-{
-    RootLogger::info("Acquiring operating system uptime");
-    struct sysinfo info;
+namespace Commands {
 
-    int rv = sysinfo(&info);
-    if (rv == 0)
+    /* https://linux.die.net/man/2/sysinfo */
+    std::string get_system_uptime()
     {
-        return get_hhmmss_from_secs(info.uptime);
+        RootLogger::info("Acquiring operating system uptime");
+        struct sysinfo info;
+
+        int rv = sysinfo(&info);
+        if (rv == 0)
+        {
+            return get_hhmmss_from_secs(info.uptime);
+        }
+
+        RootLogger::error(strerror(errno));
+        return "ERROR";
     }
 
-    RootLogger::error(strerror(errno));
-    return "ERROR";
 }

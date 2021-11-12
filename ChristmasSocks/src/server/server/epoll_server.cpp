@@ -84,6 +84,10 @@ void ServerImplMain::handle_incoming_message()
     {
         this->message = Commands::command_sleep();
     }
+    else if (this->message.compare("uptime") == 0)
+    {
+        this->message = Commands::command_uptime();
+    }
     else
     {
         EventLogger::info("Server received unrecognized command: '" + this->message + "'", this->epoll_fd);
