@@ -4,6 +4,8 @@ personal interest and for accelerating my workflow. This project essentially con
 [epoll](https://linux.die.net/man/4/epoll) driven servers whom receive commands from a master client.
 ## Table of Contents
   - [Synopsis](#synopsis)
+    - [The master node](#the-master-node)
+    - [The worker node](#the-worker-node)
   - [Installation](#installation)
     - [Setting up the client](#setting-up-the-client)
     - [Setting up the server](#setting-up-the-server)
@@ -36,6 +38,10 @@ The architecture consists of the following components:
 | --------- | ----------- |
 | **Master** | This node queries all the worker nodes. Information returned from the nodes is then neatly displayed on the master node for analysis |
 | **Worker** | These nodes accept commands from the master node. Commands can then return information about each node, for example whether the node is up, the CPU temperature, among others |
+### The master node
+_Section to be completed soon!_
+### The worker node
+Each worker node consists of the following components:
 ## Installation
 ### Setting up the client
 _Section to be completed soon!_
