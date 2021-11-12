@@ -48,6 +48,6 @@ class TestCommands:
     def test_help(self) -> None:
         assert '> List of commands:' in self.client.send('help')
 
-    def test_uptime(self) -> None:
+    def test_uptime(self) -> None:  # Ensure that a string in HH:MM:SS form is returned
         pattern = compile(r'[0-9]{2}:[0-9]{2}:[0-9]{2}')
         assert pattern.match(self.client.send('uptime'))
