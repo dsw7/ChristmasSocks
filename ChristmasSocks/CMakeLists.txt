@@ -71,4 +71,5 @@ add_executable(${OUTPUT_NAME}
     "src/server/utilities/get_line_breaks.cpp"
     "src/server/commands/command_help.cpp"
     "src/server/commands/command_sleep.cpp"
+    "src/server/commands/command_uptime.cpp"
 )
