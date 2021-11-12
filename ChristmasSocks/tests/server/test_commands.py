@@ -1,6 +1,7 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 # pylint: disable=E1101  # Disable has no '__name__' member
 
+from re import compile
 from pytest import mark
 from utils import (
     Client,
@@ -46,3 +47,7 @@ class TestCommands:
 
     def test_help(self) -> None:
         assert '> List of commands:' in self.client.send('help')
+
+    def test_uptime(self) -> None:
+        pattern = compile(r'[0-9]{2}:[0-9]{2}:[0-9]{2}')
+        assert pattern.match(self.client.send('uptime'))
