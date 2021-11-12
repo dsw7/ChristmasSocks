@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import sys
-from os import path
+from os import path, get_terminal_size
+from uuid import uuid4
+from functools import lru_cache
 from configparser import ConfigParser
 from click import (
     group,
@@ -11,7 +13,12 @@ from click import (
 )
 from client import Client
 
+TERMINAL_SIZE = get_terminal_size().columns
 PATH_THIS = path.dirname(__file__)
+
+@lru_cache
+def get_separator(size: int) -> str:
+    return u'\u2500' * size
 
 def read_socks_config_file() -> ConfigParser:
     ini_file = path.join(PATH_THIS, 'configs', 'socks.ini')
@@ -36,19 +43,34 @@ def main(context) -> None:
 @main.command(help='Ping all machines')
 @pass_obj
 def ping(obj) -> None:
-    secho('Pinging all workers', fg='green')
+    statuses = {}
 
     for server, client_handle in obj.items():
+        status = {}
+
         if not client_handle.connect():
-            secho('Host {} is dead'.format(server), fg='red')
+            status['status'] = 'DEAD'
+            status['send'] = 'X'
+            status['recv'] = 'X'
+            statuses[server] = status
             continue
 
-        if client_handle.send('echo') == 'echo':
-            secho('Host {} is alive'.format(server), fg='green')
-        else:
-            secho('Host {} returned unknown reply'.format(server), fg='yellow')
+        msg = uuid4().__str__()[0:13]
+        status['status'] = 'ALIVE'
+        status['send'] = msg
+        status['recv'] = client_handle.send(msg)
 
         client_handle.disconnect()
+        statuses[server] = status
+
+    secho(get_separator(TERMINAL_SIZE))
+    secho(' {:<20} {:<20} {:<20} {:<20}'.format('HOST', 'STATUS', 'SEND', 'RECV'))
+    secho(get_separator(TERMINAL_SIZE))
+
+    for server, status in statuses.items():
+        secho(' {:<20} {:<20} {:<20} {:<20}'.format(server, status['status'], status['send'], status['recv']))
+
+    secho(get_separator(TERMINAL_SIZE))
 
 if __name__ == '__main__':
     main()
