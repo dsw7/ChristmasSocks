@@ -1,4 +1,4 @@
-#include "commands.h"
+#include "command_help.h"
 
 namespace Commands {
 
@@ -11,13 +11,6 @@ namespace Commands {
         "> exit  = Shut down the server\n"
         "> \n"
         "> Unknown commands will simply be echoed back to the client";
-    }
-
-    std::string command_sleep()
-    {
-        RootLogger::info("Received sleep command. Sleeping for " + std::to_string(MAX_SLEEP_DURATION_USEC) + " microseconds");
-        usleep(MAX_SLEEP_DURATION_USEC);
-        return "Success";
     }
 
 }

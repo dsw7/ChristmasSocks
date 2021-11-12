@@ -50,6 +50,7 @@ include_directories(
     "src/server/frontend"
     "src/server/server"
     "src/server/utilities"
+    "src/server/commands"
 )
 
 # Avoid using glob patterns
@@ -64,9 +65,10 @@ add_executable(${OUTPUT_NAME}
     "src/server/server/incoming_client_primitives.cpp"
     "src/server/server/server_primitives.cpp"
     "src/server/server/log_system_configs.cpp"
-    "src/server/server/commands.cpp"
     "src/server/utilities/constants.cpp"
     "src/server/utilities/utilities.cpp"
     "src/server/utilities/ipc_signal_registers.cpp"
     "src/server/utilities/get_line_breaks.cpp"
+    "src/server/commands/command_help.cpp"
+    "src/server/commands/command_sleep.cpp"
 )

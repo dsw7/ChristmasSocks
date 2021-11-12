@@ -10,7 +10,8 @@
 #include "server_primitives.h"
 #include "incoming_client_primitives.h"
 #include "constants.h"
-#include "commands.h"
+#include "command_help.h"
+#include "command_sleep.h"
 
 class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
