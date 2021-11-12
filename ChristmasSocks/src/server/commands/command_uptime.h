@@ -12,7 +12,7 @@
 std::string get_hhmmss_from_secs(long &seconds);
 
 namespace Commands {
-    std::string command_get_system_update();
+    std::string command_get_system_uptime();
 }
 
 #endif
