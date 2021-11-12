@@ -5,9 +5,9 @@ std::string get_hhmmss_from_secs(long &net_seconds)
     int net_minutes = net_seconds / 60;
     int net_hours = net_minutes / 60;
 
-    std::string hours = std::string(int(net_hours));
-    std::string minutes = std::string(int(net_minutes % 60));
-    std::string seconds = std::string(int(net_seconds % 60));
+    std::string hours = std::to_string(int(net_hours));
+    std::string minutes = std::to_string(int(net_minutes % 60));
+    std::string seconds = std::to_string(int(net_seconds % 60));
 
     return hours + ":" + minutes + ";" + seconds;
 }
