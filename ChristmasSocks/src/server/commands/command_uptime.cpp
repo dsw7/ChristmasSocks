@@ -9,7 +9,22 @@ std::string get_hhmmss_from_secs(long &net_seconds)
     std::string minutes = std::to_string(int(net_minutes % 60));
     std::string seconds = std::to_string(int(net_seconds % 60));
 
-    return hours + ":" + minutes + ";" + seconds;
+    if (hours.size() < 2)
+    {
+        hours.insert(0, "0");
+    }
+
+    if (minutes.size() < 2)
+    {
+        minutes.insert(0, "0");
+    }
+
+    if (seconds.size() < 2)
+    {
+        seconds.insert(0, "0");
+    }
+
+    return hours + ":" + minutes + ":" + seconds;
 }
 
 namespace Commands {
