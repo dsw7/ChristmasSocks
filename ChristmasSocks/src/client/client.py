@@ -13,7 +13,9 @@ class Client:
         self.host = host
         self.socket = None
 
-    def connect(self) -> None:
+    def connect(self) -> bool:
+        status = True
+
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(self.client_configs.getfloat('sock_timeout'))
 
@@ -23,12 +25,14 @@ class Client:
             try:
                 sleep(0.02)
                 self.socket.connect((self.host, port))
-            except ConnectionRefusedError:
-                continue
+            except OSError: # socket.timeout error is a subclass of OSError
+                continue    # See https://docs.python.org/3/library/socket.html#socket.timeout
             else:
                 break
         else:
-            raise ConnectionRefusedError
+            status = False
+
+        return status
 
     def disconnect(self) -> None:
         self.socket.close()

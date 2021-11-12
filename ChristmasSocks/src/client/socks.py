@@ -37,10 +37,17 @@ def main(context) -> None:
 @pass_obj
 def ping(obj) -> None:
     secho('Pinging all workers', fg='green')
+
     for server, client_handle in obj.items():
-        client_handle.connect()
-        reply = client_handle.send('echo')
-        secho('Host {} replied with message: "{}"'.format(server, reply))
+        if not client_handle.connect():
+            secho('Host {} is dead'.format(server), fg='red')
+            continue
+
+        if client_handle.send('echo') == 'echo':
+            secho('Host {} is alive'.format(server), fg='green')
+        else:
+            secho('Host {} returned unknown reply'.format(server), fg='yellow')
+
         client_handle.disconnect()
 
 if __name__ == '__main__':
