@@ -15,7 +15,7 @@ std::string get_hhmmss_from_secs(long &net_seconds)
 namespace Commands {
 
     /* https://linux.die.net/man/2/sysinfo */
-    std::string get_system_uptime()
+    std::string command_get_system_uptime()
     {
         RootLogger::info("Acquiring operating system uptime");
         struct sysinfo info;

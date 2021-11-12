@@ -86,7 +86,7 @@ void ServerImplMain::handle_incoming_message()
     }
     else if (this->message.compare("uptime") == 0)
     {
-        this->message = Commands::command_uptime();
+        this->message = Commands::command_get_system_uptime();
     }
     else
     {
