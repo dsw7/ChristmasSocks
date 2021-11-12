@@ -42,6 +42,11 @@ The architecture consists of the following components:
 _Section to be completed soon!_
 ### The worker node
 Each worker node consists of the following components:
+| Component | Description |
+| --------- | ----------- |
+| `/usr/bin/socks` | This is the server that accepts commands from the master |
+| `/etc/socks.ini` | This is where the server looks for system configurations |
+| `/etc/systemd/system/socks.service` | This is `systemd` unit file that drives the `socks` service |
 ## Installation
 ### Setting up the client
 _Section to be completed soon!_
