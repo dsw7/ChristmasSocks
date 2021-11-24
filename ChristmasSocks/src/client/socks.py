@@ -2,6 +2,7 @@
 
 import sys
 from os import path, get_terminal_size
+from curses import wrapper
 from functools import lru_cache
 from configparser import ConfigParser
 from click import (
@@ -11,7 +12,7 @@ from click import (
     secho
 )
 from core.client import Client
-from core.panel import BasicPanel
+from core.panel import basic_panel
 
 TERMINAL_SIZE = get_terminal_size().columns
 PATH_THIS = path.dirname(__file__)
@@ -72,7 +73,7 @@ def ping(obj) -> None:
 @main.command(help='Open control panel')
 @pass_obj
 def panel(obj) -> None:
-    BasicPanel().execute_main()
+    wrapper(basic_panel)
 
 if __name__ == '__main__':
     main()
