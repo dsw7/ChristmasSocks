@@ -1,11 +1,14 @@
 import curses
 
-print("Preparing to initialize screen...")
-screen = curses.initscr()
-print("Screen initialized.")
-screen.refresh()
 
-curses.napms(2000)
-curses.endwin()
+class ControlPanel:
 
-print("Window ended.")
+    def __init__(self) -> None:
+        self.screen = None
+
+    def execute_main(self) -> None:
+        self.screen = curses.initscr()
+        self.screen.refresh()
+
+        curses.napms(2000)
+        curses.endwin()
