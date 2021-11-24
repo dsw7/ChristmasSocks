@@ -68,5 +68,10 @@ def ping(obj) -> None:
 
     secho(get_separator(TERMINAL_SIZE))
 
+@main.command(help='Open control panel')
+@pass_obj
+def panel(obj) -> None:
+    pass
+
 if __name__ == '__main__':
     main()
