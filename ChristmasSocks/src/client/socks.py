@@ -10,7 +10,7 @@ from click import (
     pass_obj,
     secho
 )
-from client import Client
+from core.client import Client
 
 TERMINAL_SIZE = get_terminal_size().columns
 PATH_THIS = path.dirname(__file__)
