@@ -13,7 +13,7 @@ class ControlPanelBase(ABC):
         self.stdscr.addstr(2, 0, u'\u2500' * self.columns)
 
     def footer(self) -> None:
-        self.stdscr.addstr(self.rows - 2, 1, ' Press any button to exit ', curses.A_REVERSE)
+        self.stdscr.addstr(curses.LINES - 1, 1, ' Press any button to exit ', curses.A_REVERSE)
 
     @abstractmethod
     def core(self) -> None:
@@ -24,13 +24,3 @@ class ControlPanelBase(ABC):
         self.footer()
         self.stdscr.refresh()
         self.core()
-
-
-class BasicPanel(ControlPanelBase):
-
-    def core(self) -> None:
-        self.stdscr.getch()
-
-
-def basic_panel(stdscr) -> None:
-    BasicPanel(stdscr).main()

@@ -12,7 +12,6 @@ from click import (
     secho
 )
 from core.client import Client
-from core.panel import basic_panel
 
 TERMINAL_SIZE = get_terminal_size().columns
 PATH_THIS = path.dirname(__file__)
@@ -73,7 +72,8 @@ def ping(obj) -> None:
 @main.command(help='Open control panel')
 @pass_obj
 def panel(obj) -> None:
-    wrapper(basic_panel)
+    from core.panel_ping import panel_ping  # Import here to ensure lazy evaluation
+    wrapper(panel_ping)
 
 if __name__ == '__main__':
     main()
