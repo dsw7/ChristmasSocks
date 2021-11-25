@@ -1,1 +1,1 @@
-PROJECT_TITLE = 'ChristmasSocks Remote Server Management Software'
+PROJECT_TITLE = '--- ChristmasSocks Remote Server Management Software ---'
