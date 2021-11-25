@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import curses
+from core.consts import PROJECT_TITLE
 
 
 class ControlPanelBase(ABC):
@@ -10,6 +11,7 @@ class ControlPanelBase(ABC):
 
     def header(self) -> None:
         self.stdscr.addstr(0, 0, u'\u2500' * self.columns)
+        self.stdscr.addstr(1, (self.columns // 2) - (len(PROJECT_TITLE) // 2), PROJECT_TITLE, curses.A_BOLD)
         self.stdscr.addstr(2, 0, u'\u2500' * self.columns)
 
     def footer(self) -> None:
