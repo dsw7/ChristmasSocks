@@ -14,7 +14,7 @@ class ControlPanelBase(ABC):
 
         # The args follow: lines, columns, y, x
         self.header = self.stdscr.subwin(3, self.columns, 0, 0)
-        self.footer = self.stdscr.subwin(3, self.columns, self.rows - 3, 0)
+        self.footer = self.stdscr.subwin(1, self.columns, self.rows - 1, 0)
 
         header_max_y, _ = self.header.getmaxyx()
         self.body = self.stdscr.subwin(self.footer.getparyx()[0] - header_max_y, self.columns, header_max_y, 0)
@@ -24,8 +24,8 @@ class ControlPanelBase(ABC):
         self.header.box()
 
     def display_footer(self) -> None:
-        self.footer.addstr(1, 2, ' Press any button to exit ', curses.A_REVERSE)
-        self.footer.box()
+        self.footer.addstr(0, 2, ' Press any button to exit ', curses.A_REVERSE)
+        self.footer.bkgd(curses.A_REVERSE)
 
     def display_body(self) -> None:
         self.body.box()
