@@ -9,6 +9,9 @@ class ControlPanelBase(ABC):
         self.stdscr = stdscr
         self.rows, self.columns = self.stdscr.getmaxyx()
 
+        # Disable annoying blinking cursor
+        curses.curs_set(0)
+
         # The args follow: lines, columns, y, x)
         self.header = self.stdscr.subwin(3, self.columns, 0, 0)
         self.footer = self.stdscr.subwin(3, self.columns, self.rows - 3, 0)
