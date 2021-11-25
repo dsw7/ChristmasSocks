@@ -73,7 +73,7 @@ def ping(obj) -> None:
 @pass_obj
 def panel(obj) -> None:
     from core.panel_ping import panel_ping  # Import here to ensure lazy evaluation
-    wrapper(panel_ping)
+    wrapper(panel_ping, obj)
 
 if __name__ == '__main__':
     main()

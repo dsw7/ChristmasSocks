@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod
 import curses
+from abc import ABC, abstractmethod
 from core.consts import PROJECT_TITLE
 
 
 class ControlPanelBase(ABC):
 
-    def __init__(self, stdscr) -> None:
+    def __init__(self, stdscr: curses.window, clients: dict) -> None:
         self.stdscr = stdscr
         self.rows, self.columns = self.stdscr.getmaxyx()
 
