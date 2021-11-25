@@ -9,6 +9,9 @@ class ControlPanelBase(ABC):
         self.stdscr = stdscr
         self.rows, self.columns = self.stdscr.getmaxyx()
 
+        self.clients = clients
+        self.results = {}
+
         # Disable annoying blinking cursor
         curses.curs_set(0)
 
@@ -24,7 +27,7 @@ class ControlPanelBase(ABC):
         self.header.box()
 
     def display_footer(self) -> None:
-        self.footer.addstr(0, 2, ' Press any button to exit ', curses.A_REVERSE)
+        self.footer.addstr(0, 1, 'Press any key to quit', curses.A_REVERSE)
         self.footer.bkgd(curses.A_REVERSE)
 
     def display_body(self) -> None:
