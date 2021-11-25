@@ -15,7 +15,6 @@ class ControlPanelBase(ABC):
         self.stdscr.addstr(2, 0, u'\u2500' * self.columns)
 
     def footer(self) -> None:
-        #self.stdscr.addstr(curses.LINES - 1, 1, ' Press any button to exit ', curses.A_REVERSE)
         self.stdscr.addstr(self.rows - 1, 1, ' Press any button to exit ', curses.A_REVERSE)
 
     @abstractmethod
