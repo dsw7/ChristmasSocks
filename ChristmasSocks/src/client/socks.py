@@ -1,27 +1,18 @@
 #!/usr/bin/env python3
 
 import sys
-from os import path, get_terminal_size
+from os import path
 from curses import wrapper
-from functools import lru_cache
 from configparser import ConfigParser
 from click import (
     group,
     pass_context,
-    pass_obj,
-    secho
+    pass_obj
 )
 from core.client import Client
 
-TERMINAL_SIZE = get_terminal_size().columns
-PATH_THIS = path.dirname(__file__)
-
-@lru_cache
-def get_separator(size: int) -> str:
-    return u'\u2500' * size
-
 def read_socks_config_file() -> ConfigParser:
-    ini_file = path.join(PATH_THIS, 'configs', 'socks.ini')
+    ini_file = path.join(path.dirname(__file__), 'configs', 'socks.ini')
     if not path.exists(ini_file):
         sys.exit('Could not open {}'.format(ini_file))
 
@@ -36,42 +27,11 @@ def main(context) -> None:
     configs = read_socks_config_file()
 
     for server in configs['servers'].values():
-        context.obj[server] = Client(
-            client_configs=configs['client-configs'], host=server
-        )
+        context.obj[server] = Client(client_configs=configs['client-configs'], host=server)
 
-@main.command(help='Ping all machines')
+@main.command(help='Open curses panel displaying machine status and uptime')
 @pass_obj
 def ping(obj) -> None:
-    statuses = {}
-
-    for server, client_handle in obj.items():
-        status = {}
-
-        if not client_handle.connect():
-            status['status'] = 'DEAD'
-            status['uptime'] = '-'
-            statuses[server] = status
-            continue
-
-        status['status'] = 'ALIVE'
-        status['uptime'] = client_handle.send('uptime')
-
-        client_handle.disconnect()
-        statuses[server] = status
-
-    secho(get_separator(TERMINAL_SIZE))
-    secho(' {:<20} {:<20} {:<20}'.format('HOST', 'STATUS', 'UPTIME (HH:MM:SS)'))
-    secho(get_separator(TERMINAL_SIZE))
-
-    for server, status in statuses.items():
-        secho(' {:<20} {:<20} {:<20}'.format(server, status['status'], status['uptime']))
-
-    secho(get_separator(TERMINAL_SIZE))
-
-@main.command(help='Open control panel')
-@pass_obj
-def panel(obj) -> None:
     from core.panel_ping import panel_ping  # Import here to ensure lazy evaluation
     wrapper(panel_ping, obj)
 
