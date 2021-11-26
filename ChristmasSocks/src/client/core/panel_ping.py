@@ -1,4 +1,5 @@
 import curses
+from concurrent import futures
 from core.panel_base import ControlPanelBase
 
 HEADER = ' {:<20} {:<20} {:<20}'.format('HOST', 'STATUS', 'UPTIME (HH:MM:SS)')
@@ -33,11 +34,27 @@ class PanelPing(ControlPanelBase):
             self.body.addstr(index, 3 + 1 * OFFSET, status['status'])
             self.body.addstr(index, 3 + 2 * OFFSET, status['uptime'])
 
+    def update_body(self) -> None:
+
+        while self.run_program:
+            self.ping_servers()
+            self.render_body()
+            self.body.refresh()
+            self.stdscr.refresh()
+            curses.napms(250)
+
+    def wait_for_user_input(self) -> None:
+
+        while self.run_program:
+            if self.stdscr.getch() == ord('q'):
+                self.run_program = False
+
     def core(self) -> None:
         self.render_subwin_header()
-        self.ping_servers()
-        self.render_body()
-        self.stdscr.getch()
+
+        with futures.ThreadPoolExecutor() as executor:
+            executor.submit(self.update_body)
+            executor.submit(self.wait_for_user_input)
 
 
 # See https://docs.python.org/3/howto/curses.html#starting-and-ending-a-curses-application

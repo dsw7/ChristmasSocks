@@ -22,12 +22,14 @@ class ControlPanelBase(ABC):
         header_max_y, _ = self.header.getmaxyx()
         self.body = self.stdscr.subwin(self.footer.getparyx()[0] - header_max_y, self.columns, header_max_y, 0)
 
+        self.run_program = True
+
     def display_header(self) -> None:
         self.header.addstr(1, (self.columns // 2) - (len(PROJECT_TITLE) // 2), PROJECT_TITLE, curses.A_BOLD)
         self.header.box()
 
     def display_footer(self) -> None:
-        self.footer.addstr(0, 1, 'Press any key to quit', curses.A_REVERSE)
+        self.footer.addstr(0, 1, 'Press "q" to quit', curses.A_REVERSE)
         self.footer.bkgd(curses.A_REVERSE)
 
     def display_body(self) -> None:
