@@ -32,9 +32,6 @@ class ControlPanelBase(ABC):
         self.footer.addstr(0, 1, 'Press "q" to quit', curses.A_REVERSE)
         self.footer.bkgd(curses.A_REVERSE)
 
-    def display_body(self) -> None:
-        self.body.box()
-
     @abstractmethod
     def core(self) -> None:
         pass
@@ -42,5 +39,4 @@ class ControlPanelBase(ABC):
     def main(self) -> None:
         self.display_header()
         self.display_footer()
-        self.display_body()
         self.core()

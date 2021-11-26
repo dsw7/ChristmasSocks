@@ -32,6 +32,9 @@ class PanelPing(ControlPanelBase):
     def render_body(self) -> None:
         for index, (server, status) in enumerate(self.results.items(), 2):  # Offset to account for header position
             self.body.addstr(index, 3 + 0 * OFFSET, server)
+
+            # Clears from cursor to EOL - so covers both the following addstr
+            self.body.clrtoeol()
             self.body.addstr(index, 3 + 1 * OFFSET, status['status'])
             self.body.addstr(index, 3 + 2 * OFFSET, status['uptime'])
 
