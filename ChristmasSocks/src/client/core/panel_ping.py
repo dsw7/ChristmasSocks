@@ -4,6 +4,7 @@ from core.panel_base import ControlPanelBase
 
 HEADER = ' {:<20} {:<20} {:<20}'.format('HOST', 'STATUS', 'UPTIME (HH:MM:SS)')
 OFFSET = 21
+CLOCK_PERIOD_MSEC = 250
 
 
 class PanelPing(ControlPanelBase):
@@ -41,10 +42,9 @@ class PanelPing(ControlPanelBase):
             self.render_body()
             self.body.refresh()
             self.stdscr.refresh()
-            curses.napms(250)
+            curses.napms(CLOCK_PERIOD_MSEC)
 
     def wait_for_user_input(self) -> None:
-
         while self.run_program:
             if self.stdscr.getch() == ord('q'):
                 self.run_program = False
