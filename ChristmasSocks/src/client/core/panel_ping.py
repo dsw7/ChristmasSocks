@@ -19,7 +19,7 @@ class PanelPing(ControlPanelBase):
 
     def ping_servers(self) -> None:
 
-        for server, handle in self.clients.items():
+        for server, handle in self.cli_params['clients'].items():
             status = {}
 
             if not handle.connect():
@@ -66,5 +66,5 @@ class PanelPing(ControlPanelBase):
 
 
 # See https://docs.python.org/3/howto/curses.html#starting-and-ending-a-curses-application
-def panel_ping(stdscr: curses.window, clients: dict) -> None:
-    PanelPing(stdscr, clients).main()
+def panel_ping(stdscr: curses.window, cli_params: dict) -> None:
+    PanelPing(stdscr, cli_params).main()

@@ -5,11 +5,11 @@ from core.consts import PROJECT_TITLE
 
 class ControlPanelBase(ABC):
 
-    def __init__(self, stdscr: curses.window, clients: dict) -> None:
+    def __init__(self, stdscr: curses.window, cli_params: dict) -> None:
         self.stdscr = stdscr
         self.rows, self.columns = self.stdscr.getmaxyx()
 
-        self.clients = clients
+        self.cli_params = cli_params
         self.results = {}
 
         # Disable annoying blinking cursor

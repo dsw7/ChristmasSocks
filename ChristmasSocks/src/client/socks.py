@@ -26,8 +26,11 @@ def main(context) -> None:
     context.ensure_object(dict)
     configs = read_socks_config_file()
 
+    context.obj['configs'] = configs
+    context.obj['clients'] = {}
+
     for server in configs['servers'].values():
-        context.obj[server] = Client(client_configs=configs['client-configs'], host=server)
+        context.obj['clients'][server] = Client(client_configs=configs['client-configs'], host=server)
 
 @main.command(help='Open curses panel displaying machine status and uptime')
 @pass_obj
