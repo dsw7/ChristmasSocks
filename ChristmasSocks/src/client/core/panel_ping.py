@@ -11,7 +11,11 @@ CLOCK_PERIOD_MSEC = 250
 class PanelPing(ControlPanelBase):
 
     def render_subwin_header(self) -> None:
-        self.body.addstr(1, PANEL_MARGIN - 1, HEADER + ' ' * (self.body.getmaxyx()[1] - len(HEADER) - 4), curses.A_REVERSE)
+        self.body.addstr(1, PANEL_MARGIN - 1, ' Panel type:')
+        self.body.addstr(1, PANEL_MARGIN + 20, 'PING', curses.A_UNDERLINE)
+        self.body.addstr(2, PANEL_MARGIN - 1, ' Refresh frequency:')
+        self.body.addstr(2, PANEL_MARGIN + 20, '{} Hz'.format(1 / (CLOCK_PERIOD_MSEC / 1000)))
+        self.body.addstr(4, PANEL_MARGIN - 1, HEADER + ' ' * (self.body.getmaxyx()[1] - len(HEADER) - 4), curses.A_REVERSE)
 
     def ping_servers(self) -> None:
 
@@ -31,7 +35,7 @@ class PanelPing(ControlPanelBase):
             self.results[server] = status
 
     def render_body(self) -> None:
-        for index, (server, status) in enumerate(self.results.items(), 2):  # Offset to account for header position
+        for index, (server, status) in enumerate(self.results.items(), 5):  # Offset to account for header position
             self.body.addstr(index, PANEL_MARGIN + 0 * OFFSET, server)
 
             # Clears from cursor to EOL - so covers both the following addstr
