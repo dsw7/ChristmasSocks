@@ -5,16 +5,17 @@ from core.consts import PANEL_MARGIN
 
 HEADER = ' {:<20} {:<20} {:<20}'.format('HOST', 'STATUS', 'UPTIME (HH:MM:SS)')
 OFFSET = 21
-CLOCK_PERIOD_MSEC = 250
 
 
 class PanelPing(ControlPanelBase):
 
     def render_subwin_header(self) -> None:
+        frequency = 1 / (self.cli_params['configs']['frontend'].getint('panel_refresh_period_msec') / 1000)
+
         self.body.addstr(1, PANEL_MARGIN - 1, ' Panel type:')
         self.body.addstr(1, PANEL_MARGIN + 20, 'PING', curses.A_UNDERLINE)
         self.body.addstr(2, PANEL_MARGIN - 1, ' Refresh frequency:')
-        self.body.addstr(2, PANEL_MARGIN + 20, '{} Hz'.format(1 / (CLOCK_PERIOD_MSEC / 1000)))
+        self.body.addstr(2, PANEL_MARGIN + 20, '{} Hz'.format(frequency))
         self.body.addstr(4, PANEL_MARGIN - 1, HEADER + ' ' * (self.body.getmaxyx()[1] - len(HEADER) - 4), curses.A_REVERSE)
 
     def ping_servers(self) -> None:
@@ -50,7 +51,7 @@ class PanelPing(ControlPanelBase):
             self.render_body()
             self.body.refresh()
             self.stdscr.refresh()
-            curses.napms(CLOCK_PERIOD_MSEC)
+            curses.napms(self.cli_params['configs']['frontend'].getint('panel_refresh_period_msec'))
 
     def wait_for_user_input(self) -> None:
         while self.run_program:
