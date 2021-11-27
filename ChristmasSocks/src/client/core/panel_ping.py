@@ -1,6 +1,7 @@
 import curses
 from concurrent import futures
 from core.panel_base import ControlPanelBase
+from core.consts import PANEL_MARGIN
 
 HEADER = ' {:<20} {:<20} {:<20}'.format('HOST', 'STATUS', 'UPTIME (HH:MM:SS)')
 OFFSET = 21
@@ -10,7 +11,7 @@ CLOCK_PERIOD_MSEC = 250
 class PanelPing(ControlPanelBase):
 
     def render_subwin_header(self) -> None:
-        self.body.addstr(1, 2, HEADER + ' ' * (self.body.getmaxyx()[1] - len(HEADER) - 4), curses.A_REVERSE)
+        self.body.addstr(1, PANEL_MARGIN - 1, HEADER + ' ' * (self.body.getmaxyx()[1] - len(HEADER) - 4), curses.A_REVERSE)
 
     def ping_servers(self) -> None:
 
@@ -31,12 +32,12 @@ class PanelPing(ControlPanelBase):
 
     def render_body(self) -> None:
         for index, (server, status) in enumerate(self.results.items(), 2):  # Offset to account for header position
-            self.body.addstr(index, 3 + 0 * OFFSET, server)
+            self.body.addstr(index, PANEL_MARGIN + 0 * OFFSET, server)
 
             # Clears from cursor to EOL - so covers both the following addstr
             self.body.clrtoeol()
-            self.body.addstr(index, 3 + 1 * OFFSET, status['status'])
-            self.body.addstr(index, 3 + 2 * OFFSET, status['uptime'])
+            self.body.addstr(index, PANEL_MARGIN + 1 * OFFSET, status['status'])
+            self.body.addstr(index, PANEL_MARGIN + 2 * OFFSET, status['uptime'])
 
     def update_body(self) -> None:
 
