@@ -4,8 +4,9 @@
 bool resolve_master_host(std::string &host)
 {
     RootLogger::info("Attempting to resolve master host to IPv4 address");
-	hostent *struct_hostent = gethostbyname(host.c_str());
+    std::string incoming_host = host;
 
+	hostent *struct_hostent = gethostbyname(host.c_str());
 	if (struct_hostent == NULL)
 	{
         RootLogger::error("Host " + host + " is unavailable");
@@ -15,5 +16,6 @@ bool resolve_master_host(std::string &host)
 	in_addr *address = (in_addr *)struct_hostent->h_addr;
     host = inet_ntoa(*address);
 
+    RootLogger::info("Resolved '" + incoming_host + "' to " + host);
     return true;
 }
