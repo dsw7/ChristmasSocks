@@ -8,6 +8,7 @@
 #include "log_system_configs.h"
 #include "header_footer.h"
 #include "epoll_server.h"
+#include "resolve_host.h"
 
 int main(int argc, char **argv)
 {
@@ -27,6 +28,11 @@ int main(int argc, char **argv)
 
     display_header();
     register_ipc_signals();
+
+    if (!resolve_host(configs.master))
+    {
+        exit(EXIT_FAILURE);
+    }
 
     log_system_configs(configs);
 

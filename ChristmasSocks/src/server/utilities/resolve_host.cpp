@@ -12,7 +12,6 @@ bool resolve_host(std::string &host)
 	}
 
 	in_addr *address = (in_addr *)struct_hostent->h_addr;
-    //std::string ip_address = inet_ntoa(*address);
     host = inet_ntoa(*address);
 
     return true;
