@@ -69,7 +69,7 @@ add_executable(${OUTPUT_NAME}
     "src/server/utilities/utilities.cpp"
     "src/server/utilities/ipc_signal_registers.cpp"
     "src/server/utilities/get_line_breaks.cpp"
-    "src/server/utilities/resolve_hosts.cpp"
+    "src/server/utilities/resolve_host.cpp"
     "src/server/commands/command_help.cpp"
     "src/server/commands/command_sleep.cpp"
     "src/server/commands/command_uptime.cpp"
