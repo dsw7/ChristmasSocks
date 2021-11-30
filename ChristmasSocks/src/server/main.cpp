@@ -8,7 +8,7 @@
 #include "log_system_configs.h"
 #include "header_footer.h"
 #include "epoll_server.h"
-#include "resolve_host.h"
+#include "resolve_master_host.h"
 
 int main(int argc, char **argv)
 {
