@@ -1,7 +1,7 @@
 #include "resolve_master_host.h"
 
 // https://man7.org/linux/man-pages/man3/gethostbyname.3.html
-bool resolve_master_host(std::string &configs)
+bool resolve_master_host(Configs &configs)
 {
     RootLogger::info("Attempting to resolve master host to IPv4 address");
     std::string incoming_host = configs.master;
