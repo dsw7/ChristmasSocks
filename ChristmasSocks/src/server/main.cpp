@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     display_header();
     register_ipc_signals();
 
-    if (!resolve_host(configs.master))
+    if (!resolve_master_host(configs.master))
     {
         exit(EXIT_FAILURE);
     }
