@@ -1,13 +1,14 @@
-#include "resolve_host.h"
+#include "resolve_master_host.h"
 
 // https://man7.org/linux/man-pages/man3/gethostbyname.3.html
-bool resolve_host(std::string &host)
+bool resolve_master_host(std::string &host)
 {
+    RootLogger::info("Attempting to resolve master host to IPv4 address");
 	hostent *struct_hostent = gethostbyname(host.c_str());
 
 	if (struct_hostent == NULL)
 	{
-        RootLogger::info("Host " + host + " is unavailable");
+        RootLogger::error("Host " + host + " is unavailable");
         return false;
 	}
 

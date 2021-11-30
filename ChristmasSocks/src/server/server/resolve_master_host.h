@@ -1,5 +1,5 @@
-#ifndef RESOLVE_HOST_H
-#define RESOLVE_HOST_H
+#ifndef RESOLVE_MASTER_HOST_H
+#define RESOLVE_MASTER_HOST_H
 
 #include <iostream>
 #include <netdb.h>
@@ -8,6 +8,6 @@
 #include <string>
 #include "logger.h"
 
-bool resolve_host(std::string &host);
+bool resolve_master_host(std::string &host);
 
 #endif
