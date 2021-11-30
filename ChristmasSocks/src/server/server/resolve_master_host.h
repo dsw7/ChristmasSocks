@@ -7,7 +7,8 @@
 #include <arpa/inet.h>
 #include <string>
 #include "logger.h"
+#include "configs.h"
 
-bool resolve_master_host(std::string &host);
+bool resolve_master_host(Configs &configs);
 
 #endif
