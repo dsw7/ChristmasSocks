@@ -74,7 +74,7 @@ update_config_file()
     echo
 
     local master_host
-    read -p "1. Specify the master host [default: 127.0.0.1]: " master_host
+    read -p "1. Specify the master host (enter a valid hostname or IPv4 address) [default: 127.0.0.1]: " master_host
     local master_host=${master_host:-127.0.0.1}
     sed -i "s/<master>/${master_host}/" ${DST_CONFIG}/${CONFIG_FILE}
 
