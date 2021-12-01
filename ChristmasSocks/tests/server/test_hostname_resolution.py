@@ -20,7 +20,7 @@ class TestHostnameResolution:
         self.server.stop_server()
         self.client.disconnect()
 
-    def test_resolve_hostname_long_option(self) -> None:
+    def test_hostname_resolution(self) -> None:
         logfile = '{}.log'.format(stack()[0][3])
         self.server.start_server('--master=localhost', logfile=logfile)
         self.client.connect()
