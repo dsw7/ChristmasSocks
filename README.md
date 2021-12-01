@@ -85,7 +85,7 @@ When prompted, enter the IPv4 address of the master host:
 ```
 The following parameters must be entered by a human:
 
-1. Specify the master host [default: 127.0.0.1]:
+1. Specify the master host (enter a valid hostname or IPv4 address) [default: 127.0.0.1]:
 ```
 The server **will only accept** connections from this host. Next set the bind IP:
 ```
