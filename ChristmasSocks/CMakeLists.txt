@@ -73,4 +73,5 @@ add_executable(${OUTPUT_NAME}
     "src/server/commands/command_help.cpp"
     "src/server/commands/command_sleep.cpp"
     "src/server/commands/command_uptime.cpp"
+    "src/server/commands/command_get_kernel_info.cpp"
 )
