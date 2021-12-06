@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <string.h>      // For strerror()
 #include <sys/utsname.h> // For utsname struct and uname function
 #include <sstream>       // For ostringstream
 #include <iterator>      // For ostream_iterator
