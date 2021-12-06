@@ -20,11 +20,11 @@ namespace Commands {
         }
 
         std::vector<std::string> info;
-        info.push_back("Operating system name: " + std::string(result.sysname));
-        info.push_back("Node name: " + std::string(result.nodename));
-        info.push_back("Operating system release: " + std::string(result.release));
-        info.push_back("Operating system version: " + std::string(result.version));
-        info.push_back("Hardware identifier: " + std::string(result.machine));
+        info.push_back("System: " + std::string(result.sysname));
+        info.push_back("Node: " + std::string(result.nodename));
+        info.push_back("Release: " + std::string(result.release));
+        info.push_back("Version: " + std::string(result.version));
+        info.push_back("Machine: " + std::string(result.machine));
 
         const char* const delimiter = "\n";
 
