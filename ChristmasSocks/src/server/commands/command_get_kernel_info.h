@@ -1,0 +1,6 @@
+#ifndef COMMAND_GET_KERNEL_INFO_H
+#define COMMAND_GET_KERNEL_INFO_H
+
+
+
+#endif
