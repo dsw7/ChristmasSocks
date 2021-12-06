@@ -9,7 +9,15 @@ namespace Commands {
         utsname result;
 
         // https://man7.org/linux/man-pages/man2/olduname.2.html
-        uname(&result);
+        int rv = uname(&result);
+
+        if (rv == 0)
+        {
+            std::string error = strerror(errno);
+            RootLogger::error("Failed to run command. The error was:");
+            RootLogger::error(error);
+            return error;
+        }
 
         std::vector<std::string> info;
         info.push_back("Operating system name: " + std::string(result.sysname));
