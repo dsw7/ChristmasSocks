@@ -2,6 +2,8 @@
 
 std::string command_get_kernel_info()
 {
+    RootLogger::info("Acquiring operating system information");
+
     utsname result;
     uname(&result);
 

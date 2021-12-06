@@ -6,6 +6,7 @@
 #include <sys/utsname.h> // For utsname struct and uname function
 #include <sstream>       // For ostringstream
 #include <iterator>      // For ostream_iterator
+#include "logger.h"
 
 std::string command_get_kernel_info();
 
