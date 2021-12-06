@@ -1,6 +1,7 @@
 # pylint: disable=W0201  # Disable defined outside __init__
 # pylint: disable=E1101  # Disable has no '__name__' member
 
+import platform
 from re import compile
 from pytest import mark
 from utils import (
@@ -51,3 +52,19 @@ class TestCommands:
     def test_uptime(self) -> None:  # Ensure that a string in HH:MM:SS form is returned
         pattern = compile(r'[0-9]{2}:[0-9]{2}:[0-9]{2}')
         assert pattern.match(self.client.send('uptime'))
+
+    def test_get_kernel_info(self) -> None:  # Ensure that a string in HH:MM:SS form is returned
+        entries = {}
+
+        for entry in self.client.send('sysinfo').split('\n'):
+            if not entry:
+                continue
+
+            key, value = entry.split(': ')
+            entries[key] = value
+
+        assert entries['System'] == platform.system()
+        assert entries['Node'] == platform.node()
+        assert entries['Release'] == platform.release()
+        assert entries['Version'] == platform.version()
+        assert entries['Machine'] == platform.machine()
