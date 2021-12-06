@@ -88,6 +88,10 @@ void ServerImplMain::handle_incoming_message()
     {
         this->message = Commands::command_get_system_uptime();
     }
+    else if (this->message.compare("sysinfo") == 0)
+    {
+        this->message = Commands::command_get_kernel_info();
+    }
     else
     {
         EventLogger::info("Server received unrecognized command: '" + this->message + "'", this->epoll_fd);
