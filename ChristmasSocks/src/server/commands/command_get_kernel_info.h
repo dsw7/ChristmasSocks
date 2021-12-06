@@ -7,4 +7,6 @@
 #include <sstream>       // For ostringstream
 #include <iterator>      // For ostream_iterator
 
+std::string command_get_kernel_info();
+
 #endif
