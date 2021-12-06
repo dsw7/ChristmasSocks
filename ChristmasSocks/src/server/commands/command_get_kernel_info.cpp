@@ -7,6 +7,8 @@ namespace Commands {
         RootLogger::info("Acquiring operating system information");
 
         utsname result;
+
+        // https://man7.org/linux/man-pages/man2/olduname.2.html
         uname(&result);
 
         std::vector<std::string> info;
