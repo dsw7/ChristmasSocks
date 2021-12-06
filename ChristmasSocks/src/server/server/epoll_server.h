@@ -14,6 +14,7 @@
 #include "command_help.h"
 #include "command_sleep.h"
 #include "command_uptime.h"
+#include "command_get_kernel_info.h"
 
 class ServerImplMain: public ServerPrimitives, public IncomingClientPrimitives
 {
