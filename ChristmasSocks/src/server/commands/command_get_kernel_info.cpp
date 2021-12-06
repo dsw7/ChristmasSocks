@@ -11,7 +11,7 @@ namespace Commands {
         // https://man7.org/linux/man-pages/man2/olduname.2.html
         int rv = uname(&result);
 
-        if (rv == 0)
+        if (rv != 0)
         {
             std::string error = strerror(errno);
             RootLogger::error("Failed to run command. The error was:");
