@@ -8,6 +8,8 @@
 #include <iterator>      // For ostream_iterator
 #include "logger.h"
 
-std::string command_get_kernel_info();
+namespace Commands {
+    std::string command_get_kernel_info();
+}
 
 #endif
