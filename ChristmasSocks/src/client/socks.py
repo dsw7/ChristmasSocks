@@ -41,7 +41,8 @@ def ping(obj) -> None:
 @main.command(help='Open curses panel displaying machine uname results')
 @pass_obj
 def sysinfo(obj) -> None:
-    pass
+    from core.panel_sysinfo import panel_sysinfo
+    wrapper(panel_sysinfo, obj)
 
 if __name__ == '__main__':
     main()
