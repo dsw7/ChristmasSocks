@@ -38,5 +38,10 @@ def ping(obj) -> None:
     from core.panel_ping import panel_ping  # Import here to ensure lazy evaluation
     wrapper(panel_ping, obj)
 
+@main.command(help='Open curses panel displaying machine uname results')
+@pass_obj
+def sysinfo(obj) -> None:
+    pass
+
 if __name__ == '__main__':
     main()
