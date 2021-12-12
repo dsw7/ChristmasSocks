@@ -29,6 +29,18 @@ class ControlPanelBase(ABC):
             if self.stdscr.getch() == ord('q'):
                 self.run_program = False
 
+    def command_does_not_exist(self, command: str) -> bool:
+        status = []
+
+        for server, handle in self.cli_params['clients'].items():
+            if not handle.connect():
+                continue
+
+            status.append(command == handle.send(command))
+            handle.disconnect()
+
+        return any(status)
+
     def display_header(self) -> None:
         self.header.addstr(1, (self.columns // 2) - (len(PROJECT_TITLE) // 2), PROJECT_TITLE, curses.A_BOLD)
         self.header.box()

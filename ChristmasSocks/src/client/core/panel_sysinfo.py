@@ -1,3 +1,4 @@
+import sys
 import curses
 from core.panel_base import ControlPanelBase
 from core.consts import PANEL_MARGIN
@@ -57,6 +58,9 @@ class PanelSysInfo(ControlPanelBase):
             self.body.addstr(index, PANEL_MARGIN + 6 * OFFSET, status['results']['Version'])
 
     def core(self) -> None:
+        if self.command_does_not_exist('sysinfo'):
+            sys.exit('Command "sysinfo" does not exist on one or more servers!')
+
         self.render_subwin_header()
         self.run_server_command()
         self.render_body()
