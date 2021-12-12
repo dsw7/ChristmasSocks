@@ -24,14 +24,7 @@ def split_results(results: str) -> dict:
 
 class PanelSysInfo(ControlPanelBase):
 
-    def render_subwin_header(self) -> None:
-
-        self.body.addstr(1, PANEL_MARGIN - 1, ' Panel type:')
-        self.body.addstr(1, PANEL_MARGIN + 15, 'SYSINFO', curses.A_UNDERLINE)
-        self.body.addstr(4, PANEL_MARGIN - 1, HEADER + ' ' * (self.body.getmaxyx()[1] - len(HEADER) - 4), curses.A_REVERSE)
-
-    def run_sysinfo_on_servers(self) -> None:
-
+    def run_server_command(self) -> None:
         for server, handle in self.cli_params['clients'].items():
             status = {}
 
@@ -47,6 +40,12 @@ class PanelSysInfo(ControlPanelBase):
             handle.disconnect()
             self.results[server] = status
 
+    def render_subwin_header(self) -> None:
+
+        self.body.addstr(1, PANEL_MARGIN - 1, ' Panel type:')
+        self.body.addstr(1, PANEL_MARGIN + 15, 'SYSINFO', curses.A_UNDERLINE)
+        self.body.addstr(4, PANEL_MARGIN - 1, HEADER + ' ' * (self.body.getmaxyx()[1] - len(HEADER) - 4), curses.A_REVERSE)
+
     def render_body(self) -> None:
         for index, (server, status) in enumerate(self.results.items(), 5):  # Offset to account for header position
             self.body.addstr(index, PANEL_MARGIN + 0 * OFFSET, server)
@@ -59,7 +58,7 @@ class PanelSysInfo(ControlPanelBase):
 
     def core(self) -> None:
         self.render_subwin_header()
-        self.run_sysinfo_on_servers()
+        self.run_server_command()
         self.render_body()
         self.body.refresh()
         self.stdscr.refresh()
