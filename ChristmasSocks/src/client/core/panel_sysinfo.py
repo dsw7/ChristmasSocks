@@ -47,7 +47,7 @@ class PanelSysInfo(ControlPanelBase):
         self.body.addstr(4, PANEL_MARGIN - 1, HEADER + ' ' * (self.body.getmaxyx()[1] - len(HEADER) - 4), curses.A_REVERSE)
 
     def render_body(self) -> None:
-        for index, (server, status) in enumerate(self.results.items(), 5):  # Offset to account for header position
+        for index, (server, status) in enumerate(self.results.items(), 5):
             self.body.addstr(index, PANEL_MARGIN + 0 * OFFSET, server)
             self.body.addstr(index, PANEL_MARGIN + 1 * OFFSET, status['status'])
             self.body.addstr(index, PANEL_MARGIN + 2 * OFFSET, status['results']['System'])
@@ -66,6 +66,5 @@ class PanelSysInfo(ControlPanelBase):
         self.wait_for_user_input()
 
 
-# See https://docs.python.org/3/howto/curses.html#starting-and-ending-a-curses-application
 def panel_sysinfo(stdscr: curses.window, cli_params: dict) -> None:
     PanelSysInfo(stdscr, cli_params).main()

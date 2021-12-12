@@ -49,3 +49,11 @@ class ControlPanelBase(ABC):
     @abstractmethod
     def run_server_command(self) -> None:
         pass
+
+    @abstractmethod
+    def render_subwin_header(self) -> None:
+        pass
+
+    @abstractmethod
+    def render_body(self) -> None:
+        pass
