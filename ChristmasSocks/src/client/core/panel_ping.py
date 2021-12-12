@@ -52,7 +52,9 @@ class PanelPing(ControlPanelBase):
             self.stdscr.refresh()
             curses.napms(self.cli_params['configs']['frontend'].getint('panel_refresh_period_msec'))
 
-    def core(self) -> None:
+    def main(self) -> None:
+        self.display_header()
+        self.display_footer()
         self.render_subwin_header()
 
         with futures.ThreadPoolExecutor() as executor:

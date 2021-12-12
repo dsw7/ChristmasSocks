@@ -57,11 +57,14 @@ class PanelSysInfo(ControlPanelBase):
             self.body.addstr(index, PANEL_MARGIN + 5 * OFFSET, status['results']['Machine'])
             self.body.addstr(index, PANEL_MARGIN + 6 * OFFSET, status['results']['Version'])
 
-    def core(self) -> None:
+    def main(self) -> None:
         if self.command_does_not_exist('sysinfo'):
             sys.exit('Command "sysinfo" does not exist on one or more servers!')
 
+        self.display_header()
+        self.display_footer()
         self.render_subwin_header()
+
         self.run_server_command()
         self.render_body()
         self.body.refresh()
