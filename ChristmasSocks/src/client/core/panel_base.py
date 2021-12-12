@@ -1,4 +1,5 @@
 import curses
+from typing import List, Tuple
 from abc import ABC, abstractmethod
 from core.consts import PROJECT_TITLE
 
@@ -29,17 +30,21 @@ class ControlPanelBase(ABC):
             if self.stdscr.getch() == ord('q'):
                 self.run_program = False
 
-    def command_does_not_exist(self, command: str) -> bool:
-        status = []
+    def command_does_not_exist(self, command: str) -> Tuple[bool, List[str]]:
+        status, servers = [], []
 
         for server, handle in self.cli_params['clients'].items():
             if not handle.connect():
                 continue
 
-            status.append(command == handle.send(command))
-            handle.disconnect()
+            if command == handle.send(command):
+                status.append(True)
+                servers.append(server)
+            else:
+                status.append(False)
 
-        return any(status)
+            handle.disconnect()
+        return any(status), servers
 
     def display_header(self) -> None:
         self.header.addstr(1, (self.columns // 2) - (len(PROJECT_TITLE) // 2), PROJECT_TITLE, curses.A_BOLD)

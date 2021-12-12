@@ -58,8 +58,9 @@ class PanelSysInfo(ControlPanelBase):
             self.body.addstr(index, PANEL_MARGIN + 6 * OFFSET, status['results']['Version'])
 
     def main(self) -> None:
-        if self.command_does_not_exist('sysinfo'):
-            sys.exit('Command "sysinfo" does not exist on one or more servers!')
+        status, servers = self.command_does_not_exist('sysinfo')
+        if status:
+            sys.exit('Command "sysinfo" does not exist on the following servers:\n{}'.format('\n'.join(servers)))
 
         self.display_header()
         self.display_footer()
