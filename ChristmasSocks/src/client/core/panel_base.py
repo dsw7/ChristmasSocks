@@ -24,6 +24,11 @@ class ControlPanelBase(ABC):
 
         self.run_program = True
 
+    def wait_for_user_input(self) -> None:
+        while self.run_program:
+            if self.stdscr.getch() == ord('q'):
+                self.run_program = False
+
     def display_header(self) -> None:
         self.header.addstr(1, (self.columns // 2) - (len(PROJECT_TITLE) // 2), PROJECT_TITLE, curses.A_BOLD)
         self.header.box()

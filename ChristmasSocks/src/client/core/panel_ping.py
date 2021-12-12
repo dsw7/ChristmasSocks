@@ -53,11 +53,6 @@ class PanelPing(ControlPanelBase):
             self.stdscr.refresh()
             curses.napms(self.cli_params['configs']['frontend'].getint('panel_refresh_period_msec'))
 
-    def wait_for_user_input(self) -> None:
-        while self.run_program:
-            if self.stdscr.getch() == ord('q'):
-                self.run_program = False
-
     def core(self) -> None:
         self.render_subwin_header()
 

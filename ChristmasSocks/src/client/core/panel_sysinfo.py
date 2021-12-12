@@ -57,11 +57,6 @@ class PanelSysInfo(ControlPanelBase):
             self.body.addstr(index, PANEL_MARGIN + 5 * OFFSET, status['results']['Machine'])
             self.body.addstr(index, PANEL_MARGIN + 6 * OFFSET, status['results']['Version'])
 
-    def wait_for_user_input(self) -> None:
-        while self.run_program:
-            if self.stdscr.getch() == ord('q'):
-                self.run_program = False
-
     def core(self) -> None:
         self.render_subwin_header()
         self.run_sysinfo_on_servers()
