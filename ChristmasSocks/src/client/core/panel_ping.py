@@ -44,13 +44,14 @@ class PanelPing(ControlPanelBase):
             self.body.addstr(index, PANEL_MARGIN + 2 * OFFSET, status['uptime'])
 
     def update_body(self) -> None:
+        sleep_msec = self.cli_params['configs']['frontend'].getint('panel_refresh_period_msec')
 
         while self.run_program:
             self.run_server_command()
             self.render_body()
             self.body.refresh()
             self.stdscr.refresh()
-            curses.napms(self.cli_params['configs']['frontend'].getint('panel_refresh_period_msec'))
+            curses.napms(sleep_msec)
 
     def main(self) -> None:
         self.display_header()
