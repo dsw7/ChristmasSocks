@@ -1,26 +1,137 @@
-# ChristmasSocks
-An experimental [epoll](https://linux.die.net/man/4/epoll) driven server that I built more or less out of personal interest. Unless otherwise noted, all instructions are to be carried out relative to the `/path/to/ChristmasSocks/ChristmasSocks` directory. Ensure that the `configure.py` script is executable.
+# ChristmasSocks Remote Server Management Software
+Another one of the many available remote server management utilities. I built this mainly out of
+personal interest and for accelerating my workflow. This project essentially consists of several
+[epoll](https://linux.die.net/man/4/epoll) driven servers whom receive commands from a master client.
 ## Table of Contents
-  - [Static analysis](#static-analysis)
-  - [Compiling a test binary](#compiling-a-test-binary)
-    - [To compile a `CMAKE_BUILD_TYPE=Release` binary](#to-compile-a-cmake_build_typerelease-binary)
-    - [To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary](#to-compile-a-cmake_build_typerelwithdebinfo-binary)
-  - [Testing](#testing)
-    - [Testing a `CMAKE_BUILD_TYPE=Release` binary](#testing-a-cmake_build_typerelease-binary)
-    - [Running memory tests](#running-memory-tests)
-    - [Testing with Docker](#testing-with-docker)
-    - [Manual testing](#manual-testing)
-  - [Shortcuts](#shortcuts)
-  - [Testing hardware](#testing-hardware)
+  - [Synopsis](#synopsis)
+    - [The master node](#the-master-node)
+    - [The worker node](#the-worker-node)
+  - [Installation](#installation)
+    - [Setting up the client](#setting-up-the-client)
+    - [Setting up the server](#setting-up-the-server)
+      - [Step 1](#step-1)
+      - [Step 2](#step-2)
+      - [Step 3](#step-3)
+      - [Step 4](#step-4)
+    - [Uninstalling the server](#uninstalling-the-server)
+  - [Client side development](#client-side-development)
+  - [Server side development](#server-side-development)
+    - [Static analysis](#static-analysis)
+    - [Compiling a test binary](#compiling-a-test-binary)
+      - [To compile a `CMAKE_BUILD_TYPE=Release` binary](#to-compile-a-cmake_build_typerelease-binary)
+      - [To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary](#to-compile-a-cmake_build_typerelwithdebinfo-binary)
+    - [Testing](#testing)
+      - [Testing a `CMAKE_BUILD_TYPE=Release` binary](#testing-a-cmake_build_typerelease-binary)
+      - [Running memory tests](#running-memory-tests)
+      - [Testing with Docker](#testing-with-docker)
+      - [Manual testing](#manual-testing)
+    - [Shortcuts](#shortcuts)
 
-## Static analysis
+## Synopsis
+The following block diagram summarizes the distributed architecture underpinning this software:
+<p align="center">
+  <img src="./docs/socks_architecture.svg"
+</p>
+
+The architecture consists of the following components:
+| Component | Description |
+| --------- | ----------- |
+| **Master** | This node queries all the worker nodes. Information returned from the nodes is then neatly displayed on the master node for analysis |
+| **Worker** | These nodes accept commands from the master node. Commands can then return information about each node, for example whether the node is up, the CPU temperature, among others |
+### The master node
+_Section to be completed soon!_
+### The worker node
+Each worker node consists of the following components:
+| Component | Description |
+| --------- | ----------- |
+| `/usr/bin/socks` | This is the server that accepts commands from the master |
+| `/etc/socks.ini` | This is where the server looks for system configurations |
+| `/etc/systemd/system/socks.service` | This is `systemd` unit file that drives the `socks` service |
+## Installation
+### Setting up the client
+_Section to be completed soon!_
+### Setting up the server
+#### Step 1
+Change directories into `/tmp` and download the product:
+```bash
+cd /tmp && git clone https://github.com/dsw7/ChristmasSocks.git
+```
+#### Step 2
+Change directories into the project:
+```bash
+cd ChristmasSocks/ChristmasSocks
+```
+Then render the installation script executable:
+```bash
+chmod +x install.sh
+```
+#### Step 3
+Run the installer as root:
+```bash
+sudo ./install.sh
+```
+Specify to install product:
+```
+Select setup type:
+[1] -> Install product
+[2] -> Uninstall product
+> 1
+```
+Next specify under which Linux user this program will run:
+```
+Please enter a valid Linux user:
+```
+When prompted, enter the IPv4 address of the master host:
+```
+The following parameters must be entered by a human:
+
+1. Specify the master host (enter a valid hostname or IPv4 address) [default: 127.0.0.1]:
+```
+The server **will only accept** connections from this host. Next set the bind IP:
+```
+2. Specify the bind IP [default: 127.0.0.1]: 0.0.0.0
+```
+Note that `0.0.0.0` typically translates to "accept connections from all interfaces," however this software
+will block any hosts other than the master host.
+#### Step 4
+Ensure that the installation succeeded. A successful installation will be indicated by:
+```
+● socks.service - ChristmasSocks Remote Server Management Software
+   Loaded: loaded (/etc/systemd/system/socks.service; enabled; vendor preset: enabled)
+   Active: active (running) since <Day> <YYYY-MM-DD HH:MM:SS> PDT; <ss>ms ago
+ Main PID: <pid> (socks)
+   CGroup: /system.slice/socks.service
+           └─<pid> /usr/bin/socks --config /etc/socks.ini
+```
+### Uninstalling the server
+To uninstall the server, first follows steps [1](#step-1) and [2](#step-2) then run:
+```bash
+sudo ./install.sh
+```
+When prompted, specify to uninstall product:
+```
+Select setup type:
+[1] -> Install product
+[2] -> Uninstall product
+> 2
+```
+The server should now be uninstalled.
+## Client side development
+_Section to be completed soon!_
+## Server side development
+All instructions are to be carried out relative to the following directory:
+```
+/path/to/ChristmasSocks/ChristmasSocks
+```
+Ensure that the `configure.py` script is executable.
+### Static analysis
 To lint the C++ source, run:
 ```bash
 ./configure.py lint
 ```
 As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
-## Compiling a test binary
-### To compile a `CMAKE_BUILD_TYPE=Release` binary:
+### Compiling a test binary
+#### To compile a `CMAKE_BUILD_TYPE=Release` binary:
 Run the following:
 ```bash
 ./configure.py compile --release
@@ -33,7 +144,7 @@ The `--release` flag can also be omitted as the system will default to compiling
 ```bash
 ./configure.py compile
 ```
-### To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary:
+#### To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary:
 Run the following:
 ```bash
 ./configure.py compile --debug
@@ -42,9 +153,10 @@ This will, again, compile a binary under:
 ```
 ./bin/socks
 ```
-## Testing
-### Testing a `CMAKE_BUILD_TYPE=Release` binary:
-To test a binary that was compiled following the instructions under [Compiling a test binary](#compiling-a-test-binary), run:
+### Testing
+#### Testing a `CMAKE_BUILD_TYPE=Release` binary:
+To test a binary that was compiled following the instructions under [Compiling a test
+binary](#compiling-a-test-binary), run:
 ```bash
 ./configure.py test --release
 ```
@@ -52,13 +164,14 @@ The `--release` flag can also be omitted as the system will default to testing t
 ```bash
 ./configure.py test
 ```
-### Running memory tests:
+#### Running memory tests:
 ```bash
 ./configure.py test --memory
 ```
 This project uses [Valgrind](https://valgrind.org/) for all dynamic analysis.
-### Testing with Docker
-To run tests with Docker, first make sure that Docker is installed then change directories to the project root:
+#### Testing with Docker
+To run tests with Docker, first make sure that Docker is installed then change directories to the project
+root:
 ```
 cd /path/to/ChristmasSocks
 ```
@@ -75,7 +188,7 @@ The Dockerfile will simply run the steps:
 - [Testing](#testing)
 
 But within the container itself.
-### Manual testing
+#### Manual testing
 Manual testing can be done using [netcat](https://linux.die.net/man/1/nc) (`nc`). First, start the server:
 ```bash
 ./bin/socks --port 1234 # Or whatever port TCP port you wish to use
@@ -87,8 +200,9 @@ echo
 echo  # echoed back from the server
 exit
 ```
-The `exit` command will shut down the server. The server accepts EOL line endings, and therefore can technically
-accept incoming Windows client connections, however support for this is poorly tested. First start the server as follows:
+The `exit` command will shut down the server. The server accepts EOL line endings, and therefore can
+technically accept incoming Windows client connections, however support for this is poorly tested. First start
+the server as follows:
 ```bash
 ./bin/socks --bind-ip 0.0.0.0 --port 1234 # Or whatever port TCP port you wish to use
 ```
@@ -96,7 +210,7 @@ Then from a Windows machine:
 ```
 curl telnet://<ipv4-addr-server>:1234
 ```
-## Shortcuts
+### Shortcuts
 _Compile and test release binary_:
 ```bash
 ./configure.py compile --release && ./configure.py test --release
@@ -109,7 +223,3 @@ _Run end to end Docker test_:
 ```bash
 docker build -t socks . && docker run -it --rm socks
 ```
-## Testing hardware
-I use a Raspberry Pi cluster for testing this product. The individual nodes are mounted on an optical table using a plexiglass mount.
-To make these mounts, I simply print out the `layout.pages` document under the `other` folder, paste the printout onto a plexiglass sheet
-and cut out the shape according to the template. The circles are nothing than drill hole markers. Unsurprisingly, this section is completely optional, but this happens to be a convenient place to keep these diagrams.
