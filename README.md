@@ -121,20 +121,19 @@ _Section to be completed soon!_
 ## Server side development
 All instructions are to be carried out relative to the following directory:
 ```
-/path/to/ChristmasSocks/ChristmasSocks
+/path/to/ChristmasSocks
 ```
-Ensure that the `configure.py` script is executable.
 ### Static analysis
 To lint the C++ source, run:
 ```bash
-./configure.py lint
+make lint
 ```
 As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
 ### Compiling a test binary
 #### To compile a `CMAKE_BUILD_TYPE=Release` binary:
 Run the following:
 ```bash
-./configure.py compile --release
+make release
 ```
 This will compile a binary under:
 ```
