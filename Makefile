@@ -1,4 +1,4 @@
-.PHONY = dockertest help
+.PHONY = help lint dockertest
 .DEFAULT_GOAL = help
 
 LIGHT_PURPLE = "\033[1;1;35m"
@@ -10,14 +10,21 @@ endef
 
 define HELP_LIST_TARGETS
 
+Lint C++ source with cppcheck
+    $$ make lint
 Run end to end tests in Docker
-    $$ make requirements
+    $$ make dockertest
+
 endef
 
 export HELP_LIST_TARGETS
 
 help:
 	@echo "$$HELP_LIST_TARGETS"
+
+lint:
+	$(call ECHO_STEP,Linting project using cppcheck static analysis tool)
+	@cppcheck ChristmasSocks/src/ --template=gcc --enable=all
 
 dockertest:
 	$(call ECHO_STEP,Running Docker tests)
