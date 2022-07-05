@@ -1,4 +1,4 @@
-.PHONY = help lint dockertest
+.PHONY = help lint test-release dockertest
 .DEFAULT_GOAL = help
 
 LIGHT_PURPLE = "\033[1;1;35m"
@@ -12,6 +12,8 @@ define HELP_LIST_TARGETS
 
 Lint C++ source with cppcheck
     $$ make lint
+Run tests on release binary
+    $$ make test-release
 Run end to end tests in Docker
     $$ make dockertest
 
@@ -25,6 +27,10 @@ help:
 lint:
 	$(call ECHO_STEP,Linting project using cppcheck static analysis tool)
 	@cppcheck ChristmasSocks/src/ --template=gcc --enable=all
+
+test-release:
+	$(call ECHO_STEP,Running tests with marker: release_test)
+	@python3 -m pytest ChristmasSocks/tests -m release_test --verbose
 
 dockertest:
 	$(call ECHO_STEP,Running Docker tests)
