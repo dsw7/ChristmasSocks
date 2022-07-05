@@ -161,20 +161,11 @@ make test-memory
 ```
 This project uses [Valgrind](https://valgrind.org/) for all dynamic analysis.
 #### Testing with Docker
-To run tests with Docker, first make sure that Docker is installed then change directories to the project
-root:
+To run tests with Docker, first make sure that Docker is installed then run:
 ```
-cd /path/to/ChristmasSocks
+make dockertest
 ```
-Then run:
-```bash
-docker build -t socks .
-```
-This will generate a Debian based local Docker image. To actually test the product, run the `socks` image:
-```bash
-docker run -it --rm socks
-```
-The Dockerfile will simply run the steps:
+This will generate a Debian based local Docker image. The Dockerfile will simply run the steps:
 - [Compiling a test binary](#compiling-a-test-binary)
 - [Testing](#testing)
 
@@ -182,7 +173,7 @@ But within the container itself.
 #### Manual testing
 Manual testing can be done using [netcat](https://linux.die.net/man/1/nc) (`nc`). First, start the server:
 ```bash
-./bin/socks --port 1234 # Or whatever port TCP port you wish to use
+./ChristmasSocks/bin/socks --port 1234 # Or whatever port TCP port you wish to use
 ```
 Then start an `nc` interactive session:
 ```
@@ -195,7 +186,7 @@ The `exit` command will shut down the server. The server accepts EOL line ending
 technically accept incoming Windows client connections, however support for this is poorly tested. First start
 the server as follows:
 ```bash
-./bin/socks --bind-ip 0.0.0.0 --port 1234 # Or whatever port TCP port you wish to use
+./ChristmasSocks/bin/socks --bind-ip 0.0.0.0 --port 1234 # Or whatever port TCP port you wish to use
 ```
 Then from a Windows machine:
 ```
