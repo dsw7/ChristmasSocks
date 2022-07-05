@@ -1,4 +1,8 @@
-.PHONY = help lint release test-release full-release test-memory dockertest
+.PHONY = help lint \
+	     release test-release full-release \
+		 debug test-memory full-memory \
+		 dockertest
+
 .DEFAULT_GOAL = help
 
 LIGHT_PURPLE = "\033[1;1;35m"
@@ -18,8 +22,12 @@ Run tests on release binary
     $$ make test-release
 Compile release binary then run tests on release binary
     $$ make full-release
-Run memory tests on Valgrind binary
+Compile debug binary
+    $$ make debug
+Run Valgrind memory tests on debug binary
     $$ make test-memory
+Compile debug binary then run Valgrind tests on debug binary
+    $$ make full-memory
 Run end to end tests in Docker
     $$ make dockertest
 
@@ -46,9 +54,17 @@ test-release:
 
 full-release: release test-release
 
+debug:
+	$(call ECHO_STEP,Generating Makefiles for debug binary)
+	@cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -S ChristmasSocks/ -B ChristmasSocks/bin/
+	$(call ECHO_STEP,Compiling project using Makefiles)
+	@make --jobs=12 -C ChristmasSocks/bin/
+
 test-memory:
 	$(call ECHO_STEP,Running tests with marker: memory_test)
 	@python3 -m pytest ChristmasSocks/tests/ -m memory_test --verbose --capture=no
+
+full-memory: debug test-memory
 
 dockertest:
 	$(call ECHO_STEP,Running Docker tests)
