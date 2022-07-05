@@ -137,20 +137,16 @@ make release
 ```
 This will compile a binary under:
 ```
-./bin/socks
-```
-The `--release` flag can also be omitted as the system will default to compiling a release binary:
-```bash
-./configure.py compile
+./ChristmasSocks/bin/socks
 ```
 #### To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary:
 Run the following:
 ```bash
-./configure.py compile --debug
+make debug
 ```
 This will, again, compile a binary under:
 ```
-./bin/socks
+./ChristmasSocks/bin/socks
 ```
 ### Testing
 #### Testing a `CMAKE_BUILD_TYPE=Release` binary:
