@@ -25,7 +25,6 @@ personal interest and for accelerating my workflow. This project essentially con
       - [Running memory tests](#running-memory-tests)
       - [Testing with Docker](#testing-with-docker)
       - [Manual testing](#manual-testing)
-    - [Shortcuts](#shortcuts)
 
 ## Synopsis
 The following block diagram summarizes the distributed architecture underpinning this software:
@@ -191,17 +190,4 @@ the server as follows:
 Then from a Windows machine:
 ```
 curl telnet://<ipv4-addr-server>:1234
-```
-### Shortcuts
-_Compile and test release binary_:
-```bash
-./configure.py compile --release && ./configure.py test --release
-```
-_Compile and test debug binary_:
-```bash
-./configure.py compile --debug && ./configure.py test --memory
-```
-_Run end to end Docker test_:
-```bash
-docker build -t socks . && docker run -it --rm socks
 ```
