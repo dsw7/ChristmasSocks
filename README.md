@@ -153,15 +153,11 @@ This will, again, compile a binary under:
 To test a binary that was compiled following the instructions under [Compiling a test
 binary](#compiling-a-test-binary), run:
 ```bash
-./configure.py test --release
-```
-The `--release` flag can also be omitted as the system will default to testing the release binary:
-```bash
-./configure.py test
+make test-release
 ```
 #### Running memory tests:
 ```bash
-./configure.py test --memory
+make test-memory
 ```
 This project uses [Valgrind](https://valgrind.org/) for all dynamic analysis.
 #### Testing with Docker
