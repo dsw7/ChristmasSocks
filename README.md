@@ -25,7 +25,6 @@ personal interest and for accelerating my workflow. This project essentially con
       - [Running memory tests](#running-memory-tests)
       - [Testing with Docker](#testing-with-docker)
       - [Manual testing](#manual-testing)
-    - [Shortcuts](#shortcuts)
 
 ## Synopsis
 The following block diagram summarizes the distributed architecture underpinning this software:
@@ -121,69 +120,51 @@ _Section to be completed soon!_
 ## Server side development
 All instructions are to be carried out relative to the following directory:
 ```
-/path/to/ChristmasSocks/ChristmasSocks
+/path/to/ChristmasSocks
 ```
-Ensure that the `configure.py` script is executable.
 ### Static analysis
 To lint the C++ source, run:
 ```bash
-./configure.py lint
+make lint
 ```
 As of right now, this project uses [cppcheck](http://cppcheck.sourceforge.net/) for static analysis.
 ### Compiling a test binary
 #### To compile a `CMAKE_BUILD_TYPE=Release` binary:
 Run the following:
 ```bash
-./configure.py compile --release
+make release
 ```
 This will compile a binary under:
 ```
-./bin/socks
-```
-The `--release` flag can also be omitted as the system will default to compiling a release binary:
-```bash
-./configure.py compile
+./ChristmasSocks/bin/socks
 ```
 #### To compile a `CMAKE_BUILD_TYPE=RelWithDebInfo` binary:
 Run the following:
 ```bash
-./configure.py compile --debug
+make debug
 ```
 This will, again, compile a binary under:
 ```
-./bin/socks
+./ChristmasSocks/bin/socks
 ```
 ### Testing
 #### Testing a `CMAKE_BUILD_TYPE=Release` binary:
 To test a binary that was compiled following the instructions under [Compiling a test
 binary](#compiling-a-test-binary), run:
 ```bash
-./configure.py test --release
-```
-The `--release` flag can also be omitted as the system will default to testing the release binary:
-```bash
-./configure.py test
+make test-release
 ```
 #### Running memory tests:
 ```bash
-./configure.py test --memory
+make test-memory
 ```
 This project uses [Valgrind](https://valgrind.org/) for all dynamic analysis.
 #### Testing with Docker
-To run tests with Docker, first make sure that Docker is installed then change directories to the project
-root:
+To run tests with Docker, first make sure that Docker is installed then run:
 ```
-cd /path/to/ChristmasSocks
+make dockertest
 ```
-Then run:
-```bash
-docker build -t socks .
-```
-This will generate a Debian based local Docker image. To actually test the product, run the `socks` image:
-```bash
-docker run -it --rm socks
-```
-The Dockerfile will simply run the steps:
+This will generate a Debian based local Docker image. The Dockerfile will simply run the steps:
 - [Compiling a test binary](#compiling-a-test-binary)
 - [Testing](#testing)
 
@@ -191,7 +172,7 @@ But within the container itself.
 #### Manual testing
 Manual testing can be done using [netcat](https://linux.die.net/man/1/nc) (`nc`). First, start the server:
 ```bash
-./bin/socks --port 1234 # Or whatever port TCP port you wish to use
+./ChristmasSocks/bin/socks --port 1234 # Or whatever port TCP port you wish to use
 ```
 Then start an `nc` interactive session:
 ```
@@ -204,22 +185,9 @@ The `exit` command will shut down the server. The server accepts EOL line ending
 technically accept incoming Windows client connections, however support for this is poorly tested. First start
 the server as follows:
 ```bash
-./bin/socks --bind-ip 0.0.0.0 --port 1234 # Or whatever port TCP port you wish to use
+./ChristmasSocks/bin/socks --bind-ip 0.0.0.0 --port 1234 # Or whatever port TCP port you wish to use
 ```
 Then from a Windows machine:
 ```
 curl telnet://<ipv4-addr-server>:1234
-```
-### Shortcuts
-_Compile and test release binary_:
-```bash
-./configure.py compile --release && ./configure.py test --release
-```
-_Compile and test debug binary_:
-```bash
-./configure.py compile --debug && ./configure.py test --memory
-```
-_Run end to end Docker test_:
-```bash
-docker build -t socks . && docker run -it --rm socks
 ```
