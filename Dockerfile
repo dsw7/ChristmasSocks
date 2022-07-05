@@ -14,6 +14,4 @@ ENV PWD=/root
 
 WORKDIR $PWD
 
-CMD git clone https://github.com/dsw7/ChristmasSocks.git \
- && cd ChristmasSocks/ChristmasSocks \
- && make full-release
+CMD git clone https://github.com/dsw7/ChristmasSocks.git && cd ChristmasSocks && make full-release
