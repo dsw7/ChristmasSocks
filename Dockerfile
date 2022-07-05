@@ -16,6 +16,4 @@ WORKDIR $PWD
 
 CMD git clone https://github.com/dsw7/ChristmasSocks.git \
  && cd ChristmasSocks/ChristmasSocks \
- && chmod +x ./configure.py \
- && ./configure.py compile --release \
- && ./configure.py test --release
+ && make full-release
