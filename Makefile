@@ -8,6 +8,17 @@ define ECHO_STEP
 	@echo -e $(LIGHT_PURPLE)\> $(1)$(NO_COLOR)
 endef
 
+define HELP_LIST_TARGETS
+
+Run end to end tests in Docker
+    $$ make requirements
+endef
+
+export HELP_LIST_TARGETS
+
+help:
+	@echo "$$HELP_LIST_TARGETS"
+
 dockertest:
 	$(call ECHO_STEP,Running Docker tests)
 	@docker build -t socks .
