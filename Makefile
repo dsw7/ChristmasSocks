@@ -1,4 +1,4 @@
-.PHONY = help lint test-release dockertest
+.PHONY = help lint test-release test-memory dockertest
 .DEFAULT_GOAL = help
 
 LIGHT_PURPLE = "\033[1;1;35m"
@@ -14,6 +14,8 @@ Lint C++ source with cppcheck
     $$ make lint
 Run tests on release binary
     $$ make test-release
+Run memory tests on Valgrind binary
+    $$ make test-memory
 Run end to end tests in Docker
     $$ make dockertest
 
@@ -31,6 +33,10 @@ lint:
 test-release:
 	$(call ECHO_STEP,Running tests with marker: release_test)
 	@python3 -m pytest ChristmasSocks/tests -m release_test --verbose
+
+test-memory:
+	$(call ECHO_STEP,Running tests with marker: memory_test)
+	@python3 -m pytest ChristmasSocks/tests -m memory_test --verbose --capture=no
 
 dockertest:
 	$(call ECHO_STEP,Running Docker tests)
