@@ -8,7 +8,7 @@ import pytest
 
 LOGGER = getLogger(__name__)
 PATH_SOCKS_BIN = 'ChristmasSocks/bin/socks'
-SLEEP_SHUTDOWN_SERVER = 0.05
+SERVER_SHUTDOWN_DELAY = 0.05
 
 @pytest.fixture
 def socks_server_background() -> None:
@@ -35,7 +35,7 @@ def socks_server_background() -> None:
     yield
 
     LOGGER.debug('Closing connection')
-    sleep(SLEEP_SHUTDOWN_SERVER)
+    sleep(SERVER_SHUTDOWN_DELAY)
 
     process.send_signal(SIGINT)
     log_handle.close()
