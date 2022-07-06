@@ -13,6 +13,12 @@ LOGGER = getLogger(__name__)
 PATH_SOCKS_BIN = 'ChristmasSocks/bin/socks'
 SERVER_SHUTDOWN_DELAY = 0.05
 
+TCP_PORT = 8080
+IPV4_ADDRESS_SERVER = '127.0.0.1'
+TCP_BUFFER_SIZE = 1024
+SOCK_TIMEOUT = 1.5
+MAX_CONNECTION_ATTEMPTS = 25
+
 
 class Client:
 
@@ -22,15 +28,12 @@ class Client:
     def connect(self: T) -> None:
 
         self.socket = socket(AF_INET, SOCK_STREAM)
-        self.socket.settimeout(self.configs['client'].getfloat('sock_timeout'))
+        self.socket.settimeout(SOCK_TIMEOUT)
 
-        port = self.configs['client'].getint('tcp_port')
-        host = self.configs['client']['ipv4_address_server']
-
-        for _ in range(self.configs['client'].getint('max_connection_attempts')):
+        for _ in range(MAX_CONNECTION_ATTEMPTS):
             try:
                 sleep(0.02)
-                self.socket.connect((host, port))
+                self.socket.connect((IPV4_ADDRESS_SERVER, TCP_PORT))
             except ConnectionRefusedError:
                 continue
             else:
@@ -44,10 +47,9 @@ class Client:
     def send(self, command: str) -> str:
 
         self.socket.sendall(command.encode())
-        buffer_size = self.configs['client'].getint('tcp_buffer_size')
 
         try:
-            bytes_recv = self.socket.recv(buffer_size)
+            bytes_recv = self.socket.recv(TCP_BUFFER_SIZE)
         except ConnectionResetError:
             return ''
         return bytes_recv.decode()
