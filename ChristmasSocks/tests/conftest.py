@@ -57,7 +57,9 @@ class Client:
         try:
             bytes_recv = self.socket.recv(TCP_BUFFER_SIZE)
         except ConnectionResetError:
+            LOGGER.debug('Could not send data to server. Is server up?')
             return ''
+
         return bytes_recv.decode()
 
     def stop_server(self: T) -> None:
