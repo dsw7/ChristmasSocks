@@ -142,10 +142,12 @@ class ServerValgrind(Server):
 class Client:
 
     def __init__(self) -> None:
+
         self.configs = read_test_config_file()
         self.socket = None
 
     def connect(self, port: Optional[int]=None, host: Optional[str]=None) -> None:
+
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(self.configs['client'].getfloat('sock_timeout'))
 
@@ -167,9 +169,11 @@ class Client:
             raise ConnectionRefusedError
 
     def disconnect(self) -> None:
+
         self.socket.close()
 
     def send(self, command: str) -> str:
+
         self.socket.sendall(command.encode())
         buffer_size = self.configs['client'].getint('tcp_buffer_size')
 
@@ -180,5 +184,6 @@ class Client:
         return bytes_recv.decode()
 
     def stop_server(self) -> None:
+
         command = 'exit'
         self.socket.sendall(command.encode())
