@@ -8,16 +8,17 @@ from socket import socket, AF_INET, SOCK_STREAM
 from typing import TypeVar
 import pytest
 
+
 T = TypeVar('T')
 LOGGER = getLogger(__name__)
 PATH_SOCKS_BIN = 'ChristmasSocks/bin/socks'
-SERVER_SHUTDOWN_DELAY = 0.05
 
 TCP_PORT = 8080
 IPV4_ADDRESS_SERVER = '127.0.0.1'
 TCP_BUFFER_SIZE = 1024
 SOCK_TIMEOUT = 1.5
 MAX_CONNECTION_ATTEMPTS = 25
+SERVER_SHUTDOWN_DELAY = 0.05
 
 
 class Client:
@@ -27,7 +28,7 @@ class Client:
 
     def connect(self: T) -> None:
 
-        LOGGER.debug('Connecting to socks server on port %i and host %s'. TCP_PORT, IPV4_ADDRESS_SERVER)
+        LOGGER.debug('Connecting to socks server on port %i and host %s', TCP_PORT, IPV4_ADDRESS_SERVER)
 
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(SOCK_TIMEOUT)
@@ -96,3 +97,12 @@ def socks_server_background() -> None:
 
     process.send_signal(SIGINT)
     log_handle.close()
+
+@pytest.fixture
+def socks_client() -> Client:
+
+    client = Client()
+    client.connect()
+
+    yield client
+    client.disconnect()
