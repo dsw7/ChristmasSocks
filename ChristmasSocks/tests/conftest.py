@@ -1,4 +1,5 @@
 from logging import getLogger
+from time import sleep
 from subprocess import Popen, STDOUT
 from signal import SIGINT
 from os import path, environ
@@ -7,6 +8,7 @@ import pytest
 
 LOGGER = getLogger(__name__)
 PATH_SOCKS_BIN = 'ChristmasSocks/bin/socks'
+SLEEP_SHUTDOWN_SERVER = 0.05
 
 @pytest.fixture
 def socks_server_background() -> None:
@@ -33,6 +35,7 @@ def socks_server_background() -> None:
     yield
 
     LOGGER.debug('Closing connection')
+    sleep(SLEEP_SHUTDOWN_SERVER)
 
     process.send_signal(SIGINT)
     log_handle.close()
