@@ -1,7 +1,9 @@
+from logging import getLogger
 from os import path, environ
 from tempfile import gettempdir
 import pytest
 
+LOGGER = getLogger(__name__)
 PATH_SOCKS_BIN = 'ChristmasSocks/bin/socks'
 
 @pytest.fixture
@@ -21,7 +23,7 @@ def socks_server_basic() -> None:
     log_path = path.join(gettempdir(), current_test)
     log_path = f'{log_path}.log'
 
-    print(log_path)
+    LOGGER.debug('Will log to: %s', log_path)
 
     yield
-    print('Tearing down fixture')
+    LOGGER.debug('Closing connection')
