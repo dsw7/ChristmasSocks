@@ -60,7 +60,9 @@ class Client:
             LOGGER.debug('Could not send data to server. Is server up?')
             return ''
 
-        return bytes_recv.decode()
+        message = bytes_recv.decode()
+        LOGGER.debug('Received message "%s" from server', message)
+        return message
 
     def stop_server(self: T) -> None:
 
