@@ -1,4 +1,6 @@
 from logging import getLogger
+from subprocess import Popen, STDOUT
+from signal import SIGINT
 from os import path, environ
 from tempfile import gettempdir
 import pytest
@@ -20,10 +22,17 @@ def socks_server_basic() -> None:
     current_test = current_test.split('::')[0]
     current_test = path.splitext(current_test)[0]
 
-    log_path = path.join(gettempdir(), current_test)
-    log_path = f'{log_path}.log'
+    logfile = path.join(gettempdir(), current_test)
+    logfile = f'{logfile}.log'
 
-    LOGGER.debug('Will log to: %s', log_path)
+    LOGGER.debug('Will log to: %s', logfile)
+
+    log_handle = open(logfile, 'w')
+    process = Popen(PATH_SOCKS_BIN, stdout=log_handle, stderr=STDOUT)
 
     yield
+
     LOGGER.debug('Closing connection')
+
+    process.send_signal(SIGINT)
+    log_handle.close()
