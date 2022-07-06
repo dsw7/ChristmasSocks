@@ -68,7 +68,7 @@ class Client:
         self.socket.sendall(command.encode())
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def socks_server_background() -> None:
 
     if not path.exists(PATH_SOCKS_BIN):
@@ -98,7 +98,7 @@ def socks_server_background() -> None:
     process.send_signal(SIGINT)
     log_handle.close()
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def socks_client() -> Client:
 
     client = Client()
