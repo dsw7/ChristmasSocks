@@ -27,6 +27,8 @@ class Client:
 
     def connect(self: T) -> None:
 
+        LOGGER.debug('Connecting to socks server on port %i and host %s'. TCP_PORT, IPV4_ADDRESS_SERVER)
+
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.socket.settimeout(SOCK_TIMEOUT)
 
@@ -42,10 +44,13 @@ class Client:
             raise ConnectionRefusedError
 
     def disconnect(self: T) -> None:
+
+        LOGGER.debug('Disconnecting from socks server')
         self.socket.close()
 
     def send(self, command: str) -> str:
 
+        LOGGER.debug('Sending message "%s" to server', command)
         self.socket.sendall(command.encode())
 
         try:
@@ -55,6 +60,8 @@ class Client:
         return bytes_recv.decode()
 
     def stop_server(self: T) -> None:
+
+        LOGGER.debug('Sending message "exit" to server')
 
         command = 'exit'
         self.socket.sendall(command.encode())
