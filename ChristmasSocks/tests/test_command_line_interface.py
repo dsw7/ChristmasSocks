@@ -9,20 +9,6 @@ from utils import (
     EXIT_SUCCESS
 )
 
-@mark.release_test
-class TestHelpMenu:
-
-    def setup_class(self) -> None:
-        self.server = ServerForeground()
-
-    def test_help_long_option(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        assert self.server.start_server('--help', logfile=logfile) == EXIT_SUCCESS
-
-    def test_help_short_option(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        assert self.server.start_server('-h', logfile=logfile) == EXIT_SUCCESS
-
 
 @mark.release_test
 class TestCommandLineInterface:
