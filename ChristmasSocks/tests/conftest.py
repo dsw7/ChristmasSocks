@@ -7,18 +7,11 @@ from tempfile import gettempdir
 from socket import socket, AF_INET, SOCK_STREAM
 from typing import TypeVar
 import pytest
+import consts
 
 
 T = TypeVar('T')
 LOGGER = getLogger(__name__)
-PATH_SOCKS_BIN = 'ChristmasSocks/bin/socks'
-
-TCP_PORT = 8080
-IPV4_ADDRESS_SERVER = '127.0.0.1'
-TCP_BUFFER_SIZE = 1024
-SOCK_TIMEOUT = 1.5
-MAX_CONNECTION_ATTEMPTS = 25
-SERVER_SHUTDOWN_DELAY = 0.05
 
 
 class Client:
@@ -28,15 +21,15 @@ class Client:
 
     def connect(self: T) -> None:
 
-        LOGGER.debug('Connecting to socks server on port %i and host %s', TCP_PORT, IPV4_ADDRESS_SERVER)
+        LOGGER.debug('Connecting to socks server on port %i and host %s', consts.TCP_PORT, consts.IPV4_ADDRESS_SERVER)
 
         self.socket = socket(AF_INET, SOCK_STREAM)
-        self.socket.settimeout(SOCK_TIMEOUT)
+        self.socket.settimeout(consts.SOCK_TIMEOUT)
 
-        for _ in range(MAX_CONNECTION_ATTEMPTS):
+        for _ in range(consts.MAX_CONNECTION_ATTEMPTS):
             try:
                 sleep(0.02)
-                self.socket.connect((IPV4_ADDRESS_SERVER, TCP_PORT))
+                self.socket.connect((consts.IPV4_ADDRESS_SERVER, consts.TCP_PORT))
             except ConnectionRefusedError:
                 continue
             else:
@@ -55,7 +48,7 @@ class Client:
         self.socket.sendall(command.encode())
 
         try:
-            bytes_recv = self.socket.recv(TCP_BUFFER_SIZE)
+            bytes_recv = self.socket.recv(consts.TCP_BUFFER_SIZE)
         except ConnectionResetError:
             LOGGER.debug('Could not send data to server. Is server up?')
             return ''
@@ -75,8 +68,8 @@ class Client:
 @pytest.fixture(scope='module')
 def socks_server_background() -> None:
 
-    if not path.exists(PATH_SOCKS_BIN):
-        pytest.exit(f'Binary {PATH_SOCKS_BIN} does not exist. Exiting!')
+    if not path.exists(consts.PATH_SOCKS_BIN):
+        pytest.exit(f'Binary {consts.PATH_SOCKS_BIN} does not exist. Exiting!')
 
     try:
         current_test = environ['PYTEST_CURRENT_TEST']
@@ -92,12 +85,12 @@ def socks_server_background() -> None:
     LOGGER.debug('Will log to: %s', logfile)
 
     log_handle = open(logfile, 'w')
-    process = Popen(PATH_SOCKS_BIN, stdout=log_handle, stderr=STDOUT)
+    process = Popen(consts.PATH_SOCKS_BIN, stdout=log_handle, stderr=STDOUT)
 
     yield
 
     LOGGER.debug('Closing connection')
-    sleep(SERVER_SHUTDOWN_DELAY)
+    sleep(consts.SERVER_SHUTDOWN_DELAY)
 
     process.send_signal(SIGINT)
     log_handle.close()
