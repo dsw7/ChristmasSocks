@@ -5,7 +5,7 @@ from signal import SIGINT
 from os import path, environ
 from tempfile import gettempdir
 from socket import socket, AF_INET, SOCK_STREAM
-from typing import TypeVar
+from typing import TypeVar, Tuple
 import pytest
 import consts
 
@@ -103,3 +103,20 @@ def socks_client() -> Client:
 
     yield client
     client.disconnect()
+
+@pytest.fixture(scope='module')
+def socks_three_clients() -> Tuple[Client]:
+
+    client_a = Client()
+    client_b = Client()
+    client_c = Client()
+
+    client_a.connect()
+    client_b.connect()
+    client_c.connect()
+
+    yield client_a, client_b, client_c
+
+    client_a.disconnect()
+    client_b.disconnect()
+    client_c.disconnect()
