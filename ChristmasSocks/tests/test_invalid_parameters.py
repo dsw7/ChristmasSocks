@@ -1,35 +1,33 @@
-# pylint: disable=W0201  # Disable defined outside __init__
-
-from inspect import stack
-from pytest import mark
-from utils import ServerForeground, EXIT_FAILURE
+import subprocess
+from pytest import mark, raises
+import consts
 
 @mark.release_test
-class TestInvalidParameters:
+def test_invalid_tcp_port_negative() -> None:
+    with raises(subprocess.CalledProcessError):
+        subprocess.run([consts.PATH_SOCKS_BIN, '--port=-100'], capture_output=True, check=True)
 
-    def setup_class(self) -> None:
-        self.server = ServerForeground()
+@mark.release_test
+def test_invalid_tcp_port_low() -> None:
+    with raises(subprocess.CalledProcessError):
+        subprocess.run([consts.PATH_SOCKS_BIN, '--port=22'], capture_output=True, check=True)
 
-    def test_invalid_tcp_port_negative(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        assert self.server.start_server('--port=-100', logfile=logfile) == EXIT_FAILURE
+@mark.release_test
+def test_invalid_tcp_port_high() -> None:
+    with raises(subprocess.CalledProcessError):
+        subprocess.run([consts.PATH_SOCKS_BIN, '--port=99999'], capture_output=True, check=True)
 
-    def test_invalid_tcp_port_low(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        assert self.server.start_server('--port=22', logfile=logfile) == EXIT_FAILURE
+@mark.release_test
+def test_invalid_tcp_buffer_size() -> None:
+    with raises(subprocess.CalledProcessError):
+        subprocess.run([consts.PATH_SOCKS_BIN, '--buffer-size=4'], capture_output=True, check=True)
 
-    def test_invalid_tcp_port_high(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        assert self.server.start_server('--port=99999', logfile=logfile) == EXIT_FAILURE
+@mark.release_test
+def test_invalid_tcp_buffer_size_negative() -> None:
+    with raises(subprocess.CalledProcessError):
+        subprocess.run([consts.PATH_SOCKS_BIN, '--buffer-size=-100'], capture_output=True, check=True)
 
-    def test_invalid_tcp_buffer_size(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        assert self.server.start_server('--buffer-size=4', logfile=logfile) == EXIT_FAILURE
-
-    def test_invalid_tcp_buffer_size_negative(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        assert self.server.start_server('--buffer-size=-100', logfile=logfile) == EXIT_FAILURE
-
-    def test_invalid_bind_ip(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        assert self.server.start_server('--bind-ip=1.2.3', logfile=logfile) == EXIT_FAILURE
+@mark.release_test
+def test_invalid_bind_ip() -> None:
+    with raises(subprocess.CalledProcessError):
+        subprocess.run([consts.PATH_SOCKS_BIN, '--bind-ip=1.2.3'], capture_output=True, check=True)
