@@ -1,42 +1,30 @@
-# pylint: disable=W0201  # Disable defined outside __init__
-# pylint: disable=E1101  # Disable has no '__name__' member
-
 from pytest import mark
-from utils import (
-    Client,
-    ServerBackground,
-    generate_random_string,
-    generate_random_punctuation
-)
+import utils
+import consts
+
+TCP_BUFFER_SIZE = consts.TCP_BUFFER_SIZE - 1
 
 @mark.release_test
-class TestProtocolRandomStrings:
+@mark.parametrize('string', utils.generate_random_string(num_strings=10, len_strings=15))
+def test_echo_15_byte_string(socks_server_background, socks_client, string) -> None:
+    assert string == socks_client.send(string)
 
-    def setup_class(self) -> None:
-        self.server = ServerBackground()
-        self.server.start_server(logfile='{}.log'.format(self.__name__))
-        self.client = Client()
-        self.client.connect()
-        self.buffer_size = self.client.configs['client'].getint('tcp_buffer_size') - 1
+@mark.release_test
+@mark.parametrize('string', utils.generate_random_punctuation(num_strings=10, len_strings=15))
+def test_echo_15_byte_punctuation(socks_server_background, socks_client, string) -> None:
+    assert string == socks_client.send(string)
 
-    def teardown_class(self) -> None:
-        self.client.disconnect()
-        self.server.stop_server()
+@mark.release_test
+def test_echo_max_size_minus_one_byte_string(socks_server_background, socks_client) -> None:
 
-    @mark.parametrize('string', generate_random_string(num_strings=10, len_strings=15))
-    def test_echo_15_byte_string(self, string) -> None:
-        assert string == self.client.send(string)
+    string = utils.generate_random_string(num_strings=1, len_strings=TCP_BUFFER_SIZE)
+    assert string[0] == socks_client.send(string[0])
 
-    @mark.parametrize('string', generate_random_punctuation(num_strings=10, len_strings=15))
-    def test_echo_15_byte_punctuation(self, string) -> None:
-        assert string == self.client.send(string)
+@mark.release_test
+def test_echo_max_size_plus_five_bytes_string(socks_server_background, socks_client) -> None:
 
-    def test_echo_max_size_minus_one_byte_string(self) -> None:
-        string = generate_random_string(num_strings=1, len_strings=self.buffer_size)
-        assert string[0] == self.client.send(string[0])
+    string = utils.generate_random_string(num_strings=1, len_strings=TCP_BUFFER_SIZE + 5)
+    first_chunk = string[0][0:1024]
 
-    def test_echo_max_size_plus_five_bytes_string(self) -> None:
-        string = generate_random_string(num_strings=1, len_strings=self.buffer_size + 5)
-        first_chunk = string[0][0:1024]
-        # XXX What happens to string[0][1024:] data?? looks like this could be a memory leak
-        assert first_chunk == self.client.send(string[0])
+    # XXX What happens to string[0][1024:] data?? looks like this could be a memory leak
+    assert first_chunk == socks_client.send(string[0])
