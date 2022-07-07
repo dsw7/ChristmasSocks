@@ -4,7 +4,7 @@ from subprocess import Popen, STDOUT
 from signal import SIGINT
 from os import path, environ
 from tempfile import gettempdir
-from typing import TypeVar, Tuple
+from typing import TypeVar, Dict
 import pytest
 import consts
 from client import Client
@@ -52,7 +52,7 @@ def socks_client() -> Client:
     client.disconnect()
 
 @pytest.fixture(scope='module')
-def socks_three_clients() -> Tuple[Client]:
+def socks_three_clients() -> Dict[str, Client]:
 
     client_a = Client()
     client_b = Client()
@@ -62,7 +62,11 @@ def socks_three_clients() -> Tuple[Client]:
     client_b.connect()
     client_c.connect()
 
-    yield client_a, client_b, client_c
+    yield {
+        'client_a': client_a,
+        'client_b': client_b,
+        'client_c': client_c
+    }
 
     client_a.disconnect()
     client_b.disconnect()
