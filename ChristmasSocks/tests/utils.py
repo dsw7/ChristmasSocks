@@ -1,7 +1,8 @@
 import sys
 from configparser import ConfigParser
+from tempfile import gettempdir
 from abc import ABC, abstractmethod
-from os import path, makedirs
+from os import path, makedirs, environ
 from typing import Optional, Union
 from time import sleep
 from subprocess import (
@@ -22,11 +23,25 @@ from socket import (
 )
 from random import choice
 from click import secho
+import pytest
 
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 ALPHANUMERIC = ascii_letters + digits
 PATH_THIS = path.dirname(__file__)
+
+def get_current_test_method() -> str:
+
+    try:
+        test_case = environ['PYTEST_CURRENT_TEST'].split('::')[-1].split()[0]
+    except KeyError:
+        pytest.exit('Could not find PYTEST_CURRENT_TEST environment variable. Are you using pytest?')
+
+    return test_case
+
+def get_log_file_path(test_case: str) -> str:
+
+    return path.join(gettempdir(), test_case)
 
 def read_test_config_file() -> ConfigParser:
     ini_file = path.join(PATH_THIS, 'tests.ini')
