@@ -1,27 +1,41 @@
-# pylint: disable=W0201  # Disable defined outside __init__
+from time import sleep
+from logging import getLogger
+from subprocess import Popen
+from signal import SIGINT
+import pytest
+from client import Client
+import utils
+import consts
 
-from inspect import stack
-from pytest import mark
-from utils import (
-    ServerBackground,
-    Client
-)
+logger = getLogger(__name__)
 
 
-@mark.release_test
+@pytest.mark.release_test
 class TestHostnameResolution:
 
-    def setup_class(self) -> None:
-        self.server = ServerBackground()
+    def setup_method(self) -> None:
+
+        self.process = None
+        self.log_handle = None
+
         self.client = Client()
         self.test_string = 'foobar'
 
-    def teardown_class(self) -> None:
-        self.server.stop_server()
+        log_filepath = utils.get_log_file_path(utils.get_current_test_method())
+        logger.debug('Will log to: %s', log_filepath)
+
+        self.log_handle = open(log_filepath, 'w')
+
+    def teardown_method(self) -> None:
+
         self.client.disconnect()
+        sleep(0.05)
+
+        self.process.send_signal(SIGINT)
+        self.log_handle.close()
 
     def test_hostname_resolution(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        self.server.start_server('--master=localhost', logfile=logfile)
+        self.process = Popen([consts.PATH_SOCKS_BIN, f'--master=localhost'], stdout=self.log_handle)
+
         self.client.connect()
         assert self.test_string == self.client.send(self.test_string)
