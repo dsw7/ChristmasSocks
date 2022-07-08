@@ -41,7 +41,7 @@ def get_current_test_method() -> str:
 
 def get_log_file_path(test_case: str) -> str:
 
-    return path.join(gettempdir(), test_case)
+    return path.join(gettempdir(), f'{test_case}.log')
 
 def read_test_config_file() -> ConfigParser:
     ini_file = path.join(PATH_THIS, 'tests.ini')
