@@ -1,34 +1,48 @@
-# pylint: disable=W0201  # Disable defined outside __init__
+from time import sleep
+from logging import getLogger
+from subprocess import Popen
+from signal import SIGINT
+import pytest
+from client import Client
+import utils
+import consts
 
-from inspect import stack
-from pytest import mark, raises
-from utils import (
-    ServerBackground,
-    Client
-)
+logger = getLogger(__name__)
 
-@mark.release_test
+
+@pytest.mark.release_test
 class TestWhitelist:
 
     def setup_class(self) -> None:
-        self.server = ServerBackground()
+
+        self.process = None
+        self.log_handle = None
+
         self.client = Client()
-        self.test_string = 'foobar'
+
+    def setup_method(self) -> None:
+
+        log_filepath = utils.get_log_file_path(utils.get_current_test_method())
+        logger.debug('Will log to: %s', log_filepath)
+
+        self.log_handle = open(log_filepath, 'w')
 
     def teardown_method(self) -> None:
-        self.server.stop_server()
+
         self.client.disconnect()
+        sleep(0.05)
+
+        self.process.send_signal(SIGINT)
+        self.log_handle.close()
 
     def test_master(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        master = '127.0.0.1'
-        self.server.start_server('-w', str(master), logfile=logfile)
+        self.process = Popen([consts.PATH_SOCKS_BIN, '-w', '127.0.0.1'], stdout=self.log_handle)
+
         self.client.connect()
-        assert self.test_string == self.client.send(self.test_string)
+        assert 'foobar' == self.client.send('foobar')
 
     def test_blacklist(self) -> None:
-        logfile = '{}.log'.format(stack()[0][3])
-        master = '127.0.0.2'
-        self.server.start_server('-w', str(master), logfile=logfile)
+        self.process = Popen([consts.PATH_SOCKS_BIN, '-w', '127.0.0.2'], stdout=self.log_handle)
+
         self.client.connect()
-        assert not self.client.send(self.test_string)
+        assert not self.client.send('foobar')
