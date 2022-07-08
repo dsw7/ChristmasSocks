@@ -39,6 +39,18 @@ def get_current_test_method() -> str:
 
     return test_case
 
+def get_current_test_module() -> str:
+
+    try:
+        current_test = environ['PYTEST_CURRENT_TEST']
+    except KeyError:
+        pytest.exit('Could not find PYTEST_CURRENT_TEST environment variable. Are you using pytest?')
+
+    current_test = current_test.split('::')[0]
+    current_test = path.splitext(current_test)[0]
+
+    return current_test
+
 def get_log_file_path(test_case: str) -> str:
 
     return path.join(gettempdir(), f'{test_case}.log')
