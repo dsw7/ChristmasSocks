@@ -38,7 +38,7 @@ The architecture consists of the following components:
 | **Master** | This node queries all the worker nodes. Information returned from the nodes is then neatly displayed on the master node for analysis |
 | **Worker** | These nodes accept commands from the master node. Commands can then return information about each node, for example whether the node is up, the CPU temperature, among others |
 ### The master node
-See [SocksClient](https://github.com/dsw7/SocksClient)
+See [SocksClient](https://github.com/dsw7/SocksClient).
 ### The worker node
 Each worker node consists of the following components:
 | Component | Description |
@@ -48,7 +48,7 @@ Each worker node consists of the following components:
 | `/etc/systemd/system/socks.service` | This is `systemd` unit file that drives the `socks` service |
 ## Installation
 ### Setting up the client
-See [SocksClient](https://github.com/dsw7/SocksClient)
+See [SocksClient](https://github.com/dsw7/SocksClient).
 ### Setting up the server
 #### Step 1
 Change directories into `/tmp` and download the product:
@@ -116,7 +116,7 @@ Select setup type:
 ```
 The server should now be uninstalled.
 ## Client side development
-See [SocksClient](https://github.com/dsw7/SocksClient)
+See [SocksClient](https://github.com/dsw7/SocksClient).
 ## Server side development
 All instructions are to be carried out relative to the following directory:
 ```
